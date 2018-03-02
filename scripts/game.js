@@ -2,12 +2,11 @@ function createGameBoard(i, j) {
   // var gameBoard = [[]];
   var gameBoardWidth = 13;
   var gameBoardHeight = 9;
-
-  //this is to save canvas state before any transformations, to allow for clearRect to work properly.
+  var squareSize = 46;
   var canvas = document.getElementById("game-canvas");
   var ctx = canvas.getContext("2d");
   ctx.save();
-  drawGameBoardFrame(13,9,46);
+  drawGameBoardFrame(gameBoardWidth,gameBoardHeight,squareSize);
   for (i=1; i<=gameBoardWidth;i++) {
     for (j=1; j<=gameBoardHeight;j++) {
       drawGameSquare(i,j);
@@ -96,8 +95,4 @@ function clearCanvas() {
 
 function reloadPage() {
   window.location.reload(false);
-}
-
-function showRooms() {
-  console.log(rooms);
 }
