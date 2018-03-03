@@ -1,32 +1,38 @@
+var canvas = document.getElementById("game-canvas");
+var ctx = canvas.getContext("2d");
+var board = [];
+
 function createGameBoard(i, j) {
-  // var gameBoard = [[]];
-  var gameBoardWidth = 13;
-  var gameBoardHeight = 9;
-  var squareSize = 46;
-  var canvas = document.getElementById("game-canvas");
-  var ctx = canvas.getContext("2d");
   ctx.save();
   drawGameBoardFrame(gameBoardWidth,gameBoardHeight,squareSize);
   for (i=1; i<=gameBoardWidth;i++) {
     for (j=1; j<=gameBoardHeight;j++) {
       drawGameSquare(i,j);
+      board.push({
+        xCoordinate: i,
+        yCoordinate: j,
+        roomNumber: 0
+      });
     }
   }
-  rooms.forEach(function(element) {
-    element.forEach(function(element) {
-      drawRooms(element[0],element[1]);
+
+  rooms.forEach(function(el) {
+    el.forEach(function(element) {
+      var x = element[0], y = element[1], roomNumber = element[2];
+      drawRooms(x,y);
+      (board.find(function isRoom(square) {
+        if(square.xCoordinate === x && square.yCoordinate === y) return true;
+      })).roomNumber = roomNumber;
     });
   });
+  console.log(board);
+
   ctx.restore();
 }
 
+
+
 function drawGameSquare(xPosition,yPosition,) {
-  var squareBorderColour= "#cc00ff";
-  var squareBorderSize= 2;
-  var squareColour= "#000066";
-  var squareSize= 46;
-  var canvas = document.getElementById("game-canvas");
-  var ctx = canvas.getContext("2d");
   ctx.fillStyle = squareBorderColour;
   ctx.fillRect((xPosition-1)*squareSize,(yPosition-1)*squareSize,squareSize,squareSize);
   ctx.fillStyle = squareColour;
@@ -34,10 +40,6 @@ function drawGameSquare(xPosition,yPosition,) {
 }
 
 function drawGameBoardFrame(width, height, fieldSize) {
-  var gameBoardFrameColour= "#cc00ff";
-  var gameBoardFrameSize= 10;
-  var canvas = document.getElementById("game-canvas");
-  var ctx = canvas.getContext("2d");
   ctx.strokeStyle=gameBoardFrameColour;
   ctx.lineWidth=gameBoardFrameSize;
   ctx.strokeRect(gameBoardFrameSize/2,gameBoardFrameSize/2,width*fieldSize+gameBoardFrameSize,height*fieldSize+gameBoardFrameSize);
@@ -45,24 +47,13 @@ function drawGameBoardFrame(width, height, fieldSize) {
 }
 
 function drawRooms(xPosition,yPosition) {
-  var squareBorderColour= "#ffffff";
-  var squareBorderSize= 2;
-  var squareColour= "#66ccff";
-  var squareSize= 46;
-  var canvas = document.getElementById("game-canvas");
-  var ctx = canvas.getContext("2d");
-  ctx.fillStyle = squareBorderColour;
+  ctx.fillStyle = squareRoomBorderColour;
   ctx.fillRect((xPosition-1)*squareSize,(yPosition-1)*squareSize,squareSize,squareSize);
-  ctx.fillStyle = squareColour;
+  ctx.fillStyle = squareRoomColour;
   ctx.fillRect((xPosition-1)*squareSize+squareBorderSize,(yPosition-1)*squareSize+squareBorderSize,squareSize-2*squareBorderSize,squareSize-2*squareBorderSize);
 }
 
 function drawTile(xPosition,yPosition, colour, value, isTop) {
-  var squareSize= 46;
-  var tileRadius = 17;
-  var gameBoardFrameSize= 10;
-  var canvas = document.getElementById("game-canvas");
-  var ctx = canvas.getContext("2d");
   ctx.save();
   ctx.translate((xPosition-0.5)*squareSize+gameBoardFrameSize, (yPosition-0.5)*squareSize+gameBoardFrameSize);
   ctx.beginPath();
@@ -77,8 +68,8 @@ function drawTile(xPosition,yPosition, colour, value, isTop) {
 }
 
 function drawRandomTile() {
-  var xPosition = Math.floor(Math.random() * Math.floor(13)+1);
-  var yPosition = Math.floor(Math.random() * Math.floor(9)+1);
+  var xPosition = Math.floor(Math.random() * Math.floor(gameBoardWidth)+1);
+  var yPosition = Math.floor(Math.random() * Math.floor(gameBoardHeight)+1);
   var value = Math.floor(Math.random() * Math.floor(6)+1);
   var colours = ["yellow","lime","red","magenta"];
   var colour= colours[Math.floor(Math.random() * Math.floor(4))];
@@ -88,8 +79,6 @@ function drawRandomTile() {
 
 
 function clearCanvas() {
-  var canvas = document.getElementById("game-canvas");
-  var ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
