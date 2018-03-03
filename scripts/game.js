@@ -85,7 +85,3 @@ function clearCanvas() {
 function reloadPage() {
   window.location.reload(false);
 }
-
-function showRooms() {
-  console.log(rooms);
-}
