@@ -30,8 +30,6 @@ function createGameBoard(i, j) {
   ctx.restore();
 }
 
-
-
 function drawGameSquare(xPosition,yPosition,) {
   ctx.fillStyle = squareBorderColour;
   ctx.fillRect((xPosition-1)*squareSize,(yPosition-1)*squareSize,squareSize,squareSize);
@@ -85,3 +83,9 @@ function clearCanvas() {
 function reloadPage() {
   window.location.reload(false);
 }
+
+canvas.addEventListener('click', function(e) {
+  var x = Math.floor((e.offsetX - squareBorderSize)/squareSize)+1;
+  var y = Math.floor((e.offsetY - squareBorderSize)/squareSize)+1;
+  drawTile(x,y, "lime", 9);
+}, false);
