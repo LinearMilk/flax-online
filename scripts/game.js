@@ -3,44 +3,68 @@ var ctx = canvas.getContext("2d");
 var board = [];
 
 var player = new Player(startingColour, startingPosition);
-function getTile(){
+function getChip(){
   console.log(player);
-  var tiles = player.getRandomTile();
+  var chips = player.getRandomChip();
 
-  drawTile(1, 11, player.getColour(), tiles[0]);
-  drawTile(2, 11, player.getColour(), tiles[1]);
+  drawChip(1, 11, player.getColour(), chips[0]);
+  drawChip(2, 11, player.getColour(), chips[1]);
 }
 
-function drawTile(xPosition,yPosition, colour, value) {
+function drawClickedChip(x,y) {
+  var value = Math.floor(Math.random() * Math.floor(6)+1);
+  var colour = colours[Math.floor(Math.random() * Math.floor(4))];
+
+  var boardSquare = board.find(square => {
+    if(square.xCoordinate === x && square.yCoordinate === y) return true;
+  });
+
+  if(boardSquare.bottomChip === null){
+    if(boardSquare.activeChip != null) {
+      boardSquare.bottomChip = boardSquare.activeChip;
+      drawBottomChip(x,y, boardSquare.bottomChip.colour, 3);
+    } 
+
+    drawChip(x,y, colour, value);
+    boardSquare.activeChip = {
+      colour: colour,
+      value: value
+    };
+  }
+
+  console.log(boardSquare);
+}
+
+function drawChip(xPosition,yPosition, colour, value) {
   ctx.save();
-  ctx.translate((xPosition-0.5)*squareSize+gameBoardFrameSize, (yPosition-0.5)*squareSize+gameBoardFrameSize);
+  ctx.translate(((xPosition-0.5)*squareSize+gameBoardFrameSize), ((yPosition-0.5)*squareSize+gameBoardFrameSize));
   ctx.beginPath();
-  ctx.arc(0,0,tileRadius,0,2*Math.PI);
+  ctx.arc(0,0,chipRadius,0,2*Math.PI);
   ctx.fillStyle = colour;
   ctx.fill();
-  drawTileBorder();
+  drawChipBorder();
   ctx.restore();
-  drawTileValue(xPosition, yPosition, value);
+  drawChipValue(xPosition, yPosition, value);
 }
 
-function drawBottomTile(xPosition,yPosition, colour) {
+function drawBottomChip(xPosition,yPosition, colour, offset) {
   ctx.save();
-  ctx.translate((xPosition-0.5)*squareSize+gameBoardFrameSize, (yPosition-0.5)*squareSize+gameBoardFrameSize);
+  ctx.translate(((xPosition-0.5)*squareSize+gameBoardFrameSize)+offset, ((yPosition-0.5)*squareSize+gameBoardFrameSize)+offset);
   ctx.beginPath();
-  ctx.arc(0,0,tileRadius + bottomTileBorder,0,2*Math.PI);
+  ctx.arc(0,0,chipRadius,0,2*Math.PI);
   ctx.fillStyle = colour;
   ctx.fill();
-  drawTileBorder();
+  drawChipBorder();
   ctx.restore();
 }
 
-function drawTileBorder(){
+function drawChipBorder(){
   ctx.lineWidth = 1;
   ctx.strokeStyle = "#636262";
   ctx.stroke();
 }
 
-function drawTileValue(x, y, value){
+function drawChipValue(x, y, value){
   switch(value) {
     case 1:
       drawValue1(x, y);
@@ -65,11 +89,3 @@ function drawTileValue(x, y, value){
   }
 }
 
-function drawRandomTile() {
-  var xPosition = Math.floor(Math.random() * Math.floor(gameBoardWidth)+1);
-  var yPosition = Math.floor(Math.random() * Math.floor(gameBoardHeight)+1);
-  var value = Math.floor(Math.random() * Math.floor(6)+1);
-  var colour= colours[Math.floor(Math.random() * Math.floor(4))];
-  drawTile(xPosition,yPosition,colour,value);
-  console.log(xPosition,yPosition,colour,value);
-}
