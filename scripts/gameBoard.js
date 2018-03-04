@@ -57,9 +57,13 @@ function reloadPage() {
   window.location.reload(false);
 }
 
-canvas.addEventListener('click', function(e) {
-  var x = Math.floor((e.offsetX - squareBorderSize)/squareSize)+1;
-  var y = Math.floor((e.offsetY - squareBorderSize)/squareSize)+1;
+function getClickCoordinates(x,y) {
+  var x = Math.floor((x - squareBorderSize)/squareSize)+1;
+  var y = Math.floor((y - squareBorderSize)/squareSize)+1;
+  return [x,y];
+}
+
+function drawClickedTile(x,y) {
   var value = Math.floor(Math.random() * Math.floor(6)+1);
   var colour = colours[Math.floor(Math.random() * Math.floor(4))];
 
@@ -82,4 +86,16 @@ canvas.addEventListener('click', function(e) {
 
   console.log(boardSquare);
 
-}, false);
+}
+
+canvas.addEventListener('click',e => {
+  xClick = e.clientX;
+  yClick = e.clientY;
+  var coordinates = getClickCoordinates(xClick,yClick)
+  var x = coordinates[0];
+  var y = coordinates[1];
+  if (x>=0 && x<=gameBoardWidth && y>=0 && y<=gameBoardHeight) {
+    drawClickedTile(x,y);
+  }
+
+} , false);

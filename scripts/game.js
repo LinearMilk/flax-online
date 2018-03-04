@@ -7,8 +7,8 @@ function getTile(){
   console.log(player);
   var tiles = player.getRandomTile();
 
-  drawTile(1, 10.5, player.getColour(), tiles[0]);
-  drawTile(2, 10.5, player.getColour(), tiles[1]);
+  drawTile(1, 11, player.getColour(), tiles[0]);
+  drawTile(2, 11, player.getColour(), tiles[1]);
 }
 
 function drawTile(xPosition,yPosition, colour, value) {
