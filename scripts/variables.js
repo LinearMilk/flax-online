@@ -19,3 +19,6 @@ var tileValueOffset = 7;
 var tileValueColour = "#FFF";
 
 var colours = ["#f9cb32","#90b531","#ed4630","#dc6fe6"];
+
+var startingPosition = [1,9];
+var startingColour = "#f9cb32";
