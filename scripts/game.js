@@ -59,8 +59,8 @@ function drawTile(xPosition,yPosition, colour, value, isTop) {
   ctx.fillStyle = colour;
   ctx.fill();
   ctx.font="20px Verdana";
-  ctx.fillStyle = "#000000";
-  ctx.fillText(value,-5,8);
+  ctx.fillStyle = "#fff";
+  ctx.fillText(value,-6,8);
   ctx.restore();
 
 }
@@ -69,7 +69,6 @@ function drawRandomTile() {
   var xPosition = Math.floor(Math.random() * Math.floor(gameBoardWidth)+1);
   var yPosition = Math.floor(Math.random() * Math.floor(gameBoardHeight)+1);
   var value = Math.floor(Math.random() * Math.floor(6)+1);
-  var colours = ["yellow","lime","red","magenta"];
   var colour= colours[Math.floor(Math.random() * Math.floor(4))];
   drawTile(xPosition,yPosition,colour,value);
   console.log(xPosition,yPosition,colour,value);
