@@ -53,30 +53,6 @@ function reloadPage() {
   window.location.reload(false);
 }
 
-function drawClickedChip(x,y) {
-  var value = Math.floor(Math.random() * Math.floor(6)+1);
-  var colour = colours[Math.floor(Math.random() * Math.floor(4))];
-
-  var boardSquare = board.find(square => {
-    if(square.xCoordinate === x && square.yCoordinate === y) return true;
-  });
-
-  if(boardSquare.bottomChip === null){
-    if(boardSquare.activeChip != null) {
-      boardSquare.bottomChip = boardSquare.activeChip;
-      drawBottomChip(x,y, boardSquare.bottomChip.colour);
-    }
-
-    drawChip(x,y, colour, value);
-    boardSquare.activeChip = {
-      colour: colour,
-      value: value
-    };
-  }
-
-  console.log(boardSquare);
-}
-
 function getClickCoordinates(xClick,yClick) {
   var boarder = gameBoardFrameSize*2;
   var xLimit = (boarder+(squareSize*gameBoardWidth)-2);
