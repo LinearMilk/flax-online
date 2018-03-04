@@ -3,31 +3,31 @@ class Player {
 	constructor(colour, startingPosition){
 		this.colour = colour;
 		this.startingPosition = startingPosition;
-		this.tileSupply = [8,8,8];
+		this.chipSupply = [8,8,8];
 	}
 
 	getColour(){
 		return this.colour;
 	}
 
-	getRandomTile(){
-		if(this.tileSupply[0] + this.tileSupply[1] + this.tileSupply[2] === 0){
+	getRandomChip(){
+		if(this.chipSupply[0] + this.chipSupply[1] + this.chipSupply[2] === 0){
 			return [];
 		}
 
-		var tile = Math.floor(Math.random() * Math.floor(3));
+		var chip = Math.floor(Math.random() * Math.floor(3));
 
-		if(this.tileSupply[tile] != 0){
-			this.tileSupply[tile]--;
+		if(this.chipSupply[chip] != 0){
+			this.chipSupply[chip]--;
 		} else {
-			tile = this.getRandomTile();
+			chip = this.getRandomChip();
 		}
 
-		return this.getRandomTileOptions(tile);
+		return this.getRandomChipOptions(chip);
 	}
 
-	getRandomTileOptions(tile){
-		switch(tile){
+	getRandomChipOptions(chip){
+		switch(chip){
 			case 0:
 				return [1,6];
 				break;

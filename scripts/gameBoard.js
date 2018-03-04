@@ -8,8 +8,8 @@ function createGameBoard(i, j) {
         xCoordinate: i,
         yCoordinate: j,
         roomNumber: 0,
-        activeTile: null,
-        bottomTile: null
+        activeChip: null,
+        bottomChip: null
       });
     }
   }
@@ -49,15 +49,11 @@ function drawRooms(xPosition,yPosition) {
   ctx.fillRect((xPosition-1)*squareSize+squareBorderSize,(yPosition-1)*squareSize+squareBorderSize,squareSize-2*squareBorderSize,squareSize-2*squareBorderSize);
 }
 
-function clearCanvas() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
 function reloadPage() {
   window.location.reload(false);
 }
 
-function drawClickedTile(x,y) {
+function drawClickedChip(x,y) {
   var value = Math.floor(Math.random() * Math.floor(6)+1);
   var colour = colours[Math.floor(Math.random() * Math.floor(4))];
 
@@ -65,14 +61,14 @@ function drawClickedTile(x,y) {
     if(square.xCoordinate === x && square.yCoordinate === y) return true;
   });
 
-  if(boardSquare.bottomTile === null){
-    if(boardSquare.activeTile != null) {
-      boardSquare.bottomTile = boardSquare.activeTile;
-      drawBottomTile(x,y, boardSquare.bottomTile.colour);
+  if(boardSquare.bottomChip === null){
+    if(boardSquare.activeChip != null) {
+      boardSquare.bottomChip = boardSquare.activeChip;
+      drawBottomChip(x,y, boardSquare.bottomChip.colour);
     }
 
-    drawTile(x,y, colour, value);
-    boardSquare.activeTile = {
+    drawChip(x,y, colour, value);
+    boardSquare.activeChip = {
       colour: colour,
       value: value
     };
@@ -95,7 +91,7 @@ function getClickCoordinates(xClick,yClick) {
   var xInSquare = ((x*(squareSize))+boarder-5) - xClick;
   var yInSquare = ((y*(squareSize))+boarder-5) - yClick;
 
-  // If clicked on the edges of the square, do NOT draw the Tile (square == [40, 40])
+  // If clicked on the edges of the square, do NOT draw the Chip (square == [40, 40])
   if(xInSquare <= 7 || xInSquare >= 33 || yInSquare <= 7 || yInSquare >= 33){
     return [-1, -1];
   }
@@ -110,7 +106,7 @@ canvas.addEventListener('click',e => {
   var x = coordinates[0];
   var y = coordinates[1];
   if (x>=0 && x<=gameBoardWidth && y>=0 && y<=gameBoardHeight) {
-    drawClickedTile(x,y);
+    drawClickedChip(x,y);
   }
 
 } , false);
