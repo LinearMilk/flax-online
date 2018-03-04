@@ -60,13 +60,9 @@ function drawTile(xPosition,yPosition, colour, value) {
   ctx.arc(0,0,tileRadius,0,2*Math.PI);
   ctx.fillStyle = colour;
   ctx.fill();
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = "black";
-  ctx.stroke();
-  ctx.font="20px Verdana";
-  ctx.fillStyle = "#000000";
-  ctx.fillText(value,-5,8);
+  drawTileBorder();
   ctx.restore();
+  drawTileValue(xPosition, yPosition, value);
 }
 
 function drawBottomTile(xPosition,yPosition, colour) {
@@ -76,14 +72,45 @@ function drawBottomTile(xPosition,yPosition, colour) {
   ctx.arc(0,0,tileRadius + bottomTileBorder,0,2*Math.PI);
   ctx.fillStyle = colour;
   ctx.fill();
+  drawTileBorder();
   ctx.restore();
+}
+
+function drawTileBorder(){
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "#636262";
+  ctx.stroke();
+}
+
+function drawTileValue(x, y, value){
+  switch(value) {
+    case 1:
+      drawValue1(x, y);
+      break;
+    case 2:
+      drawValue2(x, y);
+      break;
+    case 3:
+      drawValue3(x, y);
+      break;
+    case 4:
+      drawValue4(x, y);
+      break;
+    case 5:
+      drawValue5(x, y);
+      break;
+    case 6:
+      drawValue6(x, y);
+      break;
+    default:
+      break;
+  }
 }
 
 function drawRandomTile() {
   var xPosition = Math.floor(Math.random() * Math.floor(gameBoardWidth)+1);
   var yPosition = Math.floor(Math.random() * Math.floor(gameBoardHeight)+1);
   var value = Math.floor(Math.random() * Math.floor(6)+1);
-
   var colour= colours[Math.floor(Math.random() * Math.floor(4))];
   drawTile(xPosition,yPosition,colour,value);
   console.log(xPosition,yPosition,colour,value);
