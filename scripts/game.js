@@ -11,7 +11,9 @@ function createGameBoard(i, j) {
       board.push({
         xCoordinate: i,
         yCoordinate: j,
-        roomNumber: 0
+        roomNumber: 0,
+        activeTile: null,
+        bottomTile: null
       });
     }
   }
@@ -20,7 +22,7 @@ function createGameBoard(i, j) {
     el.forEach(function(element) {
       var x = element[0], y = element[1], roomNumber = element[2];
       drawRooms(x,y);
-      (board.find(function isRoom(square) {
+      (board.find(square => {
         if(square.xCoordinate === x && square.yCoordinate === y) return true;
       })).roomNumber = roomNumber;
     });
@@ -51,18 +53,58 @@ function drawRooms(xPosition,yPosition) {
   ctx.fillRect((xPosition-1)*squareSize+squareBorderSize,(yPosition-1)*squareSize+squareBorderSize,squareSize-2*squareBorderSize,squareSize-2*squareBorderSize);
 }
 
-function drawTile(xPosition,yPosition, colour, value, isTop) {
+function drawTile(xPosition,yPosition, colour, value) {
   ctx.save();
   ctx.translate((xPosition-0.5)*squareSize+gameBoardFrameSize, (yPosition-0.5)*squareSize+gameBoardFrameSize);
   ctx.beginPath();
   ctx.arc(0,0,tileRadius,0,2*Math.PI);
   ctx.fillStyle = colour;
   ctx.fill();
-  ctx.font="20px Verdana";
-  ctx.fillStyle = "#fff";
-  ctx.fillText(value,-6,8);
+  drawTileBorder();
   ctx.restore();
+  drawTileValue(xPosition, yPosition, value);
+}
 
+function drawBottomTile(xPosition,yPosition, colour) {
+  ctx.save();
+  ctx.translate((xPosition-0.5)*squareSize+gameBoardFrameSize, (yPosition-0.5)*squareSize+gameBoardFrameSize);
+  ctx.beginPath();
+  ctx.arc(0,0,tileRadius + bottomTileBorder,0,2*Math.PI);
+  ctx.fillStyle = colour;
+  ctx.fill();
+  drawTileBorder();
+  ctx.restore();
+}
+
+function drawTileBorder(){
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "#636262";
+  ctx.stroke();
+}
+
+function drawTileValue(x, y, value){
+  switch(value) {
+    case 1:
+      drawValue1(x, y);
+      break;
+    case 2:
+      drawValue2(x, y);
+      break;
+    case 3:
+      drawValue3(x, y);
+      break;
+    case 4:
+      drawValue4(x, y);
+      break;
+    case 5:
+      drawValue5(x, y);
+      break;
+    case 6:
+      drawValue6(x, y);
+      break;
+    default:
+      break;
+  }
 }
 
 function drawRandomTile() {
@@ -86,5 +128,26 @@ function reloadPage() {
 canvas.addEventListener('click', function(e) {
   var x = Math.floor((e.offsetX - squareBorderSize)/squareSize)+1;
   var y = Math.floor((e.offsetY - squareBorderSize)/squareSize)+1;
-  drawTile(x,y, "lime", 9);
+  var value = Math.floor(Math.random() * Math.floor(6)+1);
+  var colour = colours[Math.floor(Math.random() * Math.floor(4))];
+
+  var boardSquare = board.find(square => {
+    if(square.xCoordinate === x && square.yCoordinate === y) return true;
+  });
+
+  if(boardSquare.bottomTile === null){
+    if(boardSquare.activeTile != null) {
+      boardSquare.bottomTile = boardSquare.activeTile;
+      drawBottomTile(x,y, boardSquare.bottomTile.colour);
+    }
+
+    drawTile(x,y, colour, value);
+    boardSquare.activeTile = {
+      colour: colour,
+      value: value
+    };
+  }
+
+  console.log(boardSquare);
+
 }, false);
