@@ -14,7 +14,6 @@ var squareRoomColour = "#69d4fc";
 
 var tileRadius = 17;
 var bottomTileBorder = 4;
-var gameBoardFrameSize = 10;
 var tileValueOffset = 7;
 var tileValueColour = "#FFF";
 
