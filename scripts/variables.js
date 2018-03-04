@@ -13,4 +13,7 @@ var squareRoomBorderColour= "#ffffff";
 var squareRoomColour= "#66ccff";
 
 var tileRadius = 17;
+var bottomTileBorder = 4;
 var gameBoardFrameSize= 10;
+
+var colours = ["yellow","lime","red","magenta"];
