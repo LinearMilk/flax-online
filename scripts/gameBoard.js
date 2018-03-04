@@ -81,17 +81,24 @@ function drawClickedTile(x,y) {
   console.log(boardSquare);
 }
 
-function getClickCoordinates(x,y) {
+function getClickCoordinates(xClick,yClick) {
   var boarder = gameBoardFrameSize*2;
   var xLimit = (boarder+(squareSize*gameBoardWidth)-2);
   var yLimit = (boarder+(squareSize*gameBoardHeight)-2);
 
-  if(x <= boarder || y <= boarder || x >= xLimit || y >= yLimit){
+  if(xClick <= boarder || yClick <= boarder || xClick >= xLimit || yClick >= yLimit){
     return [-1, -1];
   }
 
-  x = Math.floor((x-boarder)/squareSize)+1;
-  y = Math.floor((y-boarder)/squareSize)+1;
+  var x = Math.floor((xClick-boarder)/squareSize)+1;
+  var y = Math.floor((yClick-boarder)/squareSize)+1;
+  var xInSquare = ((x*(squareSize))+boarder-5) - xClick;
+  var yInSquare = ((y*(squareSize))+boarder-5) - yClick;
+
+  // If clicked on the edges of the square, do NOT draw the Tile (square == [40, 40])
+  if(xInSquare <= 7 || xInSquare >= 33 || yInSquare <= 7 || yInSquare >= 33){
+    return [-1, -1];
+  }
 
   return [x,y];
 }
