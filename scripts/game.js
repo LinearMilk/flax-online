@@ -32,6 +32,12 @@ function createGameBoard(i, j) {
   ctx.restore();
 }
 
+var player = new Player(startingColour, startingPosition);
+function getTile(){
+  console.log(player);
+  console.log(player.getRandomTile());
+}
+
 function drawGameSquare(xPosition,yPosition,) {
   ctx.fillStyle = squareBorderColour;
   ctx.fillRect((xPosition-1)*squareSize,(yPosition-1)*squareSize,squareSize,squareSize);
