@@ -36,7 +36,6 @@ function drawGameSquare(xPosition,yPosition,) {
 }
 
 function drawGameBoardFrame(width, height, fieldSize) {
-  ctx.strokeStyle=gameBoardFrameColour;
   ctx.lineWidth=gameBoardFrameSize;
   ctx.strokeRect(gameBoardFrameSize/2,gameBoardFrameSize/2,width*fieldSize+gameBoardFrameSize,height*fieldSize+gameBoardFrameSize);
   ctx.translate(gameBoardFrameSize,gameBoardFrameSize);

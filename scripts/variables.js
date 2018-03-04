@@ -6,7 +6,6 @@ var squareBorderColour = "#e3698e";
 var squareBorderSize = 1;
 var squareColour = "#030b3e";
 
-var gameBoardFrameColour = "#e3698e";
 var gameBoardFrameSize = 10;
 
 var squareRoomBorderColour = "#ffffff";
