@@ -92,7 +92,7 @@ function getClickCoordinates(xClick,yClick) {
   var yInSquare = ((y*(squareSize))+boarder-5) - yClick;
 
   // If clicked on the edges of the square, do NOT draw the Chip (square == [40, 40])
-  if(xInSquare <= 7 || xInSquare >= 33 || yInSquare <= 7 || yInSquare >= 33){
+  if(xInSquare <= 5 || xInSquare >= 35 || yInSquare <= 5 || yInSquare >= 35){
     return [-1, -1];
   }
 
