@@ -78,10 +78,13 @@ canvas.addEventListener('click',e => {
   xClick = e.clientX;
   yClick = e.clientY;
   var coordinates = getClickCoordinates(xClick,yClick);
-  var x = coordinates[0];
-  var y = coordinates[1];
-  if (x>=0 && x<=gameBoardWidth && y>=0 && y<=gameBoardHeight) {
-    drawClickedChip(x,y);
+  if(coordinates) {
+    var x = coordinates[0];
+    var y = coordinates[1];
+    if (x>=0 && x<=gameBoardWidth && y>=0 && y<=gameBoardHeight) {
+      drawClickedChip(x,y);
+    }
   }
+  
 
 } , false);
