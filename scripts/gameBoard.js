@@ -58,7 +58,7 @@ function getClickCoordinates(xClick,yClick) {
   var yLimit = (boarder+(squareSize*gameBoardHeight)-2);
 
   if(xClick <= boarder || yClick <= boarder || xClick >= xLimit || yClick >= yLimit){
-    return [-1, -1];
+    return null;
   }
 
   var x = Math.floor((xClick-boarder)/squareSize)+1;
@@ -68,7 +68,7 @@ function getClickCoordinates(xClick,yClick) {
 
   // If clicked on the edges of the square, do NOT draw the Chip (square == [40, 40])
   if(xInSquare <= 5 || xInSquare >= 35 || yInSquare <= 5 || yInSquare >= 35){
-    return [-1, -1];
+    return null;
   }
 
   return [x,y];
