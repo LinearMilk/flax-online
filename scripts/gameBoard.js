@@ -5,6 +5,7 @@ function createGameBoard(i, j) {
   for (i=1; i<=gameBoardWidth;i++) {
     for (j=1; j<=gameBoardHeight;j++) {
       draw.drawGameSquare(i,j);
+      //TODO create method to add info the the board object
       board.push({
         xCoordinate: i,
         yCoordinate: j,
@@ -29,12 +30,7 @@ function createGameBoard(i, j) {
   ctx.restore();
 }
 
-function drawRooms(xPosition,yPosition) {
-  ctx.fillStyle = squareRoomBorderColour;
-  ctx.fillRect((xPosition-1)*squareSize,(yPosition-1)*squareSize,squareSize,squareSize);
-  ctx.fillStyle = squareRoomColour;
-  ctx.fillRect((xPosition-1)*squareSize+squareBorderSize,(yPosition-1)*squareSize+squareBorderSize,squareSize-2*squareBorderSize,squareSize-2*squareBorderSize);
-}
+
 
 function reloadPage() {
   window.location.reload(false);
