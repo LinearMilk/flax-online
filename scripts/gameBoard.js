@@ -1,9 +1,10 @@
 function createGameBoard(i, j) {
+  let draw = new Drawing(canvasId);
   ctx.save();
-  drawGameBoardFrame(gameBoardWidth,gameBoardHeight,squareSize);
+  draw.drawGameBoardFrame(gameBoardWidth,gameBoardHeight,squareSize);
   for (i=1; i<=gameBoardWidth;i++) {
     for (j=1; j<=gameBoardHeight;j++) {
-      drawGameSquare(i,j);
+      draw.drawGameSquare(i,j);
       board.push({
         xCoordinate: i,
         yCoordinate: j,
@@ -26,19 +27,6 @@ function createGameBoard(i, j) {
   console.log(board);
 
   ctx.restore();
-}
-
-function drawGameSquare(xPosition,yPosition,) {
-  ctx.fillStyle = squareBorderColour;
-  ctx.fillRect((xPosition-1)*squareSize,(yPosition-1)*squareSize,squareSize,squareSize);
-  ctx.fillStyle = squareColour;
-  ctx.fillRect((xPosition-1)*squareSize+squareBorderSize,(yPosition-1)*squareSize+squareBorderSize,squareSize-2*squareBorderSize,squareSize-2*squareBorderSize);
-}
-
-function drawGameBoardFrame(width, height, fieldSize) {
-  ctx.lineWidth=gameBoardFrameSize;
-  ctx.strokeRect(gameBoardFrameSize/2,gameBoardFrameSize/2,width*fieldSize+gameBoardFrameSize,height*fieldSize+gameBoardFrameSize);
-  ctx.translate(gameBoardFrameSize,gameBoardFrameSize);
 }
 
 function drawRooms(xPosition,yPosition) {
@@ -85,6 +73,6 @@ canvas.addEventListener('click',e => {
       drawClickedChip(x,y);
     }
   }
-  
+
 
 } , false);

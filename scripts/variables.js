@@ -11,6 +11,8 @@ var gameBoardFrameSize = 10;
 var squareRoomBorderColour = "#ffffff";
 var squareRoomColour = "#69d4fc";
 
+let canvasId = "game-canvas"
+
 var chipRadius = 17;
 var bottomChipBorder = 4;
 var chipValueOffset = 7;

@@ -13,6 +13,4 @@ class Chip {
 	yPosition(){
 		return this.position[1];
 	}
-
-
 }
