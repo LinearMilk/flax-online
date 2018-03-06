@@ -58,7 +58,7 @@ function getClickCoordinates(xClick,yClick) {
   var yLimit = (boarder+(squareSize*gameBoardHeight)-2);
 
   if(xClick <= boarder || yClick <= boarder || xClick >= xLimit || yClick >= yLimit){
-    return [-1, -1];
+    return null;
   }
 
   var x = Math.floor((xClick-boarder)/squareSize)+1;
@@ -68,7 +68,7 @@ function getClickCoordinates(xClick,yClick) {
 
   // If clicked on the edges of the square, do NOT draw the Chip (square == [40, 40])
   if(xInSquare <= 5 || xInSquare >= 35 || yInSquare <= 5 || yInSquare >= 35){
-    return [-1, -1];
+    return null;
   }
 
   return [x,y];
@@ -78,10 +78,13 @@ canvas.addEventListener('click',e => {
   xClick = e.clientX;
   yClick = e.clientY;
   var coordinates = getClickCoordinates(xClick,yClick);
-  var x = coordinates[0];
-  var y = coordinates[1];
-  if (x>=0 && x<=gameBoardWidth && y>=0 && y<=gameBoardHeight) {
-    drawClickedChip(x,y);
+  if(coordinates) {
+    var x = coordinates[0];
+    var y = coordinates[1];
+    if (x>=0 && x<=gameBoardWidth && y>=0 && y<=gameBoardHeight) {
+      drawClickedChip(x,y);
+    }
   }
+  
 
 } , false);

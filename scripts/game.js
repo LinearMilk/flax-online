@@ -3,12 +3,27 @@ var ctx = canvas.getContext("2d");
 var board = [];
 
 var player = new Player(startingColour, startingPosition);
+
+
+
 function getChip(){
   console.log(player);
-  var chips = player.getRandomChip();
+  var chipValues = player.getRandomChipType();
 
-  drawChip(1, 11, player.getColour(), chips[0]);
-  drawChip(2, 11, player.getColour(), chips[1]);
+  var chip1 = new Chip(player.getColour(), chipValues[0], [1, 11]);
+  var chip2 = new Chip(player.getColour(), chipValues[1], [2, 11]);
+
+
+  if(chipValues){
+    drawChip(chip1);
+    drawChip(chip2);
+  } else {
+    drawGameOver(1,11);
+  }
+}
+
+function drawGameOver(x,y){
+  // TODO
 }
 
 function drawClickedChip(x,y) {
@@ -25,26 +40,27 @@ function drawClickedChip(x,y) {
       drawBottomChip(x,y, boardSquare.bottomChip.colour, 3);
     } 
 
-    drawChip(x,y, colour, value);
-    boardSquare.activeChip = {
-      colour: colour,
-      value: value
-    };
+
+    var chip = player.playChip(x, y, value);
+
+
+    drawChip(chip);
+    boardSquare.activeChip = chip;
   }
 
   console.log(boardSquare);
 }
 
-function drawChip(xPosition,yPosition, colour, value) {
+function drawChip(chip) {
   ctx.save();
-  ctx.translate(((xPosition-0.5)*squareSize+gameBoardFrameSize), ((yPosition-0.5)*squareSize+gameBoardFrameSize));
+  ctx.translate(((chip.xPosition()-0.5)*squareSize+gameBoardFrameSize), ((chip.yPosition()-0.5)*squareSize+gameBoardFrameSize));
   ctx.beginPath();
   ctx.arc(0,0,chipRadius,0,2*Math.PI);
-  ctx.fillStyle = colour;
+  ctx.fillStyle = chip.colour;
   ctx.fill();
   drawChipBorder();
   ctx.restore();
-  drawChipValue(xPosition, yPosition, value);
+  drawChipValue(chip.xPosition(), chip.yPosition(), chip.value);
 }
 
 function drawBottomChip(xPosition,yPosition, colour, offset) {

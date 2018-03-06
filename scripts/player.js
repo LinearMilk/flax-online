@@ -4,13 +4,27 @@ class Player {
 		this.colour = colour;
 		this.startingPosition = startingPosition;
 		this.chipSupply = [8,8,8];
+		this.chipsOnBoard = [];
 	}
 
 	getColour(){
 		return this.colour;
 	}
 
-	getRandomChip(){
+	playChip(x, y, chipValue) {
+		var newChip = new Chip(this.colour, chipValue, [x, y]);
+		this.chipsOnBoard.push(newChip);
+		// TODO
+		// draw chip on board
+
+		return newChip;
+	}
+
+	getLastChip(){
+		return this.chipsOnBoard[this.chipsOnBoard.length - 1];
+	}
+
+	getRandomChipType(){
 		if(this.chipSupply[0] + this.chipSupply[1] + this.chipSupply[2] === 0){
 			return [];
 		}
@@ -20,7 +34,7 @@ class Player {
 		if(this.chipSupply[chip] != 0){
 			this.chipSupply[chip]--;
 		} else {
-			chip = this.getRandomChip();
+			chip = this.getRandomChipType();
 		}
 
 		return this.getRandomChipOptions(chip);
