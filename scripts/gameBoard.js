@@ -19,7 +19,7 @@ function createGameBoard(i, j) {
   rooms.forEach(function(el) {
     el.forEach(function(element) {
       var x = element[0], y = element[1], roomNumber = element[2];
-      drawRooms(x,y);
+      draw.drawRooms(x,y);
       (board.find(square => {
         if(square.xCoordinate === x && square.yCoordinate === y) return true;
       })).roomNumber = roomNumber;
