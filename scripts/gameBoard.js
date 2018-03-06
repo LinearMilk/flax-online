@@ -1,5 +1,6 @@
+let board = [];
+
 function createGameBoard(i, j) {
-  let draw = new Drawing(canvasId);
   ctx.save();
   draw.drawGameBoardFrame(gameBoardWidth,gameBoardHeight,squareSize);
   for (i=1; i<=gameBoardWidth;i++) {
@@ -59,6 +60,7 @@ function getClickCoordinates(xClick,yClick) {
 }
 
 canvas.addEventListener('click',e => {
+  let draw = new Drawing(canvasId);
   xClick = e.clientX;
   yClick = e.clientY;
   var coordinates = getClickCoordinates(xClick,yClick);
@@ -66,7 +68,7 @@ canvas.addEventListener('click',e => {
     var x = coordinates[0];
     var y = coordinates[1];
     if (x>=0 && x<=gameBoardWidth && y>=0 && y<=gameBoardHeight) {
-      drawClickedChip(x,y);
+      draw.drawRandomClickedChip(x,y);
     }
   }
 
