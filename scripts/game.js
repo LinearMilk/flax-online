@@ -10,9 +10,9 @@ function getChip(){
 
 
   if(chipValues){
-    draw.drawChip(chip1);
-    draw.drawChip(chip2);
+    draw.chip(chip1);
+    draw.chip(chip2);
   } else {
-    draw.drawGameOver(1,11);
+    draw.gameOver(1,11);
   }
 }

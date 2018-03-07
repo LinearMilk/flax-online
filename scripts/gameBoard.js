@@ -1,10 +1,10 @@
 let board = [];
 
 function createGameBoard(i, j) {
-  draw.drawGameBoardFrame(gameBoardWidth,gameBoardHeight,squareSize);
+  draw.gameBoardFrame(gameBoardWidth,gameBoardHeight,squareSize);
   for (i=1; i<=gameBoardWidth;i++) {
     for (j=1; j<=gameBoardHeight;j++) {
-      draw.drawGameSquare(i,j);
+      draw.gameSquare(i,j);
       //TODO create method to add info the the board object
       board.push({
         xCoordinate: i,
@@ -19,7 +19,7 @@ function createGameBoard(i, j) {
   rooms.forEach(function(el) {
     el.forEach(function(element) {
       var x = element[0], y = element[1], roomNumber = element[2];
-      draw.drawRooms(x,y);
+      draw.rooms(x,y);
       (board.find(square => {
         if(square.xCoordinate === x && square.yCoordinate === y) return true;
       })).roomNumber = roomNumber;
@@ -78,13 +78,13 @@ function handleRandomClickedChip(x,y) {
   if(boardSquare.bottomChip === null){
     if(boardSquare.activeChip != null) {
       boardSquare.bottomChip = boardSquare.activeChip;
-      draw.drawBottomChip(x,y, boardSquare.bottomChip.colour, 3);
+      draw.bottomChip(x,y, boardSquare.bottomChip.colour, 3);
     }
 
     //TODO get rid of this from here
     var chip = player.playChip(x, y, value);
 
-    draw.drawChip(chip);
+    draw.chip(chip);
     boardSquare.activeChip = chip;
   }
 
