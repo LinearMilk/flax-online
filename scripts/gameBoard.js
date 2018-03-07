@@ -1,92 +1,88 @@
-let board = [];
-
-function createGameBoard(i, j) {
-  draw.gameBoardFrame(gameBoardWidth,gameBoardHeight,squareSize);
-  for (i=1; i<=gameBoardWidth;i++) {
-    for (j=1; j<=gameBoardHeight;j++) {
-      draw.gameSquare(i,j);
-      //TODO create method to add info the the board object
-      board.push({
-        xCoordinate: i,
-        yCoordinate: j,
-        roomNumber: 0,
-        activeChip: null,
-        bottomChip: null
-      });
-    }
+class GameBoard {
+  constructor() {
+    this.board = [];
+    this.rooms = roomsGame1;
   }
 
-  rooms.forEach(function(el) {
-    el.forEach(function(element) {
-      var x = element[0], y = element[1], roomNumber = element[2];
-      draw.rooms(x,y);
-      (board.find(square => {
-        if(square.xCoordinate === x && square.yCoordinate === y) return true;
-      })).roomNumber = roomNumber;
+  createGameBoard() {
+    draw.gameBoardFrame(gameBoardWidth,gameBoardHeight,squareSize);
+    for (var i=1; i<=gameBoardWidth;i++) {
+      for (var j=1; j<=gameBoardHeight;j++) {
+        draw.gameSquare(i,j);
+        //TODO create method to add info the the board object
+        this.board.push({
+          xCoordinate: i,
+          yCoordinate: j,
+          roomNumber: 0,
+          activeChip: null,
+          bottomChip: null
+        });
+      }
+    }
+
+    this.rooms.forEach(function(el) {
+      el.forEach(function(element) {
+        var x = element[0], y = element[1], roomNumber = element[2];
+        draw.rooms(x,y);
+        (this.getBoard().find(square => {
+          if(square.xCoordinate === x && square.yCoordinate === y) return true;
+        })).roomNumber = roomNumber;
+      }, this);
+    }, this);
+    console.log(this.board);
+  }
+
+  getBoard(){
+    return this.board;
+  }
+
+  handleRandomClickedChip(x,y) {
+    var value = Math.floor(Math.random() * Math.floor(6)+1);
+    var colour = colours[Math.floor(Math.random() * Math.floor(4))];
+
+    var boardSquare = this.board.find(square => {
+      if(square.xCoordinate === x && square.yCoordinate === y) return true;
     });
-  });
-  console.log(board);
-}
 
-function reloadPage() {
-  window.location.reload(false);
-}
+    if(boardSquare.bottomChip === null){
+      if(boardSquare.activeChip != null) {
+        boardSquare.bottomChip = boardSquare.activeChip;
+        draw.bottomChip(x,y, boardSquare.bottomChip.colour, 3);
+      }
 
-function getClickCoordinates(xClick,yClick) {
-  var boarder = gameBoardFrameSize*2;
-  var xLimit = (boarder+(squareSize*gameBoardWidth)-2);
-  var yLimit = (boarder+(squareSize*gameBoardHeight)-2);
-
-  if(xClick <= boarder || yClick <= boarder || xClick >= xLimit || yClick >= yLimit){
-    return null;
-  }
-
-  var x = Math.floor((xClick-boarder)/squareSize)+1;
-  var y = Math.floor((yClick-boarder)/squareSize)+1;
-  var xInSquare = ((x*(squareSize))+boarder-5) - xClick;
-  var yInSquare = ((y*(squareSize))+boarder-5) - yClick;
-
-  // If clicked on the edges of the square, do NOT draw the Chip (square == [40, 40])
-  if(xInSquare <= 5 || xInSquare >= 35 || yInSquare <= 5 || yInSquare >= 35){
-    return null;
-  }
-
-  return [x,y];
-}
-
-draw.getCanvas().addEventListener('click',e => {
-  xClick = e.clientX;
-  yClick = e.clientY;
-  var coordinates = getClickCoordinates(xClick,yClick);
-  if(coordinates) {
-    var x = coordinates[0];
-    var y = coordinates[1];
-    if (x>=0 && x<=gameBoardWidth && y>=0 && y<=gameBoardHeight) {
-      handleRandomClickedChip(x,y);
+      //TODO get rid of this from here
+      var chip = player.playChip(x, y, value);
+      draw.chip(chip);
+      boardSquare.activeChip = chip;
     }
+    console.log(boardSquare);
   }
-} , false);
 
-function handleRandomClickedChip(x,y) {
-  var value = Math.floor(Math.random() * Math.floor(6)+1);
-  var colour = colours[Math.floor(Math.random() * Math.floor(4))];
 
-  var boardSquare = board.find(square => {
-    if(square.xCoordinate === x && square.yCoordinate === y) return true;
-  });
+  getClickCoordinates(xClick,yClick) {
+    var border = gameBoardFrameSize*2;
+    var xLimit = (border+(squareSize*gameBoardWidth)-2);
+    var yLimit = (border+(squareSize*gameBoardHeight)-2);
 
-  if(boardSquare.bottomChip === null){
-    if(boardSquare.activeChip != null) {
-      boardSquare.bottomChip = boardSquare.activeChip;
-      draw.bottomChip(x,y, boardSquare.bottomChip.colour, 3);
+    if(xClick <= border || yClick <= border || xClick >= xLimit || yClick >= yLimit){
+      return null;
     }
 
-    //TODO get rid of this from here
-    var chip = player.playChip(x, y, value);
+    var x = Math.floor((xClick-border)/squareSize)+1;
+    var y = Math.floor((yClick-border)/squareSize)+1;
+    var xInSquare = ((x*(squareSize))+border-5) - xClick;
+    var yInSquare = ((y*(squareSize))+border-5) - yClick;
 
-    draw.chip(chip);
-    boardSquare.activeChip = chip;
+    // If clicked on the edges of the square, do NOT draw the Chip (square == [40, 40])
+    if(xInSquare <= 5 || xInSquare >= 35 || yInSquare <= 5 || yInSquare >= 35){
+      return null;
+    }
+
+    return [x,y];
   }
 
-  console.log(boardSquare);
+
+  reloadPage() {
+    window.location.reload(false);
+  }
 }

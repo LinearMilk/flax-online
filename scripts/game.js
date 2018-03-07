@@ -1,5 +1,10 @@
 let draw = new Drawing(canvasId);
 var player = new Player(startingColour, startingPosition);
+let gameBoard = new GameBoard();
+
+function startGame() {
+  gameBoard.createGameBoard();
+}
 
 function getChip(){
   console.log(player);
@@ -16,3 +21,16 @@ function getChip(){
     draw.gameOver(1,11);
   }
 }
+
+draw.getCanvas().addEventListener('click',e => {
+  xClick = e.clientX;
+  yClick = e.clientY;
+  var coordinates = gameBoard.getClickCoordinates(xClick,yClick);
+  if(coordinates) {
+    var x = coordinates[0];
+    var y = coordinates[1];
+    if (x>=0 && x<=gameBoardWidth && y>=0 && y<=gameBoardHeight) {
+      gameBoard.handleRandomClickedChip(x,y);
+    }
+  }
+} , false);
