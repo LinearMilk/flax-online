@@ -4,7 +4,7 @@
 class Drawing {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
-    this.ctx = canvas.getContext("2d");
+    this.ctx = this.canvas.getContext("2d");
     this.squareSize = squareSize;
     this.squareBorderSize = squareBorderSize;
     this.squareBorderColour = squareBorderColour;
@@ -17,6 +17,10 @@ class Drawing {
     this.chipBorderWidth = 1;
   }
 
+  getCanvas(){
+    return this.canvas;
+  }
+
   drawGameBoardFrame(width, height, fieldSize) {
     this.ctx.lineWidth=this.gameBoardFrameSize;
     this.ctx.strokeRect(this.gameBoardFrameSize/2,this.gameBoardFrameSize/2,width*fieldSize+this.gameBoardFrameSize,height*fieldSize+this.gameBoardFrameSize);
@@ -25,10 +29,10 @@ class Drawing {
   }
 
   drawGameSquare(xPosition,yPosition,) {
-    ctx.fillStyle = this.squareBorderColour;
-    ctx.fillRect((xPosition-1)*this.squareSize,(yPosition-1)*this.squareSize,this.squareSize,this.squareSize);
-    ctx.fillStyle = this.squareColour;
-    ctx.fillRect((xPosition-1)*this.squareSize+this.squareBorderSize,(yPosition-1)*this.squareSize+this.squareBorderSize,this.squareSize-2*this.squareBorderSize,this.squareSize-2*this.squareBorderSize);
+    this.ctx.fillStyle = this.squareBorderColour;
+    this.ctx.fillRect((xPosition-1)*this.squareSize,(yPosition-1)*this.squareSize,this.squareSize,this.squareSize);
+    this.ctx.fillStyle = this.squareColour;
+    this.ctx.fillRect((xPosition-1)*this.squareSize+this.squareBorderSize,(yPosition-1)*this.squareSize+this.squareBorderSize,this.squareSize-2*this.squareBorderSize,this.squareSize-2*this.squareBorderSize);
   }
 
   drawRooms(xPosition,yPosition) {
@@ -44,7 +48,7 @@ class Drawing {
 
   drawChip(chip) {
     this.ctx.save();
-    this.ctx.translate(((chip.xPosition()-0.5)*squareSize+gameBoardFrameSize), ((chip.yPosition()-0.5)*squareSize+gameBoardFrameSize));
+    this.ctx.translate(((chip.xPosition()-0.5)*squareSize), ((chip.yPosition()-0.5)*squareSize));
     this.ctx.beginPath();
     this.ctx.arc(0,0,this.chipRadius,0,2*Math.PI);
     this.ctx.fillStyle = chip.colour;
@@ -56,7 +60,7 @@ class Drawing {
 
   drawBottomChip(xPosition,yPosition, colour, offset) {
     this.ctx.save();
-    this.ctx.translate(((xPosition-0.5)*squareSize+gameBoardFrameSize)+offset, ((yPosition-0.5)*squareSize+gameBoardFrameSize)+offset);
+    this.ctx.translate(((xPosition-0.5)*squareSize)+offset, ((yPosition-0.5)*squareSize)+offset);
     this.ctx.beginPath();
     this.ctx.arc(0,0,this.chipRadius,0,2*Math.PI);
     this.ctx.fillStyle = colour;
@@ -71,73 +75,78 @@ class Drawing {
     this.ctx.stroke();
   }
 
+  /**
+   * Methods for Drawing chip numbers
+   * TODO: change to private methods
+   */
+
   drawChipValue(x, y, value){
     switch(value) {
       case 1:
-        drawValue1(x, y);
+        this.drawValue1(x, y);
         break;
       case 2:
-        drawValue2(x, y);
+        this.drawValue2(x, y);
         break;
       case 3:
-        drawValue3(x, y);
+        this.drawValue3(x, y);
         break;
       case 4:
-        drawValue4(x, y);
+        this.drawValue4(x, y);
         break;
       case 5:
-        drawValue5(x, y);
+        this.drawValue5(x, y);
         break;
       case 6:
-        drawValue6(x, y);
+        this.drawValue6(x, y);
         break;
       default:
         break;
     }
-
-    function drawValue1(x, y) {
-      drawValueOffset(x, y, 0, 0);
-    }
-
-    function drawValue2(x, y) {
-      drawValueOffset(x, y, chipValueOffset, -chipValueOffset);
-      drawValueOffset(x, y, -chipValueOffset, chipValueOffset);
-    }
-
-    function drawValue3(x, y) {
-      drawValue1(x, y);
-      drawValue2(x, y);
-    }
-
-    function drawValue4(x, y) {
-      drawValue2(x, y);
-
-      drawValueOffset(x, y, -chipValueOffset, -chipValueOffset);
-      drawValueOffset(x, y, chipValueOffset, chipValueOffset);
-    }
-
-    function drawValue5(x, y) {
-      drawValue1(x, y);
-      drawValue4(x, y);
-    }
-
-    function drawValue6(x, y) {
-      drawValue4(x, y);
-
-      drawValueOffset(x, y, chipValueOffset, 0);
-      drawValueOffset(x, y, -chipValueOffset, 0);
-    }
-
-    function drawValueOffset(x, y, offsetX, offsetY) {
-      ctx.save();
-      ctx.fillStyle = chipValueColour;
-      ctx.translate((x-0.5)*squareSize+gameBoardFrameSize + offsetX, (y-0.5)*squareSize+gameBoardFrameSize + offsetY);
-      ctx.beginPath();
-      ctx.arc(0,0,3,0,2*Math.PI);
-      ctx.fill();
-      ctx.restore();
-    }
-    
   }
+
+  drawValue1(x, y) {
+    this.drawValueOffset(x, y, 0, 0);
+  }
+
+  drawValue2(x, y) {
+    this.drawValueOffset(x, y, chipValueOffset, -chipValueOffset);
+    this.drawValueOffset(x, y, -chipValueOffset, chipValueOffset);
+  }
+
+  drawValue3(x, y) {
+    this.drawValue1(x, y);
+    this.drawValue2(x, y);
+  }
+
+  drawValue4(x, y) {
+    this.drawValue2(x, y);
+
+    this.drawValueOffset(x, y, -chipValueOffset, -chipValueOffset);
+    this.drawValueOffset(x, y, chipValueOffset, chipValueOffset);
+  }
+
+  drawValue5(x, y) {
+    this.drawValue1(x, y);
+    this.drawValue4(x, y);
+  }
+
+  drawValue6(x, y) {
+    this.drawValue4(x, y);
+
+    this.drawValueOffset(x, y, chipValueOffset, 0);
+    this.drawValueOffset(x, y, -chipValueOffset, 0);
+  }
+
+  drawValueOffset(x, y, offsetX, offsetY) {
+    this.ctx.save();
+    this.ctx.fillStyle = chipValueColour;
+    this.ctx.translate((x-0.5)*squareSize + offsetX, (y-0.5)*squareSize + offsetY);
+    this.ctx.beginPath();
+    this.ctx.arc(0,0,3,0,2*Math.PI);
+    this.ctx.fill();
+    this.ctx.restore();
+  }
+
 
 }

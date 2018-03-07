@@ -1,7 +1,6 @@
 let board = [];
 
 function createGameBoard(i, j) {
-  ctx.save();
   draw.drawGameBoardFrame(gameBoardWidth,gameBoardHeight,squareSize);
   for (i=1; i<=gameBoardWidth;i++) {
     for (j=1; j<=gameBoardHeight;j++) {
@@ -27,11 +26,7 @@ function createGameBoard(i, j) {
     });
   });
   console.log(board);
-
-  ctx.restore();
 }
-
-
 
 function reloadPage() {
   window.location.reload(false);
@@ -59,8 +54,7 @@ function getClickCoordinates(xClick,yClick) {
   return [x,y];
 }
 
-canvas.addEventListener('click',e => {
-  let draw = new Drawing(canvasId);
+draw.getCanvas().addEventListener('click',e => {
   xClick = e.clientX;
   yClick = e.clientY;
   var coordinates = getClickCoordinates(xClick,yClick);
@@ -71,6 +65,28 @@ canvas.addEventListener('click',e => {
       handleRandomClickedChip(x,y);
     }
   }
-
-
 } , false);
+
+function handleRandomClickedChip(x,y) {
+  var value = Math.floor(Math.random() * Math.floor(6)+1);
+  var colour = colours[Math.floor(Math.random() * Math.floor(4))];
+
+  var boardSquare = board.find(square => {
+    if(square.xCoordinate === x && square.yCoordinate === y) return true;
+  });
+
+  if(boardSquare.bottomChip === null){
+    if(boardSquare.activeChip != null) {
+      boardSquare.bottomChip = boardSquare.activeChip;
+      draw.drawBottomChip(x,y, boardSquare.bottomChip.colour, 3);
+    }
+
+    //TODO get rid of this from here
+    var chip = player.playChip(x, y, value);
+
+    draw.drawChip(chip);
+    boardSquare.activeChip = chip;
+  }
+
+  console.log(boardSquare);
+}
