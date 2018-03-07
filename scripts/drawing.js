@@ -1,3 +1,6 @@
+/**
+ * Class for drawing in the canvas.
+ */
 class Drawing {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
@@ -37,29 +40,6 @@ class Drawing {
 
   drawGameOver(x,y){
     // TODO
-  }
-
-  drawRandomClickedChip(x,y) {
-    var value = Math.floor(Math.random() * Math.floor(6)+1);
-    var colour = colours[Math.floor(Math.random() * Math.floor(4))];
-
-    var boardSquare = board.find(square => {
-      if(square.xCoordinate === x && square.yCoordinate === y) return true;
-    });
-
-    if(boardSquare.bottomChip === null){
-      if(boardSquare.activeChip != null) {
-        boardSquare.bottomChip = boardSquare.activeChip;
-        this.drawBottomChip(x,y, boardSquare.bottomChip.colour, 3);
-      }
-      //TODO get rid of this from here
-      var chip = player.playChip(x, y, value);
-
-      this.drawChip(chip);
-      boardSquare.activeChip = chip;
-    }
-
-    console.log(boardSquare);
   }
 
   drawChip(chip) {
@@ -114,9 +94,50 @@ class Drawing {
       default:
         break;
     }
+
+    function drawValue1(x, y) {
+      drawValueOffset(x, y, 0, 0);
+    }
+
+    function drawValue2(x, y) {
+      drawValueOffset(x, y, chipValueOffset, -chipValueOffset);
+      drawValueOffset(x, y, -chipValueOffset, chipValueOffset);
+    }
+
+    function drawValue3(x, y) {
+      drawValue1(x, y);
+      drawValue2(x, y);
+    }
+
+    function drawValue4(x, y) {
+      drawValue2(x, y);
+
+      drawValueOffset(x, y, -chipValueOffset, -chipValueOffset);
+      drawValueOffset(x, y, chipValueOffset, chipValueOffset);
+    }
+
+    function drawValue5(x, y) {
+      drawValue1(x, y);
+      drawValue4(x, y);
+    }
+
+    function drawValue6(x, y) {
+      drawValue4(x, y);
+
+      drawValueOffset(x, y, chipValueOffset, 0);
+      drawValueOffset(x, y, -chipValueOffset, 0);
+    }
+
+    function drawValueOffset(x, y, offsetX, offsetY) {
+      ctx.save();
+      ctx.fillStyle = chipValueColour;
+      ctx.translate((x-0.5)*squareSize+gameBoardFrameSize + offsetX, (y-0.5)*squareSize+gameBoardFrameSize + offsetY);
+      ctx.beginPath();
+      ctx.arc(0,0,3,0,2*Math.PI);
+      ctx.fill();
+      ctx.restore();
+    }
+    
   }
-
-
-
 
 }

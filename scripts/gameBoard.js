@@ -68,7 +68,7 @@ canvas.addEventListener('click',e => {
     var x = coordinates[0];
     var y = coordinates[1];
     if (x>=0 && x<=gameBoardWidth && y>=0 && y<=gameBoardHeight) {
-      draw.drawRandomClickedChip(x,y);
+      handleRandomClickedChip(x,y);
     }
   }
 
