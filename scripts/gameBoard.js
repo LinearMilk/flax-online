@@ -39,7 +39,7 @@ class GameBoard {
 
   handleRandomClickedChip(x,y, player) {
     var value = Math.floor(Math.random() * Math.floor(6)+1);
-    var colour = colours[Math.floor(Math.random() * Math.floor(4))];
+    
 
     var boardSquare = this.board.find(square => {
       if(square.xCoordinate === x && square.yCoordinate === y) return true;
