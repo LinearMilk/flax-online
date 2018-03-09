@@ -21,15 +21,15 @@ class GameBoard {
       }
     }
 
-    this.rooms.forEach(function(el) {
-      el.forEach(function(element) {
+    this.rooms.forEach(el => {
+      el.forEach(element => {
         var x = element[0], y = element[1], roomNumber = element[2];
         this.draw.rooms(x,y);
         (this.getBoard().find(square => {
           if(square.xCoordinate === x && square.yCoordinate === y) return true;
         })).roomNumber = roomNumber;
-      }, this);
-    }, this);
+      });
+    });
     console.log(this.board);
   }
 
@@ -48,7 +48,7 @@ class GameBoard {
     if(boardSquare.bottomChip === null){
       if(boardSquare.activeChip != null) {
         boardSquare.bottomChip = boardSquare.activeChip;
-        this.draw.bottomChip(x,y, boardSquare.bottomChip.colour, 3);
+        this.draw.bottomChip(boardSquare.bottomChip, 3);
       }
 
       //TODO get rid of this from here

@@ -84,17 +84,15 @@ class Drawing {
 
   /**
    * Draw the bottom chip, when a chip is place on top of it
-   * @param  {int} xPosition    [relative x position]
-   * @param  {int} yPosition    [relative y position]
-   * @param  {string} colour    [chip colour]
+   * @param  {Chip} chip [chip object with positions, colour and value]
    * @param  {int} offset       [offset from the center, where the chip will be draw]
    */
-  bottomChip(xPosition,yPosition, colour, offset) {
+  bottomChip(chip, offset) {
     this.ctx.save();
-    this.ctx.translate(((xPosition-0.5)*squareSize)+offset, ((yPosition-0.5)*squareSize)+offset);
+    this.ctx.translate(((chip.xPosition()-0.5)*squareSize)+offset, ((chip.yPosition()-0.5)*squareSize)+offset);
     this.ctx.beginPath();
     this.ctx.arc(0,0,this.chipRadius,0,2*Math.PI);
-    this.ctx.fillStyle = colour;
+    this.ctx.fillStyle = chip.colour;
     this.ctx.fill();
     this.drawChipBorder();
     this.ctx.restore();
