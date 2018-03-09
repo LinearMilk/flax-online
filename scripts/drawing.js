@@ -21,13 +21,25 @@ class Drawing {
     return this.canvas;
   }
 
+  /**
+   * Draw the gameboard Frame
+   * @param  {[int]} width     [relative number of the column]
+   * @param  {[int]} height    [relative number of the row]
+   * @param  {[int]} fieldSize [the size of each square in pixels]
+   */
   gameBoardFrame(width, height, fieldSize) {
     this.ctx.lineWidth=this.gameBoardFrameSize;
     this.ctx.strokeRect(this.gameBoardFrameSize/2,this.gameBoardFrameSize/2,width*fieldSize+this.gameBoardFrameSize,height*fieldSize+this.gameBoardFrameSize);
-    //not sure if translate should be part of this method
     this.ctx.translate(this.gameBoardFrameSize,this.gameBoardFrameSize);
   }
 
+  /**
+   * Draw the individual game square
+   * @param  {int} xPosition [relative x position]
+   * @param  {int} yPosition [relative y position]
+   *
+   * Ex: gameSquare(1,1) will draw the first square, gameSquare(1,5) will draw the 5th square in the first row (x)
+   */
   gameSquare(xPosition,yPosition,) {
     this.ctx.fillStyle = this.squareBorderColour;
     this.ctx.fillRect((xPosition-1)*this.squareSize,(yPosition-1)*this.squareSize,this.squareSize,this.squareSize);
@@ -35,6 +47,11 @@ class Drawing {
     this.ctx.fillRect((xPosition-1)*this.squareSize+this.squareBorderSize,(yPosition-1)*this.squareSize+this.squareBorderSize,this.squareSize-2*this.squareBorderSize,this.squareSize-2*this.squareBorderSize);
   }
 
+  /**
+   * Draw the individual square representing a room, in a different colour
+   * @param  {int} xPosition [relative x position]
+   * @param  {int} yPosition [relative y position]
+   */
   rooms(xPosition,yPosition) {
     this.ctx.fillStyle = squareRoomBorderColour;
     this.ctx.fillRect((xPosition-1)*squareSize,(yPosition-1)*squareSize,squareSize,squareSize);
@@ -46,6 +63,10 @@ class Drawing {
     // TODO
   }
 
+  /**
+   * Draw the chip
+   * @param  {Chip} chip [chip object with positions, colour and value]
+   */
   chip(chip) {
     this.ctx.save();
     this.ctx.translate(((chip.xPosition()-0.5)*squareSize), ((chip.yPosition()-0.5)*squareSize));
@@ -58,6 +79,13 @@ class Drawing {
     this.drawChipValue(chip.xPosition(), chip.yPosition(), chip.value);
   }
 
+  /**
+   * Draw the bottom chip, when a chip is place on top of it
+   * @param  {int} xPosition    [relative x position]
+   * @param  {int} yPosition    [relative y position]
+   * @param  {string} colour    [chip colour]
+   * @param  {int} offset       [offset from the center, where the chip will be draw]
+   */
   bottomChip(xPosition,yPosition, colour, offset) {
     this.ctx.save();
     this.ctx.translate(((xPosition-0.5)*squareSize)+offset, ((yPosition-0.5)*squareSize)+offset);
@@ -70,6 +98,13 @@ class Drawing {
   }
 
 
+  /**
+   * ********** Private Methods ************
+   */
+
+  /**
+   * Draw the chip border
+   */
   drawChipBorder(){
     this.ctx.lineWidth = this.chipBorderWidth;
     this.ctx.strokeStyle = this.chipBorderColour;
@@ -77,10 +112,11 @@ class Drawing {
   }
 
   /**
-   * Methods for Drawing chip numbers
-   * TODO: change to private methods
+   * Draw the chip value
+   * @param  {int} x     [relative x position]
+   * @param  {int} y     [relative y position]
+   * @param  {int} value [chip value]
    */
-
   drawChipValue(x, y, value){
     switch(value) {
       case 1:
@@ -121,6 +157,13 @@ class Drawing {
     }
   }
 
+  /**
+   * Draw each pip individualy, given it's position
+   * @param  {int} x       [relative x position]
+   * @param  {int} y       [relative y position]
+   * @param  {int} offsetX [offset x for the given pip]
+   * @param  {int} offsetY [offset y for the given pip]
+   */
   drawValueOffset(x, y, offsetX, offsetY) {
     this.ctx.save();
     this.ctx.fillStyle = chipValueColour;

@@ -10,7 +10,7 @@ class GameBoard {
     for (var i=1; i<=gameBoardWidth;i++) {
       for (var j=1; j<=gameBoardHeight;j++) {
         this.draw.gameSquare(i,j);
-        //TODO create method to add info the the board object
+        //TODO create method to add info to the board object
         this.board.push({
           xCoordinate: i,
           yCoordinate: j,

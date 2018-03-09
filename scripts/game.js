@@ -4,7 +4,9 @@ class Game {
     this.player = new Player(startingColour, startingPosition);
     this.gameBoard = new GameBoard(this.draw);
 
-
+    /**
+     * Add event listener to the squares in the board
+     */
     this.draw.getCanvas().addEventListener('click',e => {
       xClick = e.clientX;
       yClick = e.clientY;
@@ -25,6 +27,9 @@ class Game {
     this.gameBoard.createGameBoard();
   }
 
+  /**
+   * Get a random Chip from the current player
+   */
   getChip(){
     console.log(this.player);
     var chipValues = this.player.getRandomChipType();
