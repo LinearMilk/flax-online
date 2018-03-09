@@ -7,14 +7,16 @@ class Drawing {
     this.ctx = this.canvas.getContext("2d");
     this.squareSize = squareSize;
     this.squareBorderSize = squareBorderSize;
-    this.squareBorderColour = squareBorderColour;
-    this.squareColour = squareColour;
-    this.squareRoomBorderColour = squareRoomBorderColour;
-    this.squareRoomColour = squareRoomColour;
-    this.chipRadius = chipRadius;
-    this.gameBoardFrameSize = gameBoardFrameSize;
+    this.squareBorderColour = "#e3698e";
+    this.squareColour = "#030b3e";
+    this.squareRoomBorderColour = "#ffffff";
+    this.squareRoomColour = "#69d4fc";
+    this.chipRadius = 17;
+    this.gameBoardFrameSize = 10;
     this.chipBorderColour="#636262";
     this.chipBorderWidth = 1;
+    this.chipValueColour = "#ffffff";
+    this.chipValueOffset =7;
   }
 
   getCanvas(){
@@ -23,11 +25,12 @@ class Drawing {
 
   /**
    * Draw the gameboard Frame
-   * @param  {[int]} width     [relative number of the column]
-   * @param  {[int]} height    [relative number of the row]
-   * @param  {[int]} fieldSize [the size of each square in pixels]
+   * @param  {int} width     [relative number of the column]
+   * @param  {int} height    [relative number of the row]
+   * @param  {int} fieldSize [the size of each square in pixels]
    */
   gameBoardFrame(width, height, fieldSize) {
+    console.log(width, height, fieldSize);
     this.ctx.lineWidth=this.gameBoardFrameSize;
     this.ctx.strokeRect(this.gameBoardFrameSize/2,this.gameBoardFrameSize/2,width*fieldSize+this.gameBoardFrameSize,height*fieldSize+this.gameBoardFrameSize);
     this.ctx.translate(this.gameBoardFrameSize,this.gameBoardFrameSize);
@@ -53,9 +56,9 @@ class Drawing {
    * @param  {int} yPosition [relative y position]
    */
   rooms(xPosition,yPosition) {
-    this.ctx.fillStyle = squareRoomBorderColour;
+    this.ctx.fillStyle = this.squareRoomBorderColour;
     this.ctx.fillRect((xPosition-1)*squareSize,(yPosition-1)*squareSize,squareSize,squareSize);
-    this.ctx.fillStyle = squareRoomColour;
+    this.ctx.fillStyle = this.squareRoomColour;
     this.ctx.fillRect((xPosition-1)*squareSize+squareBorderSize,(yPosition-1)*squareSize+squareBorderSize,squareSize-2*squareBorderSize,squareSize-2*squareBorderSize);
   }
 
@@ -123,34 +126,34 @@ class Drawing {
         this.drawValueOffset(x, y, 0, 0);
         break;
       case 2:
-        this.drawValueOffset(x, y, chipValueOffset, -chipValueOffset);
-        this.drawValueOffset(x, y, -chipValueOffset, chipValueOffset);
+        this.drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
+        this.drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
         break;
       case 3:
-        this.drawValueOffset(x, y, chipValueOffset, -chipValueOffset);
-        this.drawValueOffset(x, y, -chipValueOffset, chipValueOffset);
+        this.drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
+        this.drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
         this.drawValueOffset(x, y, 0, 0);
         break;
       case 4:
-        this.drawValueOffset(x, y, chipValueOffset, -chipValueOffset);
-        this.drawValueOffset(x, y, -chipValueOffset, chipValueOffset);
-        this.drawValueOffset(x, y, -chipValueOffset, -chipValueOffset);
-        this.drawValueOffset(x, y, chipValueOffset, chipValueOffset);
+        this.drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
+        this.drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
+        this.drawValueOffset(x, y, -this.chipValueOffset, -this.chipValueOffset);
+        this.drawValueOffset(x, y, this.chipValueOffset, this.chipValueOffset);
         break;
       case 5:
         this.drawValueOffset(x, y, 0, 0);
-        this.drawValueOffset(x, y, chipValueOffset, -chipValueOffset);
-        this.drawValueOffset(x, y, -chipValueOffset, chipValueOffset);
-        this.drawValueOffset(x, y, -chipValueOffset, -chipValueOffset);
-        this.drawValueOffset(x, y, chipValueOffset, chipValueOffset);
+        this.drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
+        this.drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
+        this.drawValueOffset(x, y, -this.chipValueOffset, -this.chipValueOffset);
+        this.drawValueOffset(x, y, this.chipValueOffset, this.chipValueOffset);
         break;
       case 6:
-        this.drawValueOffset(x, y, chipValueOffset, -chipValueOffset);
-        this.drawValueOffset(x, y, -chipValueOffset, chipValueOffset);
-        this.drawValueOffset(x, y, -chipValueOffset, -chipValueOffset);
-        this.drawValueOffset(x, y, chipValueOffset, chipValueOffset);
-        this.drawValueOffset(x, y, chipValueOffset, 0);
-        this.drawValueOffset(x, y, -chipValueOffset, 0);
+        this.drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
+        this.drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
+        this.drawValueOffset(x, y, -this.chipValueOffset, -this.chipValueOffset);
+        this.drawValueOffset(x, y, this.chipValueOffset, this.chipValueOffset);
+        this.drawValueOffset(x, y, this.chipValueOffset, 0);
+        this.drawValueOffset(x, y, -this.chipValueOffset, 0);
         break;
       default:
         break;
@@ -166,7 +169,7 @@ class Drawing {
    */
   drawValueOffset(x, y, offsetX, offsetY) {
     this.ctx.save();
-    this.ctx.fillStyle = chipValueColour;
+    this.ctx.fillStyle = this.chipValueColour;
     this.ctx.translate((x-0.5)*squareSize + offsetX, (y-0.5)*squareSize + offsetY);
     this.ctx.beginPath();
     this.ctx.arc(0,0,3,0,2*Math.PI);
