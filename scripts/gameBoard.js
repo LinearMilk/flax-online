@@ -82,8 +82,4 @@ class GameBoard {
     return [x,y];
   }
 
-
-  reloadPage() {
-    window.location.reload(false);
-  }
 }
