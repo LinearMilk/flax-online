@@ -1,14 +1,15 @@
 class GameBoard {
-  constructor() {
+  constructor(draw) {
     this.board = [];
     this.rooms = roomsGame1;
+    this.draw = draw;
   }
 
   createGameBoard() {
-    draw.gameBoardFrame(gameBoardWidth,gameBoardHeight,squareSize);
+    this.draw.gameBoardFrame(gameBoardWidth,gameBoardHeight,squareSize);
     for (var i=1; i<=gameBoardWidth;i++) {
       for (var j=1; j<=gameBoardHeight;j++) {
-        draw.gameSquare(i,j);
+        this.draw.gameSquare(i,j);
         //TODO create method to add info the the board object
         this.board.push({
           xCoordinate: i,
@@ -23,7 +24,7 @@ class GameBoard {
     this.rooms.forEach(function(el) {
       el.forEach(function(element) {
         var x = element[0], y = element[1], roomNumber = element[2];
-        draw.rooms(x,y);
+        this.draw.rooms(x,y);
         (this.getBoard().find(square => {
           if(square.xCoordinate === x && square.yCoordinate === y) return true;
         })).roomNumber = roomNumber;
@@ -36,7 +37,7 @@ class GameBoard {
     return this.board;
   }
 
-  handleRandomClickedChip(x,y) {
+  handleRandomClickedChip(x,y, player) {
     var value = Math.floor(Math.random() * Math.floor(6)+1);
     var colour = colours[Math.floor(Math.random() * Math.floor(4))];
 
@@ -47,12 +48,12 @@ class GameBoard {
     if(boardSquare.bottomChip === null){
       if(boardSquare.activeChip != null) {
         boardSquare.bottomChip = boardSquare.activeChip;
-        draw.bottomChip(x,y, boardSquare.bottomChip.colour, 3);
+        this.draw.bottomChip(x,y, boardSquare.bottomChip.colour, 3);
       }
 
       //TODO get rid of this from here
       var chip = player.playChip(x, y, value);
-      draw.chip(chip);
+      this.draw.chip(chip);
       boardSquare.activeChip = chip;
     }
     console.log(boardSquare);
