@@ -77,9 +77,9 @@ class Drawing {
     this.ctx.arc(0,0,this.chipRadius,0,2*Math.PI);
     this.ctx.fillStyle = chip.colour;
     this.ctx.fill();
-    this.drawChipBorder();
+    this._drawChipBorder();
     this.ctx.restore();
-    this.drawChipValue(chip.xPosition(), chip.yPosition(), chip.value);
+    this._drawChipValue(chip.xPosition(), chip.yPosition(), chip.value);
   }
 
   /**
@@ -94,7 +94,7 @@ class Drawing {
     this.ctx.arc(0,0,this.chipRadius,0,2*Math.PI);
     this.ctx.fillStyle = chip.colour;
     this.ctx.fill();
-    this.drawChipBorder();
+    this._drawChipBorder();
     this.ctx.restore();
   }
 
@@ -106,7 +106,7 @@ class Drawing {
   /**
    * Draw the chip border
    */
-  drawChipBorder(){
+  _drawChipBorder(){
     this.ctx.lineWidth = this.chipBorderWidth;
     this.ctx.strokeStyle = this.chipBorderColour;
     this.ctx.stroke();
@@ -118,40 +118,40 @@ class Drawing {
    * @param  {int} y     [relative y position]
    * @param  {int} value [chip value]
    */
-  drawChipValue(x, y, value){
+  _drawChipValue(x, y, value){
     switch(value) {
       case 1:
-        this.drawValueOffset(x, y, 0, 0);
+        this._drawValueOffset(x, y, 0, 0);
         break;
       case 2:
-        this.drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
-        this.drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
+        this._drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
+        this._drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
         break;
       case 3:
-        this.drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
-        this.drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
-        this.drawValueOffset(x, y, 0, 0);
+        this._drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
+        this._drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
+        this._drawValueOffset(x, y, 0, 0);
         break;
       case 4:
-        this.drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
-        this.drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
-        this.drawValueOffset(x, y, -this.chipValueOffset, -this.chipValueOffset);
-        this.drawValueOffset(x, y, this.chipValueOffset, this.chipValueOffset);
+        this._drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
+        this._drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
+        this._drawValueOffset(x, y, -this.chipValueOffset, -this.chipValueOffset);
+        this._drawValueOffset(x, y, this.chipValueOffset, this.chipValueOffset);
         break;
       case 5:
-        this.drawValueOffset(x, y, 0, 0);
-        this.drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
-        this.drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
-        this.drawValueOffset(x, y, -this.chipValueOffset, -this.chipValueOffset);
-        this.drawValueOffset(x, y, this.chipValueOffset, this.chipValueOffset);
+        this._drawValueOffset(x, y, 0, 0);
+        this._drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
+        this._drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
+        this._drawValueOffset(x, y, -this.chipValueOffset, -this.chipValueOffset);
+        this._drawValueOffset(x, y, this.chipValueOffset, this.chipValueOffset);
         break;
       case 6:
-        this.drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
-        this.drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
-        this.drawValueOffset(x, y, -this.chipValueOffset, -this.chipValueOffset);
-        this.drawValueOffset(x, y, this.chipValueOffset, this.chipValueOffset);
-        this.drawValueOffset(x, y, this.chipValueOffset, 0);
-        this.drawValueOffset(x, y, -this.chipValueOffset, 0);
+        this._drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
+        this._drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
+        this._drawValueOffset(x, y, -this.chipValueOffset, -this.chipValueOffset);
+        this._drawValueOffset(x, y, this.chipValueOffset, this.chipValueOffset);
+        this._drawValueOffset(x, y, this.chipValueOffset, 0);
+        this._drawValueOffset(x, y, -this.chipValueOffset, 0);
         break;
       default:
         break;
@@ -165,7 +165,7 @@ class Drawing {
    * @param  {int} offsetX [offset x for the given pip]
    * @param  {int} offsetY [offset y for the given pip]
    */
-  drawValueOffset(x, y, offsetX, offsetY) {
+  _drawValueOffset(x, y, offsetX, offsetY) {
     this.ctx.save();
     this.ctx.fillStyle = this.chipValueColour;
     this.ctx.translate((x-0.5)*squareSize + offsetX, (y-0.5)*squareSize + offsetY);
