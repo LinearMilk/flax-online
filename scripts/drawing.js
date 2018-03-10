@@ -42,11 +42,16 @@ class Drawing {
    *
    * Ex: gameSquare(1,1) will draw the first square, gameSquare(1,5) will draw the 5th square in the first row (x)
    */
-  gameSquare(xPosition,yPosition,) {
+  gameSquare(xPosition,yPosition) {
     this.ctx.fillStyle = this.squareBorderColour;
     this.ctx.fillRect((xPosition-1)*this.squareSize,(yPosition-1)*this.squareSize,this.squareSize,this.squareSize);
     this.ctx.fillStyle = this.squareColour;
     this.ctx.fillRect((xPosition-1)*this.squareSize+this.squareBorderSize,(yPosition-1)*this.squareSize+this.squareBorderSize,this.squareSize-2*this.squareBorderSize,this.squareSize-2*this.squareBorderSize);
+  }
+
+  clearRandomChips(xPosition,yPosition){
+    this.ctx.fillStyle = 'gray';
+    this.ctx.fillRect((xPosition-1)*this.squareSize,(yPosition-1)*this.squareSize,100,100);
   }
 
   /**
@@ -61,8 +66,12 @@ class Drawing {
     this.ctx.fillRect((xPosition-1)*squareSize+squareBorderSize,(yPosition-1)*squareSize+squareBorderSize,squareSize-2*squareBorderSize,squareSize-2*squareBorderSize);
   }
 
-  gameOver(x,y){
-    // TODO
+  gameOver(xPosition,yPosition){
+    this.clearRandomChips(xPosition,yPosition);
+    //this.ctx.translate(((1-0.5)*squareSize), ((11-0.5)*squareSize));
+    this.ctx.fillStyle = 'red';
+    this.ctx.font="20px Georgia";
+    this.ctx.fillText("Game Over :(",10,450);
   }
 
   /**
