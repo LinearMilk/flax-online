@@ -39,27 +39,6 @@ class GameBoard {
     return this.board;
   }
 
-  handleRandomClickedChip(x,y, player) {
-    var value = Math.floor(Math.random() * Math.floor(6)+1);
-
-    var boardSquare = this.board.find(square => {
-      if(square.xCoordinate === x && square.yCoordinate === y) return true;
-    });
-
-    if(boardSquare.bottomChip === null){
-      if(boardSquare.activeChip != null) {
-        boardSquare.bottomChip = boardSquare.activeChip;
-        this.draw.bottomChip(boardSquare.bottomChip, 3);
-      }
-
-      //TODO get rid of this from here
-      var chip = player.playChip(x, y, value);
-      this.draw.chip(chip);
-      boardSquare.activeChip = chip;
-    }
-    console.log(boardSquare);
-  }
-
   placeChip(x,y, player, chip){
     var boardSquare = this.board.find(square => {
       if(square.xCoordinate === x && square.yCoordinate === y) return true;
