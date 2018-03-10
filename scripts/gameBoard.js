@@ -1,7 +1,7 @@
 class GameBoard {
   constructor(draw) {
     this.board = [];
-    this.rooms = roomsGame1;
+    this.rooms = [];
     this.draw = draw;
   }
 
@@ -41,7 +41,7 @@ class GameBoard {
 
   handleRandomClickedChip(x,y, player) {
     var value = Math.floor(Math.random() * Math.floor(6)+1);
-    
+
 
     var boardSquare = this.board.find(square => {
       if(square.xCoordinate === x && square.yCoordinate === y) return true;
