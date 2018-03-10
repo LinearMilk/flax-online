@@ -50,23 +50,30 @@ class Player {
 	/**
 	 * Get a random chip from the chip supply.
 	 * There are 3 different chip types in the supply, 8 of each kind.
-	 * 
+	 *
 	 * @return {array} the chip value options from the chip supply [1,6], [2,5] or [3,4]
 	 */
 	getRandomChipType(){
-		if(this.chipSupply[0] + this.chipSupply[1] + this.chipSupply[2] === 0){
+		var totalChips = this.chipSupply[0] + this.chipSupply[1] + this.chipSupply[2];
+		if(totalChips === 0){
 			return [];
 		}
-
-		var chip = Math.floor(Math.random() * Math.floor(3));
-
-		if(this.chipSupply[chip] != 0){
-			this.chipSupply[chip]--;
+		var typeOneSixChipChance = this.chipSupply[0]/totalChips;
+		var typeTwoFiveChance = this.chipSupply[1]/totalChips;
+		var typeThreeFourChance = this.chipSupply[2]/totalChips;
+		var chipType;
+		do {
+			var randomNumber = Math.random();
+		} while (randomNumber===0);
+		if (randomNumber <= typeOneSixChipChance) {
+			chipType = 0;
+		} else if (randomNumber <= typeOneSixChipChance + typeTwoFiveChance) {
+			chipType = 1;
 		} else {
-			chip = this.getRandomChipType();
+			chipType = 2;
 		}
-
-		return this._getRandomChipOptions(chip);
+		this.chipSupply[chipType]--;
+		return this._getRandomChipOptions(chipType);
 	}
 
 
