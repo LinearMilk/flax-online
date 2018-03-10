@@ -1,7 +1,7 @@
 class GameBoard {
   constructor(draw) {
     this.board = [];
-    this.rooms = roomsGame1;
+    this.rooms = [];
     this.draw = draw;
   }
 
@@ -41,7 +41,6 @@ class GameBoard {
 
   handleRandomClickedChip(x,y, player) {
     var value = Math.floor(Math.random() * Math.floor(6)+1);
-    
 
     var boardSquare = this.board.find(square => {
       if(square.xCoordinate === x && square.yCoordinate === y) return true;
@@ -61,15 +60,27 @@ class GameBoard {
     console.log(boardSquare);
   }
 
+  placeChip(x,y, player, chip){
+    var boardSquare = this.board.find(square => {
+      if(square.xCoordinate === x && square.yCoordinate === y) return true;
+    });
+
+    if(boardSquare.bottomChip === null){
+      if(boardSquare.activeChip != null) {
+        boardSquare.bottomChip = boardSquare.activeChip;
+        this.draw.bottomChip(boardSquare.bottomChip, 3);
+      }
+
+      //TODO get rid of this from here
+      var playedChip = player.playChip(x, y, chip.value);
+      this.draw.chip(playedChip);
+      boardSquare.activeChip = playedChip;
+    }
+  }
+
 
   getClickCoordinates(xClick,yClick) {
     var border = gameBoardFrameSize*2;
-    var xLimit = (border+(squareSize*gameBoardWidth)-2);
-    var yLimit = (border+(squareSize*gameBoardHeight)-2);
-
-    if(xClick <= border || yClick <= border || xClick >= xLimit || yClick >= yLimit){
-      return null;
-    }
 
     var x = Math.floor((xClick-border)/squareSize)+1;
     var y = Math.floor((yClick-border)/squareSize)+1;

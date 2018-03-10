@@ -13,6 +13,7 @@ class Chip {
 		this.value = value;
 		this.position = position;
 		this.validMoves = [];
+		this.isHighlighted = false;
 	}
 
 	/**

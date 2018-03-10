@@ -97,10 +97,44 @@ class Drawing {
     this.ctx.restore();
   }
 
+  /**
+   * Highlight the selected chip and deHighlight the other.
+   * @param  {Chip} selectChip - the selected Chip
+   * @param  {Chip} chip       - the not select Chip
+   */
+  chipsHighlights(selectChip, chip){
+    this._highlightChip(selectChip);
+    this.chip(selectChip);
+    this._deHighlightChip(chip);
+    this.chip(chip);
+  }
+
 
   /**
    * ********** Private Methods ************
    */
+  
+  _highlightChip(selectChip){
+    this.ctx.save();
+    this.ctx.translate(((selectChip.xPosition()-0.5)*squareSize), ((selectChip.yPosition()-0.5)*squareSize));
+    this.ctx.beginPath();
+    this.ctx.arc(0,0,this.chipRadius+3,0,2*Math.PI);
+    this.ctx.lineWidth = 5;
+    this.ctx.strokeStyle = 'yellow';
+    this.ctx.stroke();
+    this.ctx.restore();
+  }
+
+  _deHighlightChip(chip){
+    this.ctx.save();
+    this.ctx.translate(((chip.xPosition()-0.5)*squareSize), ((chip.yPosition()-0.5)*squareSize));
+    this.ctx.beginPath();
+    this.ctx.arc(0,0,this.chipRadius+3,0,2*Math.PI);
+    this.ctx.lineWidth = 6;
+    this.ctx.strokeStyle = 'gray';
+    this.ctx.stroke();
+    this.ctx.restore();
+  }
 
   /**
    * Draw the chip border
