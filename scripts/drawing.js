@@ -24,12 +24,45 @@ class Drawing {
   }
 
   /**
+   * redraw the board, room and placed chips
+   * @param  {Board} board   - the selected board in play
+   * @param  {array} squares - the array of squares objects with chips in play
+   */
+  reDrawWholeBoard(board, squares){
+    this.gameBoardFrame(board.getBoardWidth(),board.getBoardHeight(),squareSize);
+
+    // Draw all the squares from the board
+    for (var i=1; i<=board.getBoardWidth();i++) {
+      for (var j=1; j<=board.getBoardHeight();j++) {
+        this.gameSquare(i,j);
+      }
+    }
+
+    // Draw all the lightened squares for the rooms
+    board.getRooms().forEach(room => {
+      room.roomSquares.forEach(roomSquare => {
+        var x = roomSquare[0], y = roomSquare[1];
+        this.rooms(x,y);
+      });
+    });
+
+    // Draw all the chips played on that board
+    squares.forEach(square => {
+      if(square.bottomChip) this.bottomChip(square.bottomChip, 3);
+      if(square.activeChip) this.chip(square.activeChip);
+    });
+    
+  }
+
+  /**
    * Draw the gameboard Frame
    * @param  {int} width     [relative number of the column]
    * @param  {int} height    [relative number of the row]
    * @param  {int} fieldSize [the size of each square in pixels]
    */
   gameBoardFrame(width, height, fieldSize) {
+    this.ctx.restore();
+    this.ctx.save();
     this.ctx.lineWidth=this.gameBoardFrameSize;
     this.ctx.strokeRect(this.gameBoardFrameSize/2,this.gameBoardFrameSize/2,width*fieldSize+this.gameBoardFrameSize,height*fieldSize+this.gameBoardFrameSize);
     this.ctx.translate(this.gameBoardFrameSize,this.gameBoardFrameSize);
@@ -68,7 +101,6 @@ class Drawing {
 
   gameOver(xPosition,yPosition){
     this.clearRandomChips(xPosition,yPosition);
-    //this.ctx.translate(((1-0.5)*squareSize), ((11-0.5)*squareSize));
     this.ctx.fillStyle = 'red';
     this.ctx.font="20px Georgia";
     this.ctx.fillText("Game Over :(",10,450);
