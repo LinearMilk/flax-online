@@ -23,8 +23,11 @@ class Game {
 
 
 
-  startGame() {
-    this.gameBoard.createGameBoard();
+  startGame(numPlayers) {
+    var selectedBoard = game_boards.board1;
+    selectedBoard = new Board(selectedBoard.dimensions, selectedBoard.numPlayers, selectedBoard.rooms);
+
+    this.gameBoard.createGameBoard(selectedBoard);
   }
 
   /**

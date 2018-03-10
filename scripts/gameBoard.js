@@ -5,10 +5,10 @@ class GameBoard {
     this.draw = draw;
   }
 
-  createGameBoard() {
-    this.draw.gameBoardFrame(gameBoardWidth,gameBoardHeight,squareSize);
-    for (var i=1; i<=gameBoardWidth;i++) {
-      for (var j=1; j<=gameBoardHeight;j++) {
+  createGameBoard(selectedBoard) {
+    this.draw.gameBoardFrame(selectedBoard.getBoardWidth(),selectedBoard.getBoardHeight(),squareSize);
+    for (var i=1; i<=selectedBoard.getBoardWidth();i++) {
+      for (var j=1; j<=selectedBoard.getBoardHeight();j++) {
         this.draw.gameSquare(i,j);
         //TODO create method to add info to the board object
         this.board.push({
@@ -21,15 +21,17 @@ class GameBoard {
       }
     }
 
-    this.rooms.forEach(el => {
-      el.forEach(element => {
-        var x = element[0], y = element[1], roomNumber = element[2];
+    selectedBoard.getRooms().forEach(room => {
+      var roomNumber = room.roomNum;
+      room.roomSquares.forEach(roomSquare => {
+        var x = roomSquare[0], y = roomSquare[1];
         this.draw.rooms(x,y);
         (this.getBoard().find(square => {
           if(square.xCoordinate === x && square.yCoordinate === y) return true;
         })).roomNumber = roomNumber;
       });
     });
+
     console.log(this.board);
   }
 
