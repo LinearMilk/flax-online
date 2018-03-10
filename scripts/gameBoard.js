@@ -5,7 +5,7 @@ class GameBoard {
     this.draw = draw;
   }
 
-  createGameBoard(selectedBoard) {
+  createGameBoard(selectedBoard, player) {
     this.draw.gameBoardFrame(selectedBoard.getBoardWidth(),selectedBoard.getBoardHeight(),squareSize);
     for (var i=1; i<=selectedBoard.getBoardWidth();i++) {
       for (var j=1; j<=selectedBoard.getBoardHeight();j++) {
@@ -16,7 +16,8 @@ class GameBoard {
           yCoordinate: j,
           roomNumber: 0,
           activeChip: null,
-          bottomChip: null
+          bottomChip: null,
+          startingTile: ""
         });
       }
     }
@@ -32,7 +33,20 @@ class GameBoard {
       });
     });
 
+    this.createStartingTiles(selectedBoard, player);
+
     console.log(this.board);
+  }
+
+  createStartingTiles(selectedBoard, player){
+    (this.getBoard().find(square => {
+      var squareCoordinates = [square.xCoordinate, square.yCoordinate].toString();
+      var startingPosCoodinates = selectedBoard.getStartingPositions()[0].toString();
+
+      if(squareCoordinates == startingPosCoodinates) return true;
+    })).startingTile = player;
+
+    // TODO draw the starting tile
   }
 
   getBoard(){

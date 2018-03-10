@@ -1,8 +1,9 @@
 class Board {
-	constructor(dimensions, numPlayers, rooms){
+	constructor(dimensions, numPlayers, rooms, startingPositions){
 		this.boardDimensions = dimensions;
 		this.numPlayers = numPlayers;
 		this.rooms = rooms;
+		this.startingPositions = startingPositions;
 	}
 
 	getBoardWidth(){
@@ -19,5 +20,9 @@ class Board {
 
 	getRooms(){
 		return this.rooms;
+	}
+
+	getStartingPositions(){
+		return this.startingPositions;
 	}
 }
