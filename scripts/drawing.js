@@ -3,7 +3,7 @@
  */
 class Drawing {
   constructor(canvasId) {
-    this.canvas = document.getElementById(canvasId);
+    this.canvas = document.getElementById("game-canvas");
     this.ctx = this.canvas.getContext("2d");
     this.squareSize = squareSize;
     this.squareBorderSize = squareBorderSize;
@@ -30,7 +30,6 @@ class Drawing {
    * @param  {int} fieldSize [the size of each square in pixels]
    */
   gameBoardFrame(width, height, fieldSize) {
-    console.log(width, height, fieldSize);
     this.ctx.lineWidth=this.gameBoardFrameSize;
     this.ctx.strokeRect(this.gameBoardFrameSize/2,this.gameBoardFrameSize/2,width*fieldSize+this.gameBoardFrameSize,height*fieldSize+this.gameBoardFrameSize);
     this.ctx.translate(this.gameBoardFrameSize,this.gameBoardFrameSize);

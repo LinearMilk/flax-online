@@ -1,5 +1,3 @@
-const canvasId = "game-canvas";
-
 const gameBoardWidth = 13; // x
 const gameBoardHeight = 9; // y
 const squareSize = 46;
