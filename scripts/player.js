@@ -55,24 +55,25 @@ class Player {
 	 */
 	getRandomChipType(){
 		var totalChips = this.chipSupply[0] + this.chipSupply[1] + this.chipSupply[2];
-		if( totalChips === 0){
+		if(totalChips === 0){
 			return [];
 		}
-		var typeOneSixChipChance = (this.chipSupply[0] != 0) ? this.chipSupply[0]/totalChips : 0;
-		var typeTwoFiveChance = (this.chipSupply[1] != 0) ? this.chipSupply[1]/totalChips : 0;
-		var typeThreeFourChance = (this.chipSupply[2] != 0) ? this.chipSupply[2]/totalChips : 0;
+		var typeOneSixChipChance = this.chipSupply[0]/totalChips;
+		var typeTwoFiveChance = this.chipSupply[1]/totalChips;
+		var typeThreeFourChance = this.chipSupply[2]/totalChips;
+		var chipType;
 		do {
 			var randomNumber = Math.random();
 		} while (randomNumber===0);
 		if (randomNumber <= typeOneSixChipChance) {
-			var chip = 0;
+			chipType = 0;
 		} else if (randomNumber <= typeOneSixChipChance + typeTwoFiveChance) {
-			var chip = 1;
+			chipType = 1;
 		} else {
-			var chip = 2;
+			chipType = 2;
 		}
-		this.chipSupply[chip]--;
-		return this._getRandomChipOptions(chip);
+		this.chipSupply[chipType]--;
+		return this._getRandomChipOptions(chipType);
 	}
 
 
