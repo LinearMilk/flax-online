@@ -1,7 +1,7 @@
 class Game {
   constructor(){
     this.draw = new Drawing();
-    this.player = new Player(startingColour, startingPosition);
+    this.player = new Player(playerColours[3], [1,9]);
     this.gameBoard = new GameBoard(this.draw);
 
     /**
