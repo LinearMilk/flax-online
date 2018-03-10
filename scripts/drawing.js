@@ -56,9 +56,9 @@ class Drawing {
 
   /**
    * Draw the gameboard Frame
-   * @param  {int} width     [relative number of the column]
-   * @param  {int} height    [relative number of the row]
-   * @param  {int} fieldSize [the size of each square in pixels]
+   * @param  {number} width     - relative number of the column
+   * @param  {number} height    - relative number of the row
+   * @param  {number} fieldSize - the size of each square in pixels
    */
   gameBoardFrame(width, height, fieldSize) {
     this.ctx.restore();
@@ -70,8 +70,8 @@ class Drawing {
 
   /**
    * Draw the individual game square
-   * @param  {int} xPosition [relative x position]
-   * @param  {int} yPosition [relative y position]
+   * @param  {number} xPosition - relative x position
+   * @param  {number} yPosition - relative y position
    *
    * Ex: gameSquare(1,1) will draw the first square, gameSquare(1,5) will draw the 5th square in the first row (x)
    */
@@ -82,15 +82,10 @@ class Drawing {
     this.ctx.fillRect((xPosition-1)*this.squareSize+this.squareBorderSize,(yPosition-1)*this.squareSize+this.squareBorderSize,this.squareSize-2*this.squareBorderSize,this.squareSize-2*this.squareBorderSize);
   }
 
-  clearRandomChips(xPosition,yPosition){
-    this.ctx.fillStyle = 'gray';
-    this.ctx.fillRect((xPosition-1)*this.squareSize,(yPosition-1)*this.squareSize,100,100);
-  }
-
   /**
    * Draw the individual square representing a room, in a different colour
-   * @param  {int} xPosition [relative x position]
-   * @param  {int} yPosition [relative y position]
+   * @param  {number} xPosition - relative x position
+   * @param  {number} yPosition - relative y positions
    */
   rooms(xPosition,yPosition) {
     this.ctx.fillStyle = this.squareRoomBorderColour;
@@ -99,11 +94,26 @@ class Drawing {
     this.ctx.fillRect((xPosition-1)*squareSize+squareBorderSize,(yPosition-1)*squareSize+squareBorderSize,squareSize-2*squareBorderSize,squareSize-2*squareBorderSize);
   }
 
+  /**
+   * Draw Game Over Text
+   * @param  {number} xPosition - relative x position
+   * @param  {number} yPosition - relative y position
+   */
   gameOver(xPosition,yPosition){
     this.clearRandomChips(xPosition,yPosition);
     this.ctx.fillStyle = 'red';
     this.ctx.font="20px Georgia";
     this.ctx.fillText("Game Over :(",10,450);
+  }
+
+  /**
+   * Draw over random chips, clearing the canvas for the next chips
+   * @param  {number} xPosition - relative x position
+   * @param  {number} yPosition - relative y position
+   */
+  clearRandomChips(xPosition,yPosition){
+    this.ctx.fillStyle = 'gray';
+    this.ctx.fillRect((xPosition-1)*this.squareSize,(yPosition-1)*this.squareSize,100,100);
   }
 
   /**
@@ -124,8 +134,8 @@ class Drawing {
 
   /**
    * Draw the bottom chip, when a chip is place on top of it
-   * @param  {Chip} chip [chip object with positions, colour and value]
-   * @param  {int} offset       [offset from the center, where the chip will be draw]
+   * @param  {Chip} chip       - chip object with positions, colour and value
+   * @param  {number} offset   - offset from the center, where the chip will be draw
    */
   bottomChip(chip, offset) {
     this.ctx.save();
@@ -188,9 +198,9 @@ class Drawing {
 
   /**
    * Draw the chip value
-   * @param  {int} x     [relative x position]
-   * @param  {int} y     [relative y position]
-   * @param  {int} value [chip value]
+   * @param  {number} x     - relative x position
+   * @param  {number} y     - relative y position
+   * @param  {number} value - chip value
    */
   _drawChipValue(x, y, value){
     switch(value) {
@@ -234,10 +244,10 @@ class Drawing {
 
   /**
    * Draw each pip individualy, given it's position
-   * @param  {int} x       [relative x position]
-   * @param  {int} y       [relative y position]
-   * @param  {int} offsetX [offset x for the given pip]
-   * @param  {int} offsetY [offset y for the given pip]
+   * @param  {number} x       - relative x position
+   * @param  {number} y       - relative y position
+   * @param  {number} offsetX - offset x for the given pip
+   * @param  {number} offsetY - offset y for the given pip
    */
   _drawValueOffset(x, y, offsetX, offsetY) {
     this.ctx.save();

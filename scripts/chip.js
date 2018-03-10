@@ -18,7 +18,7 @@ class Chip {
 
 	/**
 	 * Get chip's x position in the board (the column number where it's located)
-	 * @return {int} column position of Chip
+	 * @return {number} column position of Chip
 	 * 
 	 * Ex: 5 represents chip on the 5th column on the board
 	 */
@@ -28,7 +28,7 @@ class Chip {
 
 	/**
 	 * Get chip's y position in the board (the row number where it's located)
-	 * @return {int} row position of Chip
+	 * @return {number} row position of Chip
 	 *
 	 * Ex: 5 represents chip on the 5th row on the board
 	 */
