@@ -6,6 +6,10 @@ class Game {
     this.currentRandomChips = [];
     this.selectedChip = null;
     this.endGame = false;
+    this.selectedBoard = null;
+
+    var selectedBoardInfo = game_boards.board1;
+    this.selectedBoard = new Board(selectedBoardInfo.dimensions, selectedBoardInfo.numPlayers, selectedBoardInfo.rooms);
 
     /**
      * Add event listener to the squares in the board
@@ -52,11 +56,12 @@ class Game {
     } , false);
   }
 
-  startGame(numPlayers) {
-    var selectedBoard = game_boards.board1;
-    selectedBoard = new Board(selectedBoard.dimensions, selectedBoard.numPlayers, selectedBoard.rooms);
+  reDraw(){
+    this.draw.reDrawWholeBoard(this.selectedBoard, this.gameBoard.getBoard());
+  }
 
-    this.gameBoard.createGameBoard(selectedBoard);
+  startGame(numPlayers) {
+    this.gameBoard.createGameBoard(this.selectedBoard);
   }
 
   /**
