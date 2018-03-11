@@ -19,7 +19,3 @@ function startGame(){
 function getChip(){
 	game.getChip();
 }
-
-function reDraw(){
-	game.reDraw();
-}
