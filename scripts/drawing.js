@@ -19,6 +19,10 @@ class Drawing {
     this.chipValueOffset =7;
   }
 
+  /**
+   * Get the canvas reference
+   * @return {element} the canvas element
+   */
   getCanvas(){
     return this.canvas;
   }
