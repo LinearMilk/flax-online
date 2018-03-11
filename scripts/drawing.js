@@ -33,7 +33,10 @@ class Drawing {
     this.ctx.restore();
     this.ctx.save();
     this.ctx.lineWidth=this.gameBoardFrameSize;
-    this.ctx.strokeRect(this.gameBoardFrameSize/2,this.gameBoardFrameSize/2,width*fieldSize+this.gameBoardFrameSize,height*fieldSize+this.gameBoardFrameSize);
+    this.ctx.strokeRect(this.gameBoardFrameSize/2,
+                        this.gameBoardFrameSize/2,
+                        width*fieldSize+this.gameBoardFrameSize,
+                        height*fieldSize+this.gameBoardFrameSize);
     this.ctx.translate(this.gameBoardFrameSize,this.gameBoardFrameSize);
   }
 
@@ -46,9 +49,15 @@ class Drawing {
    */
   gameSquare(xPosition,yPosition) {
     this.ctx.fillStyle = this.squareBorderColour;
-    this.ctx.fillRect((xPosition-1)*this.squareSize,(yPosition-1)*this.squareSize,this.squareSize,this.squareSize);
+    this.ctx.fillRect((xPosition-1)*this.squareSize,
+                      (yPosition-1)*this.squareSize,
+                      this.squareSize,
+                      this.squareSize);
     this.ctx.fillStyle = this.squareColour;
-    this.ctx.fillRect((xPosition-1)*this.squareSize+this.squareBorderSize,(yPosition-1)*this.squareSize+this.squareBorderSize,this.squareSize-2*this.squareBorderSize,this.squareSize-2*this.squareBorderSize);
+    this.ctx.fillRect((xPosition-1)*this.squareSize+this.squareBorderSize,
+                      (yPosition-1)*this.squareSize+this.squareBorderSize,
+                      this.squareSize-2*this.squareBorderSize,
+                      this.squareSize-2*this.squareBorderSize);
   }
 
   /**
@@ -58,9 +67,15 @@ class Drawing {
    */
   rooms(xPosition,yPosition) {
     this.ctx.fillStyle = this.squareRoomBorderColour;
-    this.ctx.fillRect((xPosition-1)*squareSize,(yPosition-1)*squareSize,squareSize,squareSize);
+    this.ctx.fillRect((xPosition-1)*squareSize,
+                      (yPosition-1)*squareSize,
+                      squareSize,
+                      squareSize);
     this.ctx.fillStyle = this.squareRoomColour;
-    this.ctx.fillRect((xPosition-1)*squareSize+squareBorderSize,(yPosition-1)*squareSize+squareBorderSize,squareSize-2*squareBorderSize,squareSize-2*squareBorderSize);
+    this.ctx.fillRect((xPosition-1)*squareSize+squareBorderSize,
+                      (yPosition-1)*squareSize+squareBorderSize,
+                      squareSize-2*squareBorderSize,
+                      squareSize-2*squareBorderSize);
   }
 
   /**
