@@ -22,6 +22,10 @@ class Player {
 		return this.colour;
 	}
 
+	getStartingPosition(){
+		return this.startingPosition;
+	}
+
 	/**
 	 * Play the Chip on the given coordenates.
 	 * Generates the chip object and draws it on the board.

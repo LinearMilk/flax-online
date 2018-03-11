@@ -57,11 +57,11 @@ class Game {
   }
 
   reDraw(){
-    this.draw.reDrawWholeBoard(this.selectedBoard, this.gameBoard.getBoard());
+    this.gameBoard.reDrawWholeBoard(this.selectedBoard, [this.player]);
   }
 
   startGame(numPlayers) {
-    this.gameBoard.createGameBoard(this.selectedBoard, this.player);
+    this.gameBoard.createGameBoard(this.selectedBoard, [this.player]);
   }
 
   /**

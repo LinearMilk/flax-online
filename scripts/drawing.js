@@ -24,37 +24,6 @@ class Drawing {
   }
 
   /**
-   * redraw the board, room and placed chips
-   * @param  {Board} board   - the selected board in play
-   * @param  {array} squares - the array of squares objects with chips in play
-   */
-  reDrawWholeBoard(board, squares){
-    this.gameBoardFrame(board.getBoardWidth(),board.getBoardHeight(),squareSize);
-
-    // Draw all the squares from the board
-    for (var i=1; i<=board.getBoardWidth();i++) {
-      for (var j=1; j<=board.getBoardHeight();j++) {
-        this.gameSquare(i,j);
-      }
-    }
-
-    // Draw all the lightened squares for the rooms
-    board.getRooms().forEach(room => {
-      room.roomSquares.forEach(roomSquare => {
-        var x = roomSquare[0], y = roomSquare[1];
-        this.rooms(x,y);
-      });
-    });
-
-    // Draw all the chips played on that board
-    squares.forEach(square => {
-      if(square.bottomChip) this.bottomChip(square.bottomChip, 3);
-      if(square.activeChip) this.chip(square.activeChip);
-    });
-    
-  }
-
-  /**
    * Draw the gameboard Frame
    * @param  {number} width     - relative number of the column
    * @param  {number} height    - relative number of the row
@@ -106,6 +75,11 @@ class Drawing {
     this.ctx.fillText("Game Over :(",10,450);
   }
 
+  /**
+   * Draw the player's starting tile, given it's position.
+   * @param  {array} positions  - x and y position for the starting tile
+   * @param  {string} colour    - the colour code of the player
+   */
   startingTile(positions, colour){
     this.ctx.fillStyle = this.chipBorderColour;
     this.ctx.fillRect((positions[0]-1)*this.squareSize+2,
