@@ -46,7 +46,7 @@ class GameBoard {
       if(squareCoordinates == startingPosCoodinates) return true;
     })).startingTile = player;
 
-    // TODO draw the starting tile
+    this.draw.startingTile(selectedBoard.getStartingPositions()[0], player.getColour());
   }
 
   getBoard(){

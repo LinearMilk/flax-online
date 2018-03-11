@@ -106,6 +106,19 @@ class Drawing {
     this.ctx.fillText("Game Over :(",10,450);
   }
 
+  startingTile(positions, colour){
+    this.ctx.fillStyle = this.chipBorderColour;
+    this.ctx.fillRect((positions[0]-1)*this.squareSize+2,
+                      (positions[1]-1)*this.squareSize+2,
+                      this.squareSize-4,
+                      this.squareSize-4);
+    this.ctx.fillStyle = colour;
+    this.ctx.fillRect((positions[0]-1)*this.squareSize+this.squareBorderSize+2,
+                      (positions[1]-1)*this.squareSize+this.squareBorderSize+2,
+                      this.squareSize-2*this.squareBorderSize-4,
+                      this.squareSize-2*this.squareBorderSize-4);
+  }
+
   /**
    * Draw over random chips, clearing the canvas for the next chips
    * @param  {number} xPosition - relative x position
