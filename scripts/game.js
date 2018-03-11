@@ -57,7 +57,7 @@ class Game {
   }
 
   reDraw(){
-    this.gameBoard.reDrawWholeBoard(this.selectedBoard, [this.player]);
+    this.gameBoard.createGameBoard(this.selectedBoard, [this.player], true);
   }
 
   startGame(numPlayers) {

@@ -5,59 +5,43 @@ class GameBoard {
     this.draw = draw;
   }
 
-  createGameBoard(selectedBoard, players) {
-    this.draw.gameBoardFrame(selectedBoard.getBoardWidth(),selectedBoard.getBoardHeight(),squareSize);
-    for (var i=1; i<=selectedBoard.getBoardWidth();i++) {
-      for (var j=1; j<=selectedBoard.getBoardHeight();j++) {
-        this.draw.gameSquare(i,j);
-        //TODO create method to add info to the board object
-        this.squares.push({
-          xCoordinate: i,
-          yCoordinate: j,
-          roomNumber: 0,
-          activeChip: null,
-          bottomChip: null,
-          startingTile: ""
-        });
-      }
-    }
-
-    selectedBoard.getRooms().forEach(room => {
-      var roomNumber = room.roomNum;
-      room.roomSquares.forEach(roomSquare => {
-        var x = roomSquare[0], y = roomSquare[1];
-        this.draw.rooms(x,y);
-        (this.getBoard().find(square => {
-          if(square.xCoordinate === x && square.yCoordinate === y) return true;
-        })).roomNumber = roomNumber;
-      });
-    });
-
-    this.createStartingTiles(players);
-
-    console.log(this.squares);
-  }
-
   /**
-   * redraw the board, room and placed chips
-   * @param  {Board} selectedBoard   - the selected board in play
-   * @param  {array} players         - the array of players in play
+   * Create and draw the game board, room and placed chips (if it is redrawing)
+   * @param  {Board}  selectedBoard   - the selected board in play
+   * @param  {array}  players         - the array of players in play
+   * @param {boolean} redraw          - flag if it is creating the board board for the first time (false) or redrawing (true)
    */
-  reDrawWholeBoard(selectedBoard, players){
+  createGameBoard(selectedBoard, players, redraw = false) {
     this.draw.gameBoardFrame(selectedBoard.getBoardWidth(),selectedBoard.getBoardHeight(),squareSize);
 
     // Draw all the squares from the board
     for (var i=1; i<=selectedBoard.getBoardWidth();i++) {
       for (var j=1; j<=selectedBoard.getBoardHeight();j++) {
         this.draw.gameSquare(i,j);
+        if(!redraw){
+          this.squares.push({
+            xCoordinate: i,
+            yCoordinate: j,
+            roomNumber: 0,
+            activeChip: null,
+            bottomChip: null,
+            startingTile: ""
+          });
+        }
       }
     }
 
     // Draw all the lightened squares for the rooms
     selectedBoard.getRooms().forEach(room => {
+      var roomNumber = room.roomNum;
       room.roomSquares.forEach(roomSquare => {
         var x = roomSquare[0], y = roomSquare[1];
         this.draw.rooms(x,y);
+        if(!redraw){
+          (this.getBoard().find(square => {
+            if(square.xCoordinate === x && square.yCoordinate === y) return true;
+          })).roomNumber = roomNumber;
+        }
       });
     });
 
@@ -65,10 +49,12 @@ class GameBoard {
     this.createStartingTiles(players);
 
     // Draw all the chips played on that board
-    this.squares.forEach(square => {
-      if(square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
-      if(square.activeChip) this.draw.chip(square.activeChip);
+    if(redraw){
+      this.squares.forEach(square => {
+        if(square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
+        if(square.activeChip) this.draw.chip(square.activeChip);
     });
+    }
   }
 
   /**
