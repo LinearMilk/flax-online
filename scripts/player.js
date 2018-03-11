@@ -22,6 +22,10 @@ class Player {
 		return this.colour;
 	}
 
+	/**
+	 * Get the player's starting position on the board
+	 * @return {array} the players [x, y] stating position
+	 */
 	getStartingPosition(){
 		return this.startingPosition;
 	}
@@ -41,7 +45,7 @@ class Player {
 
 	/**
 	 * Get last Chip played
-	 * @return {Chip} lst chip object played for this player
+	 * @return {Chip} last chip object played for this player
 	 */
 	getLastChip(){
 		return this.chipsOnBoard[this.chipsOnBoard.length - 1];
@@ -76,9 +80,13 @@ class Player {
 		return this._getRandomChipOptions(chipType);
 	}
 
-
-	_getRandomChipOptions(chip){
-		switch(chip){
+	/**
+	 * Get the chip type based on the option selected.
+	 * @param  {number} chipType - the option between 0, 1 and 2 of the chip type
+	 * @return {array}             the chip value options from the chip supply [1,6], [2,5] or [3,4] 
+	 */
+	_getRandomChipOptions(chipType){
+		switch(chipType){
 			case 0:
 				return [1,6];
 				break;
