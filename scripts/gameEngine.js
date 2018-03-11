@@ -1,3 +1,7 @@
+/**
+ * Game Engine
+ * Responsible for all the logic regarding the game.
+ */
 class GameEngine {
   constructor() {
     this.selectedBoard = null;
@@ -13,12 +17,15 @@ class GameEngine {
     this.endGame = false;
 
     var selectedBoardInfo = game_boards.board1;
-    this.selectedBoard = new Board(selectedBoardInfo.dimensions, 
+    this.selectedBoard = new Board( selectedBoardInfo.dimensions, 
                                     selectedBoardInfo.numPlayers, 
                                     selectedBoardInfo.rooms, 
                                     selectedBoardInfo.startingPositions);
   }
 
+  /**
+   * Add event listener to the canvas
+   */
   addEventListener(){
     this.draw.getCanvas().addEventListener('click',e => {
       xClick = e.clientX;
@@ -63,10 +70,12 @@ class GameEngine {
   }
 
   /**
-   * Create and draw the game board, room and placed chips (if it is redrawing)
-   * @param  {Board}  selectedBoard   - the selected board in play
-   * @param  {array}  players         - the array of players in play
-   * @param  {boolean} redraw         - flag if it is creating the board for the first time (false) or redrawing (true)
+   * Create and draw the game board.
+   * Draws the Board frame, squares and the lightened squares representing the rooms.
+   * Will draw the placed chips if it is redrawing.
+   * Redrawing will clear out the valid moves highlights when it's a player's turn.
+   * 
+   * @param  {boolean} redraw   - flag if it is creating the board for the first time (false) or redrawing (true)
    */
   createGameBoard(redraw = false) {
     this.draw.gameBoardFrame(this.selectedBoard.getBoardWidth(),this.selectedBoard.getBoardHeight(),squareSize);
@@ -95,7 +104,7 @@ class GameEngine {
         var x = roomSquare[0], y = roomSquare[1];
         this.draw.rooms(x,y);
         if(!redraw){
-          (this.getBoard().find(square => {
+          (this.squares.find(square => {
             if(square.xCoordinate === x && square.yCoordinate === y) return true;
           })).roomNumber = roomNumber;
         }
@@ -120,7 +129,7 @@ class GameEngine {
    */
   createStartingTiles(players){
     players.forEach(player => {
-      (this.getBoard().find(square => {
+      (this.squares.find(square => {
         var squareCoordinates = [square.xCoordinate, square.yCoordinate].toString();
         var startingPosCoodinates = this.player.getStartingPosition().toString();
 
@@ -153,10 +162,13 @@ class GameEngine {
     }
   }
 
-  getBoard(){
-    return this.squares;
-  }
-
+  /**
+   * Add a new chip to the board object and draw it on the canvas.
+   * @param  {number} x      - the column for the chip's placement
+   * @param  {number} y      - the row for the chip's placement
+   * @param  {Player} player - the player that is making the move
+   * @param  {Chip} chip     - the chip being played
+   */
   placeChip(x,y, player, chip){
     var boardSquare = this.squares.find(square => {
       if(square.xCoordinate === x && square.yCoordinate === y) return true;
@@ -175,7 +187,12 @@ class GameEngine {
     }
   }
 
-
+  /**
+   * Translater the click coordinates into column and row clicked on the board.
+   * @param  {number} xClick - the x click coordinates in pixels
+   * @param  {number} yClick - the y click coordinates in pixels
+   * @return {array}         - the square clicked [column, row]
+   */
   getClickCoordinates(xClick,yClick) {
     var border = gameBoardFrameSize*2;
 
