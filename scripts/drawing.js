@@ -156,9 +156,9 @@ class Drawing {
    * @param  {Chip} chip       - the not select Chip
    */
   chipsHighlights(selectChip, chip){
-    this._highlightChip(selectChip);
+    this._highlightChip(selectChip.xPosition(), selectChip.yPosition());
     this.chip(selectChip);
-    this._deHighlightChip(chip);
+    this._deHighlightChip(chip.xPosition(), chip.yPosition());
     this.chip(chip);
   }
 
@@ -167,9 +167,14 @@ class Drawing {
    * ********** Private Methods ************
    */
   
-  _highlightChip(selectChip){
+  /**
+   * Draw highlight aroud the chip
+   * @param  {number} xPosition - relative x position for the highlight
+   * @param  {number} yPosition - relative y position for the highlight
+   */
+  _highlightChip(xPosition, yPosition){
     this.ctx.save();
-    this.ctx.translate(((selectChip.xPosition()-0.5)*squareSize), ((selectChip.yPosition()-0.5)*squareSize));
+    this.ctx.translate(((xPosition-0.5)*squareSize), ((yPosition-0.5)*squareSize));
     this.ctx.beginPath();
     this.ctx.arc(0,0,this.chipRadius+3,0,2*Math.PI);
     this.ctx.lineWidth = 5;
@@ -178,9 +183,14 @@ class Drawing {
     this.ctx.restore();
   }
 
-  _deHighlightChip(chip){
+  /**
+   * Remove the highlight aroud the chip
+   * @param  {number} xPosition - relative x position
+   * @param  {number} yPosition - relative y position
+   */
+  _deHighlightChip(xPosition, yPosition){
     this.ctx.save();
-    this.ctx.translate(((chip.xPosition()-0.5)*squareSize), ((chip.yPosition()-0.5)*squareSize));
+    this.ctx.translate(((xPosition-0.5)*squareSize), ((yPosition-0.5)*squareSize));
     this.ctx.beginPath();
     this.ctx.arc(0,0,this.chipRadius+3,0,2*Math.PI);
     this.ctx.lineWidth = 6;
