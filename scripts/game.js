@@ -8,10 +8,6 @@ class Game {
     this.gameEngine.addEventListener();
   }
 
-  reDraw(){
-    this.gameEngine.createGameBoard(true);
-  }
-
   /**
    * Start a new game with the selected board.
    * @param  {number} numPlayers - the selected number of players for the game
