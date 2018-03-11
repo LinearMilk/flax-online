@@ -9,7 +9,7 @@ class Game {
     this.selectedBoard = null;
 
     var selectedBoardInfo = game_boards.board1;
-    this.selectedBoard = new Board(selectedBoardInfo.dimensions, selectedBoardInfo.numPlayers, selectedBoardInfo.rooms);
+    this.selectedBoard = new Board(selectedBoardInfo.dimensions, selectedBoardInfo.numPlayers, selectedBoardInfo.rooms, selectedBoardInfo.startingPositions);
 
     /**
      * Add event listener to the squares in the board
@@ -57,11 +57,11 @@ class Game {
   }
 
   reDraw(){
-    this.draw.reDrawWholeBoard(this.selectedBoard, this.gameBoard.getBoard());
+    this.gameBoard.createGameBoard(this.selectedBoard, [this.player], true);
   }
 
   startGame(numPlayers) {
-    this.gameBoard.createGameBoard(this.selectedBoard);
+    this.gameBoard.createGameBoard(this.selectedBoard, [this.player]);
   }
 
   /**

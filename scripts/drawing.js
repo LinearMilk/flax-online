@@ -24,86 +24,98 @@ class Drawing {
   }
 
   /**
-   * redraw the board, room and placed chips
-   * @param  {Board} board   - the selected board in play
-   * @param  {array} squares - the array of squares objects with chips in play
-   */
-  reDrawWholeBoard(board, squares){
-    this.gameBoardFrame(board.getBoardWidth(),board.getBoardHeight(),squareSize);
-
-    // Draw all the squares from the board
-    for (var i=1; i<=board.getBoardWidth();i++) {
-      for (var j=1; j<=board.getBoardHeight();j++) {
-        this.gameSquare(i,j);
-      }
-    }
-
-    // Draw all the lightened squares for the rooms
-    board.getRooms().forEach(room => {
-      room.roomSquares.forEach(roomSquare => {
-        var x = roomSquare[0], y = roomSquare[1];
-        this.rooms(x,y);
-      });
-    });
-
-    // Draw all the chips played on that board
-    squares.forEach(square => {
-      if(square.bottomChip) this.bottomChip(square.bottomChip, 3);
-      if(square.activeChip) this.chip(square.activeChip);
-    });
-    
-  }
-
-  /**
    * Draw the gameboard Frame
-   * @param  {int} width     [relative number of the column]
-   * @param  {int} height    [relative number of the row]
-   * @param  {int} fieldSize [the size of each square in pixels]
+   * @param  {number} width     - relative number of the column
+   * @param  {number} height    - relative number of the row
+   * @param  {number} fieldSize - the size of each square in pixels
    */
   gameBoardFrame(width, height, fieldSize) {
     this.ctx.restore();
     this.ctx.save();
     this.ctx.lineWidth=this.gameBoardFrameSize;
-    this.ctx.strokeRect(this.gameBoardFrameSize/2,this.gameBoardFrameSize/2,width*fieldSize+this.gameBoardFrameSize,height*fieldSize+this.gameBoardFrameSize);
+    this.ctx.strokeRect(this.gameBoardFrameSize/2,
+                        this.gameBoardFrameSize/2,
+                        width*fieldSize+this.gameBoardFrameSize,
+                        height*fieldSize+this.gameBoardFrameSize);
     this.ctx.translate(this.gameBoardFrameSize,this.gameBoardFrameSize);
   }
 
   /**
    * Draw the individual game square
-   * @param  {int} xPosition [relative x position]
-   * @param  {int} yPosition [relative y position]
+   * @param  {number} xPosition - relative x position
+   * @param  {number} yPosition - relative y position
    *
    * Ex: gameSquare(1,1) will draw the first square, gameSquare(1,5) will draw the 5th square in the first row (x)
    */
   gameSquare(xPosition,yPosition) {
     this.ctx.fillStyle = this.squareBorderColour;
-    this.ctx.fillRect((xPosition-1)*this.squareSize,(yPosition-1)*this.squareSize,this.squareSize,this.squareSize);
+    this.ctx.fillRect((xPosition-1)*this.squareSize,
+                      (yPosition-1)*this.squareSize,
+                      this.squareSize,
+                      this.squareSize);
     this.ctx.fillStyle = this.squareColour;
-    this.ctx.fillRect((xPosition-1)*this.squareSize+this.squareBorderSize,(yPosition-1)*this.squareSize+this.squareBorderSize,this.squareSize-2*this.squareBorderSize,this.squareSize-2*this.squareBorderSize);
-  }
-
-  clearRandomChips(xPosition,yPosition){
-    this.ctx.fillStyle = 'gray';
-    this.ctx.fillRect((xPosition-1)*this.squareSize,(yPosition-1)*this.squareSize,100,100);
+    this.ctx.fillRect((xPosition-1)*this.squareSize+this.squareBorderSize,
+                      (yPosition-1)*this.squareSize+this.squareBorderSize,
+                      this.squareSize-2*this.squareBorderSize,
+                      this.squareSize-2*this.squareBorderSize);
   }
 
   /**
    * Draw the individual square representing a room, in a different colour
-   * @param  {int} xPosition [relative x position]
-   * @param  {int} yPosition [relative y position]
+   * @param  {number} xPosition - relative x position
+   * @param  {number} yPosition - relative y positions
    */
   rooms(xPosition,yPosition) {
     this.ctx.fillStyle = this.squareRoomBorderColour;
-    this.ctx.fillRect((xPosition-1)*squareSize,(yPosition-1)*squareSize,squareSize,squareSize);
+    this.ctx.fillRect((xPosition-1)*squareSize,
+                      (yPosition-1)*squareSize,
+                      squareSize,
+                      squareSize);
     this.ctx.fillStyle = this.squareRoomColour;
-    this.ctx.fillRect((xPosition-1)*squareSize+squareBorderSize,(yPosition-1)*squareSize+squareBorderSize,squareSize-2*squareBorderSize,squareSize-2*squareBorderSize);
+    this.ctx.fillRect((xPosition-1)*squareSize+squareBorderSize,
+                      (yPosition-1)*squareSize+squareBorderSize,
+                      squareSize-2*squareBorderSize,
+                      squareSize-2*squareBorderSize);
   }
 
+  /**
+   * Draw Game Over Text
+   * @param  {number} xPosition - relative x position
+   * @param  {number} yPosition - relative y position
+   */
   gameOver(xPosition,yPosition){
     this.clearRandomChips(xPosition,yPosition);
     this.ctx.fillStyle = 'red';
     this.ctx.font="20px Georgia";
     this.ctx.fillText("Game Over :(",10,450);
+  }
+
+  /**
+   * Draw the player's starting tile, given it's position.
+   * @param  {array} positions  - x and y position for the starting tile
+   * @param  {string} colour    - the colour code of the player
+   */
+  startingTile(positions, colour){
+    this.ctx.fillStyle = this.chipBorderColour;
+    this.ctx.fillRect((positions[0]-1)*this.squareSize+2,
+                      (positions[1]-1)*this.squareSize+2,
+                      this.squareSize-4,
+                      this.squareSize-4);
+    this.ctx.fillStyle = colour;
+    this.ctx.fillRect((positions[0]-1)*this.squareSize+this.squareBorderSize+2,
+                      (positions[1]-1)*this.squareSize+this.squareBorderSize+2,
+                      this.squareSize-2*this.squareBorderSize-4,
+                      this.squareSize-2*this.squareBorderSize-4);
+  }
+
+  /**
+   * Draw over random chips, clearing the canvas for the next chips
+   * @param  {number} xPosition - relative x position
+   * @param  {number} yPosition - relative y position
+   */
+  clearRandomChips(xPosition,yPosition){
+    this.ctx.fillStyle = 'gray';
+    this.ctx.fillRect((xPosition-1)*this.squareSize,(yPosition-1)*this.squareSize,100,100);
   }
 
   /**
@@ -124,8 +136,8 @@ class Drawing {
 
   /**
    * Draw the bottom chip, when a chip is place on top of it
-   * @param  {Chip} chip [chip object with positions, colour and value]
-   * @param  {int} offset       [offset from the center, where the chip will be draw]
+   * @param  {Chip} chip       - chip object with positions, colour and value
+   * @param  {number} offset   - offset from the center, where the chip will be draw
    */
   bottomChip(chip, offset) {
     this.ctx.save();
@@ -144,9 +156,9 @@ class Drawing {
    * @param  {Chip} chip       - the not select Chip
    */
   chipsHighlights(selectChip, chip){
-    this._highlightChip(selectChip);
+    this._highlightChip(selectChip.xPosition(), selectChip.yPosition());
     this.chip(selectChip);
-    this._deHighlightChip(chip);
+    this._deHighlightChip(chip.xPosition(), chip.yPosition());
     this.chip(chip);
   }
 
@@ -155,9 +167,14 @@ class Drawing {
    * ********** Private Methods ************
    */
   
-  _highlightChip(selectChip){
+  /**
+   * Draw highlight aroud the chip
+   * @param  {number} xPosition - relative x position for the highlight
+   * @param  {number} yPosition - relative y position for the highlight
+   */
+  _highlightChip(xPosition, yPosition){
     this.ctx.save();
-    this.ctx.translate(((selectChip.xPosition()-0.5)*squareSize), ((selectChip.yPosition()-0.5)*squareSize));
+    this.ctx.translate(((xPosition-0.5)*squareSize), ((yPosition-0.5)*squareSize));
     this.ctx.beginPath();
     this.ctx.arc(0,0,this.chipRadius+3,0,2*Math.PI);
     this.ctx.lineWidth = 5;
@@ -166,9 +183,14 @@ class Drawing {
     this.ctx.restore();
   }
 
-  _deHighlightChip(chip){
+  /**
+   * Remove the highlight aroud the chip
+   * @param  {number} xPosition - relative x position
+   * @param  {number} yPosition - relative y position
+   */
+  _deHighlightChip(xPosition, yPosition){
     this.ctx.save();
-    this.ctx.translate(((chip.xPosition()-0.5)*squareSize), ((chip.yPosition()-0.5)*squareSize));
+    this.ctx.translate(((xPosition-0.5)*squareSize), ((yPosition-0.5)*squareSize));
     this.ctx.beginPath();
     this.ctx.arc(0,0,this.chipRadius+3,0,2*Math.PI);
     this.ctx.lineWidth = 6;
@@ -188,9 +210,9 @@ class Drawing {
 
   /**
    * Draw the chip value
-   * @param  {int} x     [relative x position]
-   * @param  {int} y     [relative y position]
-   * @param  {int} value [chip value]
+   * @param  {number} x     - relative x position
+   * @param  {number} y     - relative y position
+   * @param  {number} value - chip value
    */
   _drawChipValue(x, y, value){
     switch(value) {
@@ -234,10 +256,10 @@ class Drawing {
 
   /**
    * Draw each pip individualy, given it's position
-   * @param  {int} x       [relative x position]
-   * @param  {int} y       [relative y position]
-   * @param  {int} offsetX [offset x for the given pip]
-   * @param  {int} offsetY [offset y for the given pip]
+   * @param  {number} x       - relative x position
+   * @param  {number} y       - relative y position
+   * @param  {number} offsetX - offset x for the given pip
+   * @param  {number} offsetY - offset y for the given pip
    */
   _drawValueOffset(x, y, offsetX, offsetY) {
     this.ctx.save();

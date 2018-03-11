@@ -1,46 +1,86 @@
 class GameBoard {
   constructor(draw) {
-    this.board = [];
+    this.squares = [];
     this.rooms = [];
     this.draw = draw;
   }
 
-  createGameBoard(selectedBoard) {
+  /**
+   * Create and draw the game board, room and placed chips (if it is redrawing)
+   * @param  {Board}  selectedBoard   - the selected board in play
+   * @param  {array}  players         - the array of players in play
+   * @param {boolean} redraw          - flag if it is creating the board board for the first time (false) or redrawing (true)
+   */
+  createGameBoard(selectedBoard, players, redraw = false) {
     this.draw.gameBoardFrame(selectedBoard.getBoardWidth(),selectedBoard.getBoardHeight(),squareSize);
+
+    // Draw all the squares from the board
     for (var i=1; i<=selectedBoard.getBoardWidth();i++) {
       for (var j=1; j<=selectedBoard.getBoardHeight();j++) {
         this.draw.gameSquare(i,j);
-        //TODO create method to add info to the board object
-        this.board.push({
-          xCoordinate: i,
-          yCoordinate: j,
-          roomNumber: 0,
-          activeChip: null,
-          bottomChip: null
-        });
+        if(!redraw){
+          this.squares.push({
+            xCoordinate: i,
+            yCoordinate: j,
+            roomNumber: 0,
+            activeChip: null,
+            bottomChip: null,
+            startingTile: ""
+          });
+        }
       }
     }
 
+    // Draw all the lightened squares for the rooms
     selectedBoard.getRooms().forEach(room => {
       var roomNumber = room.roomNum;
       room.roomSquares.forEach(roomSquare => {
         var x = roomSquare[0], y = roomSquare[1];
         this.draw.rooms(x,y);
-        (this.getBoard().find(square => {
-          if(square.xCoordinate === x && square.yCoordinate === y) return true;
-        })).roomNumber = roomNumber;
+        if(!redraw){
+          (this.getBoard().find(square => {
+            if(square.xCoordinate === x && square.yCoordinate === y) return true;
+          })).roomNumber = roomNumber;
+        }
       });
     });
 
-    console.log(this.board);
+    // Draw Starting tiles
+    this.createStartingTiles(players);
+
+    // Draw all the chips played on that board
+    if(redraw){
+      this.squares.forEach(square => {
+        if(square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
+        if(square.activeChip) this.draw.chip(square.activeChip);
+    });
+    }
+  }
+
+  /**
+   * Create and draw starting tiles for the players in game
+   * @param  {array} player  - array of players in play
+   */
+  createStartingTiles(players){
+    players.forEach(player => {
+      (this.getBoard().find(square => {
+        var squareCoordinates = [square.xCoordinate, square.yCoordinate].toString();
+        var startingPosCoodinates = player.getStartingPosition().toString();
+
+        if(squareCoordinates == startingPosCoodinates) return true;
+      })).startingTile = player;
+
+      this.draw.startingTile(player.getStartingPosition(), player.getColour());
+    });
+    
   }
 
   getBoard(){
-    return this.board;
+    return this.squares;
   }
 
   placeChip(x,y, player, chip){
-    var boardSquare = this.board.find(square => {
+    var boardSquare = this.squares.find(square => {
       if(square.xCoordinate === x && square.yCoordinate === y) return true;
     });
 

@@ -22,9 +22,12 @@ class Player {
 		return this.colour;
 	}
 
+	getStartingPosition(){
+		return this.startingPosition;
+	}
+
 	/**
-	 * Play the Chip on the given coordenates.
-	 * Generates the chip object and draws it on the board.
+	 * Play the Chip on the given coordenates. Generates the chip object.
 	 * @param  {number} x         - x relative position of chip (column number)
 	 * @param  {number} y         - y relative position of chip (row number)
 	 * @param  {number} chipValue - chip value, from 1 to 6
@@ -33,9 +36,6 @@ class Player {
 	playChip(x, y, chipValue) {
 		var newChip = new Chip(this.colour, chipValue, [x, y]);
 		this.chipsOnBoard.push(newChip);
-		// TODO
-		// draw chip on board
-
 		return newChip;
 	}
 
