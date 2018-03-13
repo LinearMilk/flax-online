@@ -40,7 +40,7 @@ export default class Player {
    * @return {Chip}           new chip object
    */
   playChip(x, y, chipValue) {
-    var newChip = new Chip(this.colour, chipValue, [x, y]);
+    const newChip = new Chip(this.colour, chipValue, [x, y]);
     this.chipsOnBoard.push(newChip);
     return newChip;
   }
@@ -60,17 +60,17 @@ export default class Player {
    * @return {array} the chip value options from the chip supply [1,6], [2,5] or [3,4]
    */
   getRandomChipType() {
-    var totalChips =
+    const totalChips =
       this.chipSupply[0] + this.chipSupply[1] + this.chipSupply[2];
     if (totalChips === 0) {
       return [];
     }
-    var typeOneSixChipChance = this.chipSupply[0] / totalChips;
-    var typeTwoFiveChance = this.chipSupply[1] / totalChips;
-    var typeThreeFourChance = this.chipSupply[2] / totalChips;
-    var chipType;
+    const typeOneSixChipChance = this.chipSupply[0] / totalChips;
+    const typeTwoFiveChance = this.chipSupply[1] / totalChips;
+    let chipType;
+    let randomNumber;
     do {
-      var randomNumber = Math.random();
+      randomNumber = Math.random();
     } while (randomNumber === 0);
     if (randomNumber <= typeOneSixChipChance) {
       chipType = 0;
@@ -79,8 +79,8 @@ export default class Player {
     } else {
       chipType = 2;
     }
-    this.chipSupply[chipType]--;
-    return this._getRandomChipOptions(chipType);
+    this.chipSupply[chipType] -= 1;
+    return Player.getRandomChipOptions(chipType);
   }
 
   /**
@@ -88,19 +88,16 @@ export default class Player {
    * @param  {number} chipType - the option between 0, 1 and 2 of the chip type
    * @return {array}             the chip value options from the chip supply [1,6], [2,5] or [3,4]
    */
-  _getRandomChipOptions(chipType) {
+  static getRandomChipOptions(chipType) {
     switch (chipType) {
       case 0:
         return [1, 6];
-        break;
       case 1:
         return [2, 5];
-        break;
       case 2:
         return [3, 4];
-        break;
       default:
-        break;
+        return null;
     }
   }
 }

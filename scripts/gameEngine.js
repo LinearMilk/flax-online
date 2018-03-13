@@ -17,13 +17,13 @@ export default class GameEngine {
     this.draw = new Drawing();
 
     this.player = new Player(globals.playerColours[3], [1, 9]);
-    this.players = [this.player, null];
+    this.players = [this.player];
 
     this.currentRandomChips = [];
     this.selectedChip = null;
     this.endGame = false;
 
-    var selectedBoardInfo = gameBoards.board1;
+    const selectedBoardInfo = gameBoards.board1;
     this.selectedBoard = new Board(
       selectedBoardInfo.dimensions,
       selectedBoardInfo.numPlayers,
@@ -36,18 +36,18 @@ export default class GameEngine {
    * Add event listener to the canvas
    */
   addEventListener() {
-    let xClick = -1,
-      yClick = -1;
+    let xClick = -1;
+    let yClick = -1;
     this.draw.getCanvas().addEventListener(
       "click",
       e => {
         xClick = e.clientX;
         yClick = e.clientY;
 
-        var coordinates = this.getClickCoordinates(xClick, yClick);
+        const coordinates = GameEngine.getClickCoordinates(xClick, yClick);
         if (coordinates) {
-          var x = coordinates[0];
-          var y = coordinates[1];
+          const x = coordinates[0];
+          const y = coordinates[1];
           if (
             x >= 0 &&
             x <= globals.gameBoardWidth &&
@@ -67,14 +67,12 @@ export default class GameEngine {
 
           // Check for click on Chip choice
           if (y === 11 && this.currentRandomChips.length > 0) {
-            var deSelectedChip;
+            let deSelectedChip;
             if (x === 1) {
-              this.selectedChip = this.currentRandomChips[0];
-              deSelectedChip = this.currentRandomChips[1];
+              [this.selectedChip, deSelectedChip] = this.currentRandomChips;
               deSelectedChip.isHighlighted = false;
             } else if (x === 2) {
-              this.selectedChip = this.currentRandomChips[1];
-              deSelectedChip = this.currentRandomChips[0];
+              [deSelectedChip, this.selectedChip] = this.currentRandomChips;
               deSelectedChip.isHighlighted = false;
             }
 
@@ -105,8 +103,8 @@ export default class GameEngine {
     );
 
     // Draw all the squares from the board
-    for (var i = 1; i <= this.selectedBoard.getBoardWidth(); i++) {
-      for (var j = 1; j <= this.selectedBoard.getBoardHeight(); j++) {
+    for (let i = 1; i <= this.selectedBoard.getBoardWidth(); i += 1) {
+      for (let j = 1; j <= this.selectedBoard.getBoardHeight(); j += 1) {
         this.draw.gameSquare(i, j);
         if (!redraw) {
           this.squares.push({
@@ -123,15 +121,17 @@ export default class GameEngine {
 
     // Draw all the lightened squares for the rooms
     this.selectedBoard.getRooms().forEach(room => {
-      var roomNumber = room.roomNum;
+      const roomNumber = room.roomNum;
       room.roomSquares.forEach(roomSquare => {
-        var x = roomSquare[0],
-          y = roomSquare[1];
+        const [x, y] = roomSquare;
         this.draw.rooms(x, y);
         if (!redraw) {
           this.squares.find(square => {
-            if (square.xCoordinate === x && square.yCoordinate === y)
+            if (square.xCoordinate === x && square.yCoordinate === y) {
               return true;
+            }
+
+            return false;
           }).roomNumber = roomNumber;
         }
       });
@@ -156,21 +156,19 @@ export default class GameEngine {
   createStartingTiles(players) {
     players.forEach(player => {
       this.squares.find(square => {
-        var squareCoordinates = [
+        const squareCoordinates = [
           square.xCoordinate,
           square.yCoordinate
         ].toString();
-        var startingPosCoodinates = this.player
-          .getStartingPosition()
-          .toString();
+        const startingPosCoodinates = player.getStartingPosition().toString();
 
-        if (squareCoordinates == startingPosCoodinates) return true;
-      }).startingTile = this.player;
+        if (squareCoordinates === startingPosCoodinates) {
+          return true;
+        }
+        return false;
+      }).startingTile = player;
 
-      this.draw.startingTile(
-        this.player.getStartingPosition(),
-        this.player.getColour()
-      );
+      this.draw.startingTile(player.getStartingPosition(), player.getColour());
     });
   }
 
@@ -179,11 +177,11 @@ export default class GameEngine {
    */
   getRandomChip() {
     if (!this.endGame && this.currentRandomChips.length <= 0) {
-      var chipValues = this.player.getRandomChipType();
+      const chipValues = this.player.getRandomChipType();
 
       if (chipValues.length > 0) {
-        var chip1 = new Chip(this.player.getColour(), chipValues[0], [1, 11]);
-        var chip2 = new Chip(this.player.getColour(), chipValues[1], [2, 11]);
+        const chip1 = new Chip(this.player.getColour(), chipValues[0], [1, 11]);
+        const chip2 = new Chip(this.player.getColour(), chipValues[1], [2, 11]);
 
         this.currentRandomChips = [chip1, chip2];
 
@@ -204,8 +202,11 @@ export default class GameEngine {
    * @param  {Chip} chip     - the chip being played
    */
   placeChip(x, y, player, chip) {
-    var boardSquare = this.squares.find(square => {
-      if (square.xCoordinate === x && square.yCoordinate === y) return true;
+    const boardSquare = this.squares.find(square => {
+      if (square.xCoordinate === x && square.yCoordinate === y) {
+        return true;
+      }
+      return false;
     });
 
     if (boardSquare.bottomChip === null) {
@@ -214,8 +215,8 @@ export default class GameEngine {
         this.draw.bottomChip(boardSquare.bottomChip, 3);
       }
 
-      //TODO get rid of this from here
-      var playedChip = player.playChip(x, y, chip.value);
+      // TODO get rid of this from here
+      const playedChip = player.playChip(x, y, chip.value);
       this.draw.chip(playedChip);
       boardSquare.activeChip = playedChip;
     }
@@ -227,13 +228,13 @@ export default class GameEngine {
    * @param  {number} yClick - the y click coordinates in pixels
    * @return {array}         - the square clicked [column, row]
    */
-  getClickCoordinates(xClick, yClick) {
-    var border = globals.gameBoardFrameSize * 2;
+  static getClickCoordinates(xClick, yClick) {
+    const border = globals.gameBoardFrameSize * 2;
 
-    var x = Math.floor((xClick - border) / globals.squareSize) + 1;
-    var y = Math.floor((yClick - border) / globals.squareSize) + 1;
-    var xInSquare = x * globals.squareSize + border - 5 - xClick;
-    var yInSquare = y * globals.squareSize + border - 5 - yClick;
+    const x = Math.floor((xClick - border) / globals.squareSize) + 1;
+    const y = Math.floor((yClick - border) / globals.squareSize) + 1;
+    const xInSquare = x * globals.squareSize + border - 5 - xClick;
+    const yInSquare = y * globals.squareSize + border - 5 - yClick;
 
     // If clicked on the edges of the square, do NOT draw the Chip (square == [40, 40])
     if (

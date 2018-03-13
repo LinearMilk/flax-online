@@ -1,4 +1,4 @@
-let gameBoards = {
+const gameBoards = {
   board1: {
     dimensions: [13, 9],
     numPlayers: 2,
