@@ -3,26 +3,16 @@
   <head>
     <meta charset="utf-8">
     <title>Count game</title>
-    <link rel="stylesheet" href="styles/game.css">
   </head>
   <body>
     <div id="game">
-      <canvas id="game-canvas" width="700" height="550">
+      <canvas id="game-canvas" width="700" height="550" style="background: gray;">
         This is an interactive game.
       </canvas>
       <br>
-      <input type="button" value="Start Game" onclick="startGame();">
-      <input type="button" value="get Chip" onclick="getChip();">
+      <input type="button" value="Start Game" onclick="game.startGame();">
+      <input type="button" value="get Chip" onclick="game.getChip();">
 
     </div>
-    <script src="scripts/boards.js"></script>
-    <script src="scripts/board.js"></script>
-    <script src="scripts/drawing.js"></script>
-    <script src="scripts/gameEngine.js"></script>
-    <script src="scripts/chip.js"></script>
-    <script src="scripts/player.js"></script>
-    <script src="scripts/game.js"></script>
-    <script src="scripts/main.js"></script>
-
   </body>
 </html>

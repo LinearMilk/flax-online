@@ -1,9 +1,11 @@
-class Game {
+import GameEngine from "./gameEngine";
+
+export default class Game {
   /**
    * Create a new game, inicializing the game board and players.
    * Add event listener to the canvas to watch for click events.
    */
-  constructor(){
+  constructor() {
     this.gameEngine = new GameEngine();
     this.gameEngine.addEventListener();
   }
@@ -19,8 +21,7 @@ class Game {
   /**
    * Get a random Chip from the current player
    */
-  getChip(){
+  getChip() {
     this.gameEngine.getRandomChip();
   }
-
 }
