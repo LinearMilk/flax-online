@@ -48,12 +48,7 @@ export default class GameEngine {
         if (coordinates) {
           const x = coordinates[0];
           const y = coordinates[1];
-          if (
-            x >= 0 &&
-            x <= globals.gameBoardWidth &&
-            y >= 0 &&
-            y <= globals.gameBoardHeight
-          ) {
+          if (x >= 0 && x <= globals.gameBoardWidth && y >= 0 && y <= globals.gameBoardHeight) {
             if (this.selectedChip) {
               this.placeChip(x, y, this.player, this.selectedChip);
 
@@ -156,10 +151,7 @@ export default class GameEngine {
   createStartingTiles(players) {
     players.forEach(player => {
       this.squares.find(square => {
-        const squareCoordinates = [
-          square.xCoordinate,
-          square.yCoordinate
-        ].toString();
+        const squareCoordinates = [square.xCoordinate, square.yCoordinate].toString();
         const startingPosCoodinates = player.getStartingPosition().toString();
 
         if (squareCoordinates === startingPosCoodinates) {
@@ -237,12 +229,7 @@ export default class GameEngine {
     const yInSquare = y * globals.squareSize + border - 5 - yClick;
 
     // If clicked on the edges of the square, do NOT draw the Chip (square == [40, 40])
-    if (
-      xInSquare <= 5 ||
-      xInSquare >= 35 ||
-      yInSquare <= 5 ||
-      yInSquare >= 35
-    ) {
+    if (xInSquare <= 5 || xInSquare >= 35 || yInSquare <= 5 || yInSquare >= 35) {
       return null;
     }
 
