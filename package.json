@@ -2,10 +2,11 @@
   "name": "lux-online",
   "version": "1.0.0",
   "description": "Abstract boardgame implementation in JS.",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --mode development --open",
+    "start":
+      "webpack-dev-server --mode development ./scripts/main.js --output ./dist/main.js --watch --open",
     "dev":
       "webpack --mode development ./scripts/main.js --output ./dist/main.js",
     "build":

@@ -3,7 +3,7 @@ import Player from "./player";
 import Chip from "./chip";
 import Board from "./board";
 import gameBoards from "./boards";
-import * as globals from "./main";
+import * as globals from "./globals";
 
 /**
  * Game Engine
