@@ -50,13 +50,13 @@ export default class GameEngine {
           const y = coordinates[1];
           if (x >= 0 && x <= globals.gameBoardWidth && y >= 0 && y <= globals.gameBoardHeight) {
             if (this.selectedChip) {
-              this.placeChip(x, y, this.player, this.selectedChip);
+              if (this.placeChip(x, y, this.player, this.selectedChip)) {
+                // clean objects so player can't place same chip over and over
+                this.currentRandomChips = [];
+                this.selectedChip = null;
 
-              // clean objects so player can't place same chip over and over
-              this.currentRandomChips = [];
-              this.selectedChip = null;
-
-              this.draw.clearRandomChips(1, 11);
+                this.draw.clearRandomChips(1, 11);
+              }
             }
           }
 
@@ -192,6 +192,7 @@ export default class GameEngine {
    * @param  {number} y      - the row for the chip's placement
    * @param  {Player} player - the player that is making the move
    * @param  {Chip} chip     - the chip being played
+   * @return {boolean} if the chip was placed or not
    */
   placeChip(x, y, player, chip) {
     const boardSquare = this.squares.find(square => {
@@ -211,7 +212,11 @@ export default class GameEngine {
       const playedChip = player.playChip(x, y, chip.value);
       this.draw.chip(playedChip);
       boardSquare.activeChip = playedChip;
+
+      return true;
     }
+
+    return false;
   }
 
   /**
