@@ -46,40 +46,48 @@ export default class GameEngine {
 
         const coordinates = GameEngine.getClickCoordinates(xClick, yClick);
         if (coordinates) {
-          const x = coordinates[0];
-          const y = coordinates[1];
-          if (x >= 0 && x <= globals.gameBoardWidth && y >= 0 && y <= globals.gameBoardHeight) {
-            if (this.selectedChip) {
-              if (this.placeChip(x, y, this.player, this.selectedChip)) {
-                // clean objects so player can't place same chip over and over
-                this.currentRandomChips = [];
-                this.selectedChip = null;
-
-                this.draw.clearRandomChips(1, 11);
-              }
-            }
-          }
+          const [x, y] = coordinates;
+          this.placeChipOnBoard(x, y);
 
           // Check for click on Chip choice
-          if (y === 11 && this.currentRandomChips.length > 0) {
-            let deSelectedChip;
-            if (x === 1) {
-              [this.selectedChip, deSelectedChip] = this.currentRandomChips;
-              deSelectedChip.isHighlighted = false;
-            } else if (x === 2) {
-              [deSelectedChip, this.selectedChip] = this.currentRandomChips;
-              deSelectedChip.isHighlighted = false;
-            }
-
-            if (x === 1 || x === 2) {
-              this.selectedChip.isHighlighted = true;
-              this.draw.chipsHighlights(this.selectedChip, deSelectedChip);
-            }
-          }
+          this.selectChipToPlay(x, y);
         }
       },
       false
     );
+  }
+
+  placeChipOnBoard(x, y) {
+    if (x >= 0 && x <= globals.gameBoardWidth && y >= 0 && y <= globals.gameBoardHeight) {
+      if (this.selectedChip) {
+        if (this.placeChip(x, y, this.player, this.selectedChip)) {
+          // clear objects so player can't place same chip over and over
+          this.currentRandomChips = [];
+          this.selectedChip = null;
+
+          this.draw.clearRandomChips(1, 11);
+          this.getRandomChip();
+        }
+      }
+    }
+  }
+
+  selectChipToPlay(x, y) {
+    if (y === 11 && this.currentRandomChips.length > 0) {
+      let deSelectedChip;
+      if (x === 1) {
+        [this.selectedChip, deSelectedChip] = this.currentRandomChips;
+        deSelectedChip.isHighlighted = false;
+      } else if (x === 2) {
+        [deSelectedChip, this.selectedChip] = this.currentRandomChips;
+        deSelectedChip.isHighlighted = false;
+      }
+
+      if (x === 1 || x === 2) {
+        this.selectedChip.isHighlighted = true;
+        this.draw.chipsHighlights(this.selectedChip, deSelectedChip);
+      }
+    }
   }
 
   /**
@@ -141,6 +149,11 @@ export default class GameEngine {
         if (square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
         if (square.activeChip) this.draw.chip(square.activeChip);
       });
+    }
+
+    // draw the first randomised chips for 1st player
+    if (!redraw) {
+      setTimeout(this.getRandomChip(), 2000);
     }
   }
 
