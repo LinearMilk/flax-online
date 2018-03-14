@@ -57,6 +57,11 @@ export default class GameEngine {
     );
   }
 
+  /**
+   * Place the selected chip on the board
+   * @param  {number} x - the column of the click
+   * @param  {number} y - the row of the click
+   */
   placeChipOnBoard(x, y) {
     if (x >= 0 && x <= globals.gameBoardWidth && y >= 0 && y <= globals.gameBoardHeight) {
       if (this.selectedChip) {
@@ -72,6 +77,11 @@ export default class GameEngine {
     }
   }
 
+  /**
+   * Select the random chip clikced, highlightening it
+   * @param  {number} x - the column of the click
+   * @param  {number} y - the row of the click
+   */
   selectChipToPlay(x, y) {
     if (y === 11 && this.currentRandomChips.length > 0) {
       let deSelectedChip;
