@@ -72,9 +72,66 @@ export default class GameEngine {
 
           this.draw.clearRandomChips(1, 11);
           this.getRandomChip();
+          // TODO show legal moves
         }
       }
     }
+  }
+
+  findLegalMoves(chip) {
+    const possibleMoves = GameEngine.checkMovesWithinBoard(chip);
+
+    // Check is there is a chip in the way
+    // North
+    possibleMoves[0] = this.checkMovesNorth(chip, possibleMoves);
+
+    console.log(possibleMoves);
+  }
+
+  checkMovesNorth(chip, possibleMoves) {
+    for (let i = 1; i <= chip.value; i += 1) {
+      const foundSquare = this.squares.find(square => {
+        if (square.xCoordinate === chip.xPosition() && square.yCoordinate === chip.yPosition() - i) {
+          return true;
+        }
+
+        return false;
+      });
+
+      if (i === chip.value && foundSquare.bottomChip) {
+        return null;
+      }
+
+      if (foundSquare.activeChip && i !== chip.value) {
+        return null;
+      }
+    }
+    return possibleMoves[0];
+  }
+
+  /**
+   * Check if move is within the board limits.
+   * @param  {chip} chip - the played chip
+   * @return {array}     - the possible moves within the board limists [N, E, S, W]
+   */
+  static checkMovesWithinBoard(chip) {
+    // Postions for [N, E, S, W]
+    const northPosition = [chip.xPosition(), chip.yPosition() - chip.value];
+    const eastPosition = [chip.xPosition() + chip.value, chip.yPosition()];
+    const southPosition = [chip.xPosition(), chip.yPosition() + chip.value];
+    const westPosition = [chip.xPosition() - chip.value, chip.yPosition()];
+
+    const possibleMoves = [northPosition, eastPosition, southPosition, westPosition];
+
+    for (let i = 0; i < possibleMoves.length; i += 1) {
+      const [xPosition, yPostion] = possibleMoves[i];
+
+      if (xPosition <= 0 || xPosition > globals.gameBoardWidth || yPostion <= 0 || yPostion > globals.gameBoardHeight) {
+        possibleMoves[i] = null;
+      }
+    }
+
+    return possibleMoves;
   }
 
   /**
@@ -163,7 +220,7 @@ export default class GameEngine {
 
     // draw the first randomised chips for 1st player
     if (!redraw) {
-      setTimeout(this.getRandomChip(), 2000);
+      this.getRandomChip();
     }
   }
 
@@ -228,14 +285,14 @@ export default class GameEngine {
     if (boardSquare.bottomChip === null) {
       if (boardSquare.activeChip != null) {
         boardSquare.bottomChip = boardSquare.activeChip;
-        this.draw.bottomChip(boardSquare.bottomChip, 3);
+        boardSquare.bottomChip.inActivate();
+        this.draw.bottomChip(boardSquare.bottomChip);
       }
 
-      // TODO get rid of this from here
       const playedChip = player.playChip(x, y, chip.value);
       this.draw.chip(playedChip);
       boardSquare.activeChip = playedChip;
-
+      this.findLegalMoves(playedChip);
       return true;
     }
 
