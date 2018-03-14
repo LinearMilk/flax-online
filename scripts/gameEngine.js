@@ -83,11 +83,28 @@ export default class GameEngine {
 
     // Check is there is a chip in the way
     // North
-    possibleMoves[0] = this.checkMovesNorth(chip, possibleMoves);
+    if (possibleMoves[0]) {
+      possibleMoves[0] = this.checkMovesNorth(chip, possibleMoves);
+    }
+    if (possibleMoves[1]) {
+      // TODO possibleMoves[1] = this.checkMovesEast(chip, possibleMoves);
+    }
+    if (possibleMoves[2]) {
+      // TODO possibleMoves[2] = this.checkMovesSouth(chip, possibleMoves);
+    }
+    if (possibleMoves[3]) {
+      // TODO possibleMoves[3] = this.checkMovesWest(chip, possibleMoves);
+    }
 
     console.log(possibleMoves);
   }
 
+  /**
+   * Check if there is a chip in the way, for the North position
+   * @param  {chip} chip           - the played chip
+   * @param  {array} possibleMoves - the array of possible moves in the 4 directions
+   * @return {array}               - null if the move is not valid
+   */
   checkMovesNorth(chip, possibleMoves) {
     for (let i = 1; i <= chip.value; i += 1) {
       const foundSquare = this.squares.find(square => {
@@ -97,6 +114,8 @@ export default class GameEngine {
 
         return false;
       });
+
+      // TODO trigger the chip found to check if has still valid moves on south
 
       if (i === chip.value && foundSquare.bottomChip) {
         return null;
