@@ -14,6 +14,7 @@ export default class Chip {
     this.position = position;
     this.validMoves = [];
     this.isHighlighted = false;
+    this.isActive = true;
   }
 
   /**
@@ -34,5 +35,13 @@ export default class Chip {
    */
   yPosition() {
     return this.position[1];
+  }
+
+  /**
+   * Sets chip to inactive and clears its valid moves, after another chip gets placed on top (in gameEngine)
+   */
+  inActivate() {
+    this.validMoves = [];
+    this.isActive = false;
   }
 }
