@@ -134,12 +134,7 @@ export default class Drawing {
    */
   clearRandomChips(xPosition, yPosition) {
     this.ctx.fillStyle = "gray";
-    this.ctx.fillRect(
-      (xPosition - 1) * this.squareSize,
-      (yPosition - 1) * this.squareSize,
-      100,
-      100
-    );
+    this.ctx.fillRect((xPosition - 1) * this.squareSize, (yPosition - 1) * this.squareSize, 100, 100);
   }
 
   /**
@@ -148,10 +143,7 @@ export default class Drawing {
    */
   chip(chip) {
     this.ctx.save();
-    this.ctx.translate(
-      (chip.xPosition() - 0.5) * this.squareSize,
-      (chip.yPosition() - 0.5) * this.squareSize
-    );
+    this.ctx.translate((chip.xPosition() - 0.5) * this.squareSize, (chip.yPosition() - 0.5) * this.squareSize);
     this.ctx.beginPath();
     this.ctx.arc(0, 0, this.chipRadius, 0, 2 * Math.PI);
     this.ctx.fillStyle = chip.colour;
@@ -164,9 +156,9 @@ export default class Drawing {
   /**
    * Draw the bottom chip, when a chip is place on top of it
    * @param  {Chip} chip       - chip object with positions, colour and value
-   * @param  {number} offset   - offset from the center, where the chip will be draw
    */
-  bottomChip(chip, offset) {
+  bottomChip(chip) {
+    const offset = 3;
     this.ctx.save();
     this.ctx.translate(
       (chip.xPosition() - 0.5) * this.squareSize + offset,
@@ -203,10 +195,7 @@ export default class Drawing {
    */
   highlightChip(xPosition, yPosition) {
     this.ctx.save();
-    this.ctx.translate(
-      (xPosition - 0.5) * this.squareSize,
-      (yPosition - 0.5) * this.squareSize
-    );
+    this.ctx.translate((xPosition - 0.5) * this.squareSize, (yPosition - 0.5) * this.squareSize);
     this.ctx.beginPath();
     this.ctx.arc(0, 0, this.chipRadius + 3, 0, 2 * Math.PI);
     this.ctx.lineWidth = 5;
@@ -222,10 +211,7 @@ export default class Drawing {
    */
   deHighlightChip(xPosition, yPosition) {
     this.ctx.save();
-    this.ctx.translate(
-      (xPosition - 0.5) * this.squareSize,
-      (yPosition - 0.5) * this.squareSize
-    );
+    this.ctx.translate((xPosition - 0.5) * this.squareSize, (yPosition - 0.5) * this.squareSize);
     this.ctx.beginPath();
     this.ctx.arc(0, 0, this.chipRadius + 3, 0, 2 * Math.PI);
     this.ctx.lineWidth = 6;
@@ -266,35 +252,20 @@ export default class Drawing {
       case 4:
         this.drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
         this.drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
-        this.drawValueOffset(
-          x,
-          y,
-          -this.chipValueOffset,
-          -this.chipValueOffset
-        );
+        this.drawValueOffset(x, y, -this.chipValueOffset, -this.chipValueOffset);
         this.drawValueOffset(x, y, this.chipValueOffset, this.chipValueOffset);
         break;
       case 5:
         this.drawValueOffset(x, y, 0, 0);
         this.drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
         this.drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
-        this.drawValueOffset(
-          x,
-          y,
-          -this.chipValueOffset,
-          -this.chipValueOffset
-        );
+        this.drawValueOffset(x, y, -this.chipValueOffset, -this.chipValueOffset);
         this.drawValueOffset(x, y, this.chipValueOffset, this.chipValueOffset);
         break;
       case 6:
         this.drawValueOffset(x, y, this.chipValueOffset, -this.chipValueOffset);
         this.drawValueOffset(x, y, -this.chipValueOffset, this.chipValueOffset);
-        this.drawValueOffset(
-          x,
-          y,
-          -this.chipValueOffset,
-          -this.chipValueOffset
-        );
+        this.drawValueOffset(x, y, -this.chipValueOffset, -this.chipValueOffset);
         this.drawValueOffset(x, y, this.chipValueOffset, this.chipValueOffset);
         this.drawValueOffset(x, y, this.chipValueOffset, 0);
         this.drawValueOffset(x, y, -this.chipValueOffset, 0);
@@ -314,10 +285,7 @@ export default class Drawing {
   drawValueOffset(x, y, offsetX, offsetY) {
     this.ctx.save();
     this.ctx.fillStyle = this.chipValueColour;
-    this.ctx.translate(
-      (x - 0.5) * this.squareSize + offsetX,
-      (y - 0.5) * this.squareSize + offsetY
-    );
+    this.ctx.translate((x - 0.5) * this.squareSize + offsetX, (y - 0.5) * this.squareSize + offsetY);
     this.ctx.beginPath();
     this.ctx.arc(0, 0, 3, 0, 2 * Math.PI);
     this.ctx.fill();

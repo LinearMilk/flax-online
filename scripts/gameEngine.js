@@ -2,6 +2,7 @@ import Drawing from "./drawing";
 import Player from "./player";
 import Chip from "./chip";
 import Board from "./board";
+import GameEngineChipMoves from "./gameEngineChipMoves";
 import gameBoards from "./boards";
 import * as globals from "./globals";
 
@@ -46,40 +47,59 @@ export default class GameEngine {
 
         const coordinates = GameEngine.getClickCoordinates(xClick, yClick);
         if (coordinates) {
-          const x = coordinates[0];
-          const y = coordinates[1];
-          if (x >= 0 && x <= globals.gameBoardWidth && y >= 0 && y <= globals.gameBoardHeight) {
-            if (this.selectedChip) {
-              if (this.placeChip(x, y, this.player, this.selectedChip)) {
-                // clean objects so player can't place same chip over and over
-                this.currentRandomChips = [];
-                this.selectedChip = null;
-
-                this.draw.clearRandomChips(1, 11);
-              }
-            }
-          }
+          const [x, y] = coordinates;
+          this.placeChipOnBoard(x, y);
 
           // Check for click on Chip choice
-          if (y === 11 && this.currentRandomChips.length > 0) {
-            let deSelectedChip;
-            if (x === 1) {
-              [this.selectedChip, deSelectedChip] = this.currentRandomChips;
-              deSelectedChip.isHighlighted = false;
-            } else if (x === 2) {
-              [deSelectedChip, this.selectedChip] = this.currentRandomChips;
-              deSelectedChip.isHighlighted = false;
-            }
-
-            if (x === 1 || x === 2) {
-              this.selectedChip.isHighlighted = true;
-              this.draw.chipsHighlights(this.selectedChip, deSelectedChip);
-            }
-          }
+          this.selectChipToPlay(x, y);
         }
       },
       false
     );
+  }
+
+  /**
+   * Place the selected chip on the board
+   * @param  {number} x - the column of the click
+   * @param  {number} y - the row of the click
+   */
+  placeChipOnBoard(x, y) {
+    if (x >= 0 && x <= globals.gameBoardWidth && y >= 0 && y <= globals.gameBoardHeight) {
+      if (this.selectedChip) {
+        if (this.placeChip(x, y, this.player, this.selectedChip)) {
+          // clear objects so player can't place same chip over and over
+          this.currentRandomChips = [];
+          this.selectedChip = null;
+
+          this.draw.clearRandomChips(1, 11);
+          this.getRandomChip();
+          // TODO show legal moves
+        }
+      }
+    }
+  }
+
+  /**
+   * Select the random chip clikced, highlightening it
+   * @param  {number} x - the column of the click
+   * @param  {number} y - the row of the click
+   */
+  selectChipToPlay(x, y) {
+    if (y === 11 && this.currentRandomChips.length > 0) {
+      let deSelectedChip;
+      if (x === 1) {
+        [this.selectedChip, deSelectedChip] = this.currentRandomChips;
+        deSelectedChip.isHighlighted = false;
+      } else if (x === 2) {
+        [deSelectedChip, this.selectedChip] = this.currentRandomChips;
+        deSelectedChip.isHighlighted = false;
+      }
+
+      if (x === 1 || x === 2) {
+        this.selectedChip.isHighlighted = true;
+        this.draw.chipsHighlights(this.selectedChip, deSelectedChip);
+      }
+    }
   }
 
   /**
@@ -141,6 +161,19 @@ export default class GameEngine {
         if (square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
         if (square.activeChip) this.draw.chip(square.activeChip);
       });
+
+      this.player.chipsOnBoard.forEach(chip => {
+        chip.validMoves.forEach(move => {
+          if (move) {
+            this.draw.highlightChip(move[0], move[1]);
+          }
+        });
+      });
+    }
+
+    // draw the first randomised chips for 1st player
+    if (!redraw) {
+      this.getRandomChip();
     }
   }
 
@@ -205,14 +238,17 @@ export default class GameEngine {
     if (boardSquare.bottomChip === null) {
       if (boardSquare.activeChip != null) {
         boardSquare.bottomChip = boardSquare.activeChip;
-        this.draw.bottomChip(boardSquare.bottomChip, 3);
+        boardSquare.bottomChip.inActivate();
+        this.draw.bottomChip(boardSquare.bottomChip);
       }
 
-      // TODO get rid of this from here
       const playedChip = player.playChip(x, y, chip.value);
       this.draw.chip(playedChip);
       boardSquare.activeChip = playedChip;
+      playedChip.validMoves = GameEngineChipMoves.findLegalMoves(this.squares, playedChip);
 
+      // redraw the board with valid moves
+      this.createGameBoard(true);
       return true;
     }
 

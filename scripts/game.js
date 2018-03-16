@@ -17,11 +17,4 @@ export default class Game {
   startGame() {
     this.gameEngine.createGameBoard();
   }
-
-  /**
-   * Get a random Chip from the current player
-   */
-  getChip() {
-    this.gameEngine.getRandomChip();
-  }
 }
