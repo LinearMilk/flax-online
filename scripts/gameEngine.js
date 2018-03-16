@@ -161,6 +161,14 @@ export default class GameEngine {
         if (square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
         if (square.activeChip) this.draw.chip(square.activeChip);
       });
+
+      this.player.chipsOnBoard.forEach(chip => {
+        chip.validMoves.forEach(move => {
+          if (move) {
+            this.draw.highlightChip(move[0], move[1]);
+          }
+        });
+      });
     }
 
     // draw the first randomised chips for 1st player
@@ -238,6 +246,9 @@ export default class GameEngine {
       this.draw.chip(playedChip);
       boardSquare.activeChip = playedChip;
       playedChip.validMoves = GameEngineChipMoves.findLegalMoves(this.squares, playedChip);
+
+      // redraw the board with valid moves
+      this.createGameBoard(true);
       return true;
     }
 
