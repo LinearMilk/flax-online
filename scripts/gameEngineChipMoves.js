@@ -23,9 +23,64 @@ export default class GameEngineChipMoves {
 		GameEngineChipMoves.checkMovesSouth(chip, foundSquareWithChipSouth);
 		GameEngineChipMoves.checkMovesWest(chip, foundSquareWithChipWest);
 
+		// Check valid moves for the nearest chip in the north
+		if (foundSquareWithChipNorth) {
+			GameEngineChipMoves.checkMovesSouth(
+				foundSquareWithChipNorth.activeChip,
+				GameEngineChipMoves.findSquare(squares, chip)
+			);
+
+			console.log("Chip on the north: ");
+			console.log(foundSquareWithChipNorth.activeChip);
+		}
+
+		// Check valid moves for the nearest chip in the east
+		if (foundSquareWithChipEast) {
+			GameEngineChipMoves.checkMovesWest(
+				foundSquareWithChipEast.activeChip,
+				GameEngineChipMoves.findSquare(squares, chip)
+			);
+
+			console.log("Chip on the east: ");
+			console.log(foundSquareWithChipEast.activeChip);
+		}
+
+		// Check valid moves for the nearest chip in the south
+		if (foundSquareWithChipSouth) {
+			GameEngineChipMoves.checkMovesNorth(
+				foundSquareWithChipSouth.activeChip,
+				GameEngineChipMoves.findSquare(squares, chip)
+			);
+
+			console.log("Chip on the south: ");
+			console.log(foundSquareWithChipSouth.activeChip);
+		}
+
+		// Check valid moves for the nearest chip in the west
+		if (foundSquareWithChipWest) {
+			GameEngineChipMoves.checkMovesEast(
+				foundSquareWithChipWest.activeChip,
+				GameEngineChipMoves.findSquare(squares, chip)
+			);
+
+			console.log("Chip on the west: ");
+			console.log(foundSquareWithChipWest.activeChip);
+		}
+
+		console.log("Valid moves for played chip ");
 		console.log(possibleMoves);
 
 		return possibleMoves;
+	}
+
+	static findSquare(squares, chip) {
+		return squares.find(square => {
+			if (square.xCoordinate === chip.xPosition() && square.yCoordinate === chip.yPosition()) {
+				return true;
+			}
+
+			return false;
+		});
 	}
 
 	/**
