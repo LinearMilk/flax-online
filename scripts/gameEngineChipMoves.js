@@ -197,6 +197,7 @@ export default class GameEngineChipMoves {
     // Postions for [N, E, S, W]
 
     if (!chip || gameBoardWidth < 1 || gameBoardHeight < 1) return undefined;
+
     const northPosition = [chip.xPosition(), chip.yPosition() - chip.value];
     const eastPosition = [chip.xPosition() + chip.value, chip.yPosition()];
     const southPosition = [chip.xPosition(), chip.yPosition() + chip.value];
