@@ -9,7 +9,11 @@ export default class GameEngineChipMoves {
    */
   static findLegalMoves(squares, playedChip) {
     const chip = playedChip;
-    const possibleMoves = GameEngineChipMoves.checkMovesWithinBoard(chip);
+    const possibleMoves = GameEngineChipMoves.checkMovesWithinBoard(
+      chip,
+      globals.gameBoardWidth,
+      globals.gameBoardHeight
+    );
     chip.validMoves = possibleMoves;
 
     const foundSquareWithChipNorth = GameEngineChipMoves.findNearestChipNorth(squares, chip);
@@ -184,11 +188,15 @@ export default class GameEngineChipMoves {
 
   /**
    * Check if move is within the board limits.
-   * @param  {chip} chip - the played chip
-   * @return {array}     - the possible moves within the board limists [N, E, S, W]
+   * @param  {Chip} chip           - the played chip
+   * @param  {int} gameBoardWidth  - width of the gamebord (in squares)
+   * @param  {int} gameBoardHeight - heigth of the gamebord (in squares)
+   * @return {array}               - the possible moves within the board limits [N, E, S, W]
    */
-  static checkMovesWithinBoard(chip) {
+  static checkMovesWithinBoard(chip, gameBoardWidth, gameBoardHeight) {
     // Postions for [N, E, S, W]
+
+    if (!chip) return undefined;
     const northPosition = [chip.xPosition(), chip.yPosition() - chip.value];
     const eastPosition = [chip.xPosition() + chip.value, chip.yPosition()];
     const southPosition = [chip.xPosition(), chip.yPosition() + chip.value];
@@ -199,7 +207,7 @@ export default class GameEngineChipMoves {
     for (let i = 0; i < possibleMoves.length; i += 1) {
       const [xPosition, yPostion] = possibleMoves[i];
 
-      if (xPosition <= 0 || xPosition > globals.gameBoardWidth || yPostion <= 0 || yPostion > globals.gameBoardHeight) {
+      if (xPosition <= 0 || xPosition > gameBoardWidth || yPostion <= 0 || yPostion > gameBoardHeight) {
         possibleMoves[i] = null;
       }
     }
@@ -216,7 +224,7 @@ export default class GameEngineChipMoves {
   static findNearestChipNorth(squares, chip) {
     const maxChipValue = 6;
     let foundSquare;
-    if (!chip) return undefined;
+    if (!chip || !squares || squares.length === 0) return undefined;
     for (let counter = 1; counter <= maxChipValue; counter += 1) {
       foundSquare = squares.find(square => {
         if (
