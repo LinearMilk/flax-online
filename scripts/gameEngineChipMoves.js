@@ -12,10 +12,10 @@ export default class GameEngineChipMoves {
     const possibleMoves = GameEngineChipMoves.checkMovesWithinBoard(chip);
     chip.validMoves = possibleMoves;
 
-    const foundSquareWithChipNorth = GameEngineChipMoves.findNearestChipsNorth(squares, chip);
-    const foundSquareWithChipEast = GameEngineChipMoves.findNearestChipsEast(squares, chip);
-    const foundSquareWithChipSouth = GameEngineChipMoves.findNearestChipsSouth(squares, chip);
-    const foundSquareWithChipWest = GameEngineChipMoves.findNearestChipsWest(squares, chip);
+    const foundSquareWithChipNorth = GameEngineChipMoves.findNearestChipNorth(squares, chip);
+    const foundSquareWithChipEast = GameEngineChipMoves.findNearestChipEast(squares, chip);
+    const foundSquareWithChipSouth = GameEngineChipMoves.findNearestChipSouth(squares, chip);
+    const foundSquareWithChipWest = GameEngineChipMoves.findNearestChipWest(squares, chip);
 
     // Check is there is a chip in the way
     GameEngineChipMoves.checkMovesNorth(chip, foundSquareWithChipNorth);
@@ -30,7 +30,7 @@ export default class GameEngineChipMoves {
         GameEngineChipMoves.findSquare(squares, chip)
       );
 
-      console.log("Chip on the north: ");
+      console.log("Chip to the north: ");
       console.log(foundSquareWithChipNorth.activeChip);
     }
 
@@ -41,7 +41,7 @@ export default class GameEngineChipMoves {
         GameEngineChipMoves.findSquare(squares, chip)
       );
 
-      console.log("Chip on the east: ");
+      console.log("Chip to the east: ");
       console.log(foundSquareWithChipEast.activeChip);
     }
 
@@ -52,7 +52,7 @@ export default class GameEngineChipMoves {
         GameEngineChipMoves.findSquare(squares, chip)
       );
 
-      console.log("Chip on the south: ");
+      console.log("Chip to the south: ");
       console.log(foundSquareWithChipSouth.activeChip);
     }
 
@@ -63,7 +63,7 @@ export default class GameEngineChipMoves {
         GameEngineChipMoves.findSquare(squares, chip)
       );
 
-      console.log("Chip on the west: ");
+      console.log("Chip to the west: ");
       console.log(foundSquareWithChipWest.activeChip);
     }
 
@@ -211,21 +211,21 @@ export default class GameEngineChipMoves {
    * Find the nearest square containing a chip in north direction from the played chip
    * @param  {array} squares - the array of squares on the board
    * @param  {Chip} chip     - the played chip
-   * @return {square}        - the square containing the chip, null if there was no chip in the north direction
+   * @return {square}        - the square containing the chip, undefined if there was no chip in the north direction
    */
-  static findNearestChipsNorth(squares, chip) {
+  static findNearestChipNorth(squares, chip) {
     const maxChipValue = 6;
-    let foundSquare = null;
-    for (let i = 1; i <= maxChipValue; i += 1) {
+    let foundSquare;
+    if (!chip) return undefined;
+    for (let counter = 1; counter <= maxChipValue; counter += 1) {
       foundSquare = squares.find(square => {
         if (
           square.xCoordinate === chip.xPosition() &&
-          square.yCoordinate === chip.yPosition() - i &&
+          square.yCoordinate === chip.yPosition() - counter &&
           square.activeChip
         ) {
           return true;
         }
-
         return false;
       });
       if (foundSquare && foundSquare.activeChip) break;
@@ -239,7 +239,7 @@ export default class GameEngineChipMoves {
    * @param  {Chip} chip     - the played chip
    * @return {square}        - the square containing the chip, null if there was no chip in the east direction
    */
-  static findNearestChipsEast(squares, chip) {
+  static findNearestChipEast(squares, chip) {
     const maxChipValue = 6;
     let foundSquare = null;
     for (let i = 1; i <= maxChipValue; i += 1) {
@@ -265,7 +265,7 @@ export default class GameEngineChipMoves {
    * @param  {Chip} chip     - the played chip
    * @return {square}        - the square containing the chip, null if there was no chip in the south direction
    */
-  static findNearestChipsSouth(squares, chip) {
+  static findNearestChipSouth(squares, chip) {
     const maxChipValue = 6;
     let foundSquare = null;
     for (let i = 1; i <= maxChipValue; i += 1) {
@@ -291,7 +291,7 @@ export default class GameEngineChipMoves {
    * @param  {Chip} chip     - the played chip
    * @return {square}        - the square containing the chip, null if there was no chip in the west direction
    */
-  static findNearestChipsWest(squares, chip) {
+  static findNearestChipWest(squares, chip) {
     const maxChipValue = 6;
     let foundSquare = null;
     for (let i = 1; i <= maxChipValue; i += 1) {

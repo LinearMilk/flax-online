@@ -1,6 +1,7 @@
 import Chip from "../scripts/chip";
 
-const chip = new Chip("white", 1, [1, 1]);
+const chipOne = new Chip("white", 1, [1, 1]);
+const chipTwo = new Chip("white", 1, [2, 1]);
 const squares = [
   {
     xCoordinate: 1,
@@ -14,7 +15,7 @@ const squares = [
     xCoordinate: 1,
     yCoordinate: 2,
     roomNumber: 0,
-    activeChip: null,
+    activeChip: { colour: "white", isActive: true, isHighlighted: false, position: [2, 1], validMoves: [], value: 1 },
     bottomChip: null,
     startingTile: ""
   },
@@ -36,4 +37,4 @@ const squares = [
   }
 ];
 
-export { chip, squares };
+export { chipOne, chipTwo, squares };

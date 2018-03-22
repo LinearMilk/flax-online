@@ -3,23 +3,28 @@ import Chip from "../scripts/chip";
 import * as testConstants from "./testConstants";
 
 test("chip null should return no square (undefined)", () => {
-  expect(GameEngineChipMoves.findSquare(testConstants.squares, null)).toBe(undefined);
+  expect(GameEngineChipMoves.findNearestChipNorth(testConstants.squares, null)).toBe(undefined);
 });
 
 test("empty squares should return no square (undefined)", () => {
-  expect(GameEngineChipMoves.findSquare([], testConstants.chipOne)).toBe(undefined);
+  expect(GameEngineChipMoves.findNearestChipNorth([], testConstants.chipOne)).toBe(undefined);
 });
 
 test("squares=null should return no square (undefined)", () => {
   expect(GameEngineChipMoves.findSquare(null, testConstants.chipOne)).toBe(undefined);
 });
 
-test("chip on [1,1] should return square on [1,1]", () => {
-  testConstants.squares[0].activeChip = testConstants.chipOne;
-  expect(GameEngineChipMoves.findSquare(testConstants.squares, testConstants.chipOne)).toBe(testConstants.squares[0]);
+test("any chip on [1,1] should return outside of board (undefined)", () => {
+  expect(GameEngineChipMoves.findSquare(testConstants.squares, testConstants.chipOne)).toBe(undefined);
 });
 
 test("chip on [2,2] that is not in the board should return no square (undefined)", () => {
   const chip = new Chip("white", 1, [2, 2]);
   expect(GameEngineChipMoves.findSquare(testConstants.squares, chip)).toBe(undefined);
+});
+
+test("chip(1) on [2,2] with chip on the board at [2,1] should return square [2,1]", () => {
+  const chip = new Chip("white", 1, [2, 2]);
+  const existingChipLocation = 1;
+  expect(GameEngineChipMoves.findSquare(testConstants.squares, chip)).toBe(testConstants.squares[existingChipLocation]);
 });
