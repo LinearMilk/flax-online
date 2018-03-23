@@ -217,6 +217,19 @@ export default class GameEngineChipMoves {
   }
 
   /**
+   * finds nearest square with chip within placed chip's range (value), in one of the cardinal directions
+   *
+   * @param  {array} squares    - array containing squares of the board
+   * @param  {chip} chip        - chip being placed
+   * @param  {string} direction - direction to be checked: "North","East","Soutch","West"
+   * @return {square}           - the square containing the chip, undefined if there was no chip
+   */
+
+  static findNearestChip(squares, chip, direction) {
+    return undefined;
+  }
+
+  /**
    * Find the nearest square containing a chip in north direction from the played chip
    * @param  {array} squares - the array of squares on the board
    * @param  {Chip} chip     - the played chip
@@ -251,6 +264,7 @@ export default class GameEngineChipMoves {
   static findNearestChipEast(squares, chip) {
     const maxChipValue = 6;
     let foundSquare = null;
+    if (!chip || !squares || squares.length === 0) return undefined;
     for (let i = 1; i <= maxChipValue; i += 1) {
       foundSquare = squares.find(square => {
         if (
