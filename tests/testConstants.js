@@ -5,6 +5,7 @@ const chipTwo = new Chip("white", 1, [2, 1]);
 const chipThree = new Chip("white", 1, [2, 2]);
 const chipFour = new Chip("white", 4, [3, 3]);
 const chipFive = new Chip("white", 4, [5, 6]);
+const chipSix = new Chip("white", 1, [1, 2]);
 
 const squares = [
   {
@@ -41,4 +42,10 @@ const squares = [
   }
 ];
 
-export { chipOne, chipTwo, chipThree, chipFour, chipFive, squares };
+function clearChipsFromSquares() {
+  squares.forEach(square => {
+    square.activeChip = null;
+  });
+}
+
+export { chipOne, chipTwo, chipThree, chipFour, chipFive, chipSix, squares, clearChipsFromSquares };

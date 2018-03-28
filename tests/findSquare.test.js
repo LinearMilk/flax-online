@@ -2,6 +2,10 @@ import GameEngineChipMoves from "../scripts/gameEngineChipMoves";
 import Chip from "../scripts/chip";
 import * as testConstants from "./testConstants";
 
+beforeEach(() => {
+  testConstants.clearChipsFromSquares();
+});
+
 test("chip null should return no square (undefined)", () => {
   expect(GameEngineChipMoves.findSquare(testConstants.squares, null)).toBe(undefined);
 });
