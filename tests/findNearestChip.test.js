@@ -50,10 +50,10 @@ test("chip(1) on [2,2] with chip on the board at [2,1] should return square [2,1
   );
 });
 
-test("chip(1) on [2,1] with chip on the board at [1,1] should return square [1,1] for East", () => {
-  const existingChipLocation = 0;
-  testConstants.squares[existingChipLocation].activeChip = testConstants.chipOne;
-  expect(GameEngineChipMoves.findNearestChip(testConstants.squares, testConstants.chipTwo, "East")).toEqual(
+test("chip(1) on [1,1] with chip on the board at [2,1] should return square [2,1] for East", () => {
+  const existingChipLocation = 2;
+  testConstants.squares[existingChipLocation].activeChip = testConstants.chipTwo;
+  expect(GameEngineChipMoves.findNearestChip(testConstants.squares, testConstants.chipOne, "East")).toEqual(
     testConstants.squares[existingChipLocation]
   );
 });

@@ -224,9 +224,44 @@ export default class GameEngineChipMoves {
    * @param  {string} direction - direction to be checked: "North","East","Soutch","West"
    * @return {square}           - the square containing the chip, undefined if there was no chip
    */
-
   static findNearestChip(squares, chip, direction) {
-    return undefined;
+    const maxChipValue = 6;
+    let foundSquare;
+    if (!chip || !squares || squares.length === 0 || !direction) return undefined;
+    for (let counter = 1; counter <= maxChipValue; counter += 1) {
+      foundSquare = squares.find(square => {
+        if (square.activeChip) {
+          switch (direction) {
+            case "North":
+              if (square.xCoordinate === chip.xPosition() && square.yCoordinate === chip.yPosition() - counter) {
+                return true;
+              }
+              break;
+            case "East":
+              if (square.xCoordinate === chip.xPosition() + counter && square.yCoordinate === chip.yPosition()) {
+                return true;
+              }
+              break;
+            case "South":
+              if (square.xCoordinate === chip.xPosition() && square.yCoordinate === chip.yPosition() + counter) {
+                return true;
+              }
+              break;
+            case "West":
+              if (square.xCoordinate === chip.xPosition() - counter && square.yCoordinate === chip.yPosition()) {
+                return true;
+              }
+              break;
+            default:
+              return false;
+          }
+        }
+
+        return false;
+      });
+      if (foundSquare && foundSquare.activeChip) break;
+    }
+    return foundSquare;
   }
 
   /**
