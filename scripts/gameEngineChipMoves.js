@@ -21,13 +21,13 @@ export default class GameEngineChipMoves {
     const foundSquareWithChipSouth = GameEngineChipMoves.findNearestChip(squares, chip, "South");
     const foundSquareWithChipWest = GameEngineChipMoves.findNearestChip(squares, chip, "West");
 
-    // Check is there is a chip in the way
-    GameEngineChipMoves.checkMovesNorth(chip, foundSquareWithChipNorth);
-    GameEngineChipMoves.checkMovesEast(chip, foundSquareWithChipEast);
-    GameEngineChipMoves.checkMovesSouth(chip, foundSquareWithChipSouth);
-    GameEngineChipMoves.checkMovesWest(chip, foundSquareWithChipWest);
+    // Check if there is a chip on the board closer than played chip's value
+    chip.validMoves = GameEngineChipMoves.checkMovesNorth(chip, foundSquareWithChipNorth);
+    chip.validMoves = GameEngineChipMoves.checkMovesEast(chip, foundSquareWithChipEast);
+    chip.validMoves = GameEngineChipMoves.checkMovesSouth(chip, foundSquareWithChipSouth);
+    chip.validMoves = GameEngineChipMoves.checkMovesWest(chip, foundSquareWithChipWest);
 
-    // Check valid moves for the nearest chip in the north
+    // Check valid moves for the nearest chip north of the played chip
     if (foundSquareWithChipNorth) {
       GameEngineChipMoves.checkMovesSouth(
         foundSquareWithChipNorth.activeChip,
@@ -38,7 +38,7 @@ export default class GameEngineChipMoves {
       console.log(foundSquareWithChipNorth.activeChip);
     }
 
-    // Check valid moves for the nearest chip in the east
+    // Check valid moves for the nearest chip west of the played chip
     if (foundSquareWithChipEast) {
       GameEngineChipMoves.checkMovesWest(
         foundSquareWithChipEast.activeChip,
@@ -49,7 +49,7 @@ export default class GameEngineChipMoves {
       console.log(foundSquareWithChipEast.activeChip);
     }
 
-    // Check valid moves for the nearest chip in the south
+    // Check valid moves for the nearest chip south of the played chip
     if (foundSquareWithChipSouth) {
       GameEngineChipMoves.checkMovesNorth(
         foundSquareWithChipSouth.activeChip,
@@ -60,7 +60,7 @@ export default class GameEngineChipMoves {
       console.log(foundSquareWithChipSouth.activeChip);
     }
 
-    // Check valid moves for the nearest chip in the west
+    // Check valid moves for the nearest chip east of the played chip
     if (foundSquareWithChipWest) {
       GameEngineChipMoves.checkMovesEast(
         foundSquareWithChipWest.activeChip,
@@ -99,91 +99,103 @@ export default class GameEngineChipMoves {
   }
 
   /**
-   * Check if there is a chip in the way, for the North position
-   * @param  {Chip} chipToBeChecked     - chip to be check for valid move for the north position
+   * Check if a chip on board is blocking the move in North direction
+   * @param  {Chip} chipToBeChecked     - chip to be checked for valid move for the north position
    * @param  {square} squareWithChip 		- nearest square with a chip in the north position
+   * @return {array}                    - array containing possible moves
    */
   static checkMovesNorth(chipToBeChecked, squareWithChip) {
     const chip = chipToBeChecked;
+    const possibleMoves = chip.validMoves;
     if (squareWithChip) {
       const foundChip = squareWithChip.activeChip;
 
       // if the found chip is on the way for the played chip
       if (chip.yPosition() - chip.value < foundChip.yPosition()) {
-        chip.validMoves[0] = null;
+        possibleMoves[0] = null;
       }
 
       // if the found chip is exactly where the played chip can go
       if (chip.yPosition() - chip.value === foundChip.yPosition() && squareWithChip.bottomChip) {
-        chip.validMoves[0] = null;
+        possibleMoves[0] = null;
       }
     }
+    return possibleMoves;
   }
 
   /**
    * Check if there is a chip in the way, for the East position
-   * @param  {Chip} chipToBeChecked     - chip to be check for valid move for the east position
+   * @param  {Chip} chipToBeChecked     - chip to be checked for valid move for the east position
    * @param  {square} squareWithChip 		- nearest square with a chip in the east position
+   * @return {array}                    - array containing possible moves
    */
   static checkMovesEast(chipToBeChecked, squareWithChip) {
     const chip = chipToBeChecked;
+    const possibleMoves = chip.validMoves;
     if (squareWithChip) {
       const foundChip = squareWithChip.activeChip;
 
       // if the found chip is on the way for the played chip
       if (chip.xPosition() + chip.value > foundChip.xPosition()) {
-        chip.validMoves[1] = null;
+        possibleMoves[1] = null;
       }
 
       // if the found chip is exactly where the played chip can go
       if (chip.xPosition() + chip.value === foundChip.xPosition() && squareWithChip.bottomChip) {
-        chip.validMoves[1] = null;
+        possibleMoves[1] = null;
       }
     }
+    return possibleMoves;
   }
 
   /**
    * Check if there is a chip in the way, for the South position
-   * @param  {Chip} chipToBeChecked     - chip to be check for valid move for the south position
+   * @param  {Chip} chipToBeChecked     - chip to be checked for valid move for the south position
    * @param  {square} squareWithChip 		- nearest square with a chip in the south position
+   * @return {array}                    - array containing possible moves
    */
   static checkMovesSouth(chipToBeChecked, squareWithChip) {
     const chip = chipToBeChecked;
+    const possibleMoves = chip.validMoves;
     if (squareWithChip) {
       const foundChip = squareWithChip.activeChip;
 
       // if the found chip is on the way for the played chip
       if (chip.yPosition() + chip.value > foundChip.yPosition()) {
-        chip.validMoves[2] = null;
+        possibleMoves[2] = null;
       }
 
       // if the found chip is exactly where the played chip can go
       if (chip.yPosition() + chip.value === foundChip.yPosition() && squareWithChip.bottomChip) {
-        chip.validMoves[2] = null;
+        possibleMoves[2] = null;
       }
     }
+    return possibleMoves;
   }
 
   /**
    * Check if there is a chip in the way, for the West position
-   * @param  {Chip} chipToBeChecked     - chip to be check for valid move for the west position
+   * @param  {Chip} chipToBeChecked     - chip to be checked for valid move for the west position
    * @param  {square} squareWithChip 		- nearest square with a chip in the west position
+   * @return {array}                    - array containing possible moves
    */
   static checkMovesWest(chipToBeChecked, squareWithChip) {
     const chip = chipToBeChecked;
+    const possibleMoves = chip.validMoves;
     if (squareWithChip) {
       const foundChip = squareWithChip.activeChip;
 
       // if the found chip is on the way for the played chip
       if (chip.xPosition() - chip.value < foundChip.xPosition()) {
-        chip.validMoves[3] = null;
+        possibleMoves[3] = null;
       }
 
       // if the found chip is exactly where the played chip can go
       if (chip.xPosition() - chip.value === foundChip.xPosition() && squareWithChip.bottomChip) {
-        chip.validMoves[3] = null;
+        possibleMoves[3] = null;
       }
     }
+    return possibleMoves;
   }
 
   /**
