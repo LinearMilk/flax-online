@@ -47,6 +47,7 @@ const squares = [
 function clearChipsFromSquares() {
   squares.forEach(square => {
     square.activeChip = null;
+    square.bottomChip = null;
   });
 }
 
