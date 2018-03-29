@@ -10,16 +10,7 @@ const gameBoards = {
       },
       {
         roomNum: 2,
-        roomSquares: [
-          [5, 1],
-          [5, 2],
-          [6, 1],
-          [7, 1],
-          [7, 2],
-          [8, 1],
-          [9, 1],
-          [9, 2]
-        ]
+        roomSquares: [[5, 1], [5, 2], [6, 1], [7, 1], [7, 2], [8, 1], [9, 1], [9, 2]]
       },
       {
         roomNum: 3,
@@ -31,29 +22,11 @@ const gameBoards = {
       },
       {
         roomNum: 5,
-        roomSquares: [
-          [6, 4],
-          [6, 5],
-          [6, 6],
-          [7, 4],
-          [7, 5],
-          [7, 6],
-          [8, 4],
-          [8, 5],
-          [8, 6]
-        ]
+        roomSquares: [[6, 4], [6, 5], [6, 6], [7, 4], [7, 5], [7, 6], [8, 4], [8, 5], [8, 6]]
       },
       {
         roomNum: 6,
-        roomSquares: [
-          [12, 4],
-          [12, 5],
-          [12, 6],
-          [11, 4],
-          [11, 5],
-          [11, 6],
-          [10, 5]
-        ]
+        roomSquares: [[12, 4], [12, 5], [12, 6], [11, 4], [11, 5], [11, 6], [10, 5]]
       },
       {
         roomNum: 7,
@@ -61,20 +34,62 @@ const gameBoards = {
       },
       {
         roomNum: 8,
-        roomSquares: [
-          [5, 9],
-          [5, 8],
-          [6, 9],
-          [7, 9],
-          [7, 8],
-          [8, 9],
-          [9, 9],
-          [9, 8]
-        ]
+        roomSquares: [[5, 9], [5, 8], [6, 9], [7, 9], [7, 8], [8, 9], [9, 9], [9, 8]]
       },
       {
         roomNum: 9,
         roomSquares: [[12, 9], [12, 8], [13, 9], [13, 8]]
+      }
+    ]
+  },
+  board2: {
+    dimensions: [12, 10],
+    numPlayers: 2,
+    startingPositions: [[8, 10], [5, 1]],
+    rooms: [
+      {
+        roomNum: 1,
+        roomSquares: [[1, 1], [1, 2], [2, 1]]
+      },
+      {
+        roomNum: 2,
+        roomSquares: [[4, 1], [5, 1], [6, 1], [4, 2]]
+      },
+      {
+        roomNum: 3,
+        roomSquares: [[10, 1], [11, 1], [11, 2]]
+      },
+      {
+        roomNum: 4,
+        roomSquares: [[8, 3], [9, 3], [9, 4]]
+      },
+      {
+        roomNum: 5,
+        roomSquares: [[1, 5], [1, 6], [2, 6]]
+      },
+      {
+        roomNum: 6,
+        roomSquares: [[6, 5], [7, 5], [6, 6], [7, 6]]
+      },
+      {
+        roomNum: 7,
+        roomSquares: [[11, 5], [12, 5], [12, 6]]
+      },
+      {
+        roomNum: 8,
+        roomSquares: [[4, 7], [4, 8], [5, 8]]
+      },
+      {
+        roomNum: 9,
+        roomSquares: [[2, 10], [3, 10], [2, 9]]
+      },
+      {
+        roomNum: 10,
+        roomSquares: [[7, 10], [8, 10], [9, 10], [9, 9]]
+      },
+      {
+        roomNum: 11,
+        roomSquares: [[11, 10], [12, 10], [12, 9]]
       }
     ]
   }
