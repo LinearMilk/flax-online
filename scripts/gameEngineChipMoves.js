@@ -16,10 +16,10 @@ export default class GameEngineChipMoves {
     );
     chip.validMoves = possibleMoves;
 
-    const foundSquareWithChipNorth = GameEngineChipMoves.findNearestChipNorth(squares, chip);
-    const foundSquareWithChipEast = GameEngineChipMoves.findNearestChipEast(squares, chip);
-    const foundSquareWithChipSouth = GameEngineChipMoves.findNearestChipSouth(squares, chip);
-    const foundSquareWithChipWest = GameEngineChipMoves.findNearestChipWest(squares, chip);
+    const foundSquareWithChipNorth = GameEngineChipMoves.findNearestChip(squares, chip, "North");
+    const foundSquareWithChipEast = GameEngineChipMoves.findNearestChip(squares, chip, "East");
+    const foundSquareWithChipSouth = GameEngineChipMoves.findNearestChip(squares, chip, "South");
+    const foundSquareWithChipWest = GameEngineChipMoves.findNearestChip(squares, chip, "West");
 
     // Check is there is a chip in the way
     GameEngineChipMoves.checkMovesNorth(chip, foundSquareWithChipNorth);
@@ -256,112 +256,6 @@ export default class GameEngineChipMoves {
               return false;
           }
         }
-
-        return false;
-      });
-      if (foundSquare && foundSquare.activeChip) break;
-    }
-    return foundSquare;
-  }
-
-  /**
-   * Find the nearest square containing a chip in north direction from the played chip
-   * @param  {array} squares - the array of squares on the board
-   * @param  {Chip} chip     - the played chip
-   * @return {square}        - the square containing the chip, undefined if there was no chip in the north direction
-   */
-  static findNearestChipNorth(squares, chip) {
-    const maxChipValue = 6;
-    let foundSquare;
-    if (!chip || !squares || squares.length === 0) return undefined;
-    for (let counter = 1; counter <= maxChipValue; counter += 1) {
-      foundSquare = squares.find(square => {
-        if (
-          square.xCoordinate === chip.xPosition() &&
-          square.yCoordinate === chip.yPosition() - counter &&
-          square.activeChip
-        ) {
-          return true;
-        }
-        return false;
-      });
-      if (foundSquare && foundSquare.activeChip) break;
-    }
-    return foundSquare;
-  }
-
-  /**
-   * Find the nearest square containing a chip in east direction from the played chip
-   * @param  {array} squares - the array of squares on the board
-   * @param  {Chip} chip     - the played chip
-   * @return {square}        - the square containing the chip, null if there was no chip in the east direction
-   */
-  static findNearestChipEast(squares, chip) {
-    const maxChipValue = 6;
-    let foundSquare = null;
-    if (!chip || !squares || squares.length === 0) return undefined;
-    for (let i = 1; i <= maxChipValue; i += 1) {
-      foundSquare = squares.find(square => {
-        if (
-          square.xCoordinate === chip.xPosition() + i &&
-          square.yCoordinate === chip.yPosition() &&
-          square.activeChip
-        ) {
-          return true;
-        }
-
-        return false;
-      });
-      if (foundSquare && foundSquare.activeChip) break;
-    }
-    return foundSquare;
-  }
-
-  /**
-   * Find the nearest square containing a chip in south direction from the played chip
-   * @param  {array} squares - the array of squares on the board
-   * @param  {Chip} chip     - the played chip
-   * @return {square}        - the square containing the chip, null if there was no chip in the south direction
-   */
-  static findNearestChipSouth(squares, chip) {
-    const maxChipValue = 6;
-    let foundSquare = null;
-    for (let i = 1; i <= maxChipValue; i += 1) {
-      foundSquare = squares.find(square => {
-        if (
-          square.xCoordinate === chip.xPosition() &&
-          square.yCoordinate === chip.yPosition() + i &&
-          square.activeChip
-        ) {
-          return true;
-        }
-
-        return false;
-      });
-      if (foundSquare && foundSquare.activeChip) break;
-    }
-    return foundSquare;
-  }
-
-  /**
-   * Find the nearest square containing a chip in west direction from the played chip
-   * @param  {array} squares - the array of squares on the board
-   * @param  {Chip} chip     - the played chip
-   * @return {square}        - the square containing the chip, null if there was no chip in the west direction
-   */
-  static findNearestChipWest(squares, chip) {
-    const maxChipValue = 6;
-    let foundSquare = null;
-    for (let i = 1; i <= maxChipValue; i += 1) {
-      foundSquare = squares.find(square => {
-        if (
-          square.xCoordinate === chip.xPosition() - i &&
-          square.yCoordinate === chip.yPosition() &&
-          square.activeChip
-        ) {
-          return true;
-        }
-
         return false;
       });
       if (foundSquare && foundSquare.activeChip) break;
