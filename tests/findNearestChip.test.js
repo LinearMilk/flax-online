@@ -42,6 +42,8 @@ test("chip on [2,2] that is not in the board should return no square (undefined)
   expect(GameEngineChipMoves.findNearestChip(testConstants.squares, testConstants.chipThree, "South")).toBe(undefined);
 });
 
+// tests for exact location matching chip's value (1)
+
 test("chip(1) on [2,2] with chip on the board at [2,1] should return square [2,1] for North", () => {
   const existingChipLocation = 2;
   testConstants.squares[existingChipLocation].activeChip = testConstants.chipTwo;
@@ -70,6 +72,40 @@ test("chip(1) on [2,2] with chip on the board at [1,2] should return square [1,2
   const existingChipLocation = 1;
   testConstants.squares[existingChipLocation].activeChip = testConstants.chipSix;
   expect(GameEngineChipMoves.findNearestChip(testConstants.squares, testConstants.chipThree, "West")).toEqual(
+    testConstants.squares[existingChipLocation]
+  );
+});
+
+// tests for location closer than chip's value
+
+test("chip(2) on [1,2] with chip on the board at [1,1] should return square [1,1] for North", () => {
+  const existingChipLocation = 0;
+  testConstants.squares[existingChipLocation].activeChip = testConstants.chipOne;
+  expect(GameEngineChipMoves.findNearestChip(testConstants.squares, testConstants.chipSeven, "North")).toEqual(
+    testConstants.squares[existingChipLocation]
+  );
+});
+
+test("chip(2) on [1,2] with chip on the board at [2,2] should return square [2,2] for East", () => {
+  const existingChipLocation = 3;
+  testConstants.squares[existingChipLocation].activeChip = testConstants.chipThree;
+  expect(GameEngineChipMoves.findNearestChip(testConstants.squares, testConstants.chipSeven, "East")).toEqual(
+    testConstants.squares[existingChipLocation]
+  );
+});
+
+test("chip(2) on [2,1] with chip on the board at [2,2] should return square [2,2] for South", () => {
+  const existingChipLocation = 3;
+  testConstants.squares[existingChipLocation].activeChip = testConstants.chipThree;
+  expect(GameEngineChipMoves.findNearestChip(testConstants.squares, testConstants.chipEight, "South")).toEqual(
+    testConstants.squares[existingChipLocation]
+  );
+});
+
+test("chip(2) on [2,1] with chip on the board at [1,1] should return square [1,1] for West", () => {
+  const existingChipLocation = 0;
+  testConstants.squares[existingChipLocation].activeChip = testConstants.chipOne;
+  expect(GameEngineChipMoves.findNearestChip(testConstants.squares, testConstants.chipEight, "West")).toEqual(
     testConstants.squares[existingChipLocation]
   );
 });

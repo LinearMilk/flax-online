@@ -6,6 +6,8 @@ const chipThree = new Chip("white", 1, [2, 2]);
 const chipFour = new Chip("white", 4, [3, 3]);
 const chipFive = new Chip("white", 4, [5, 6]);
 const chipSix = new Chip("white", 1, [1, 2]);
+const chipSeven = new Chip("red", 2, [1, 2]);
+const chipEight = new Chip("red", 2, [2, 1]);
 
 const squares = [
   {
@@ -48,4 +50,15 @@ function clearChipsFromSquares() {
   });
 }
 
-export { chipOne, chipTwo, chipThree, chipFour, chipFive, chipSix, squares, clearChipsFromSquares };
+export {
+  chipOne,
+  chipTwo,
+  chipThree,
+  chipFour,
+  chipFive,
+  chipSix,
+  chipSeven,
+  chipEight,
+  squares,
+  clearChipsFromSquares
+};

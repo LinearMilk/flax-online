@@ -221,7 +221,7 @@ export default class GameEngineChipMoves {
    *
    * @param  {array} squares    - array containing squares of the board
    * @param  {chip} chip        - chip being placed
-   * @param  {string} direction - direction to be checked: "North","East","Soutch","West"
+   * @param  {string} direction - direction to be checked: "North","East","South","West"
    * @return {square}           - the square containing the chip, undefined if there was no chip
    */
   static findNearestChip(squares, chip, direction) {
