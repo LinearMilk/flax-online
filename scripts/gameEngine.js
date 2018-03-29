@@ -17,7 +17,7 @@ export default class GameEngine {
     this.rooms = [];
     this.draw = new Drawing();
 
-    this.player = new Player(globals.playerColours[3], [1, 9]);
+    this.player = new Player(globals.playerColours[1], [1, 9]);
     this.players = [this.player];
 
     this.currentRandomChips = [];

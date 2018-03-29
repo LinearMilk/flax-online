@@ -60,8 +60,7 @@ export default class Player {
    * @return {array} the chip value options from the chip supply [1,6], [2,5] or [3,4]
    */
   getRandomChipType() {
-    const totalChips =
-      this.chipSupply[0] + this.chipSupply[1] + this.chipSupply[2];
+    const totalChips = this.chipSupply[0] + this.chipSupply[1] + this.chipSupply[2];
     if (totalChips === 0) {
       return [];
     }
