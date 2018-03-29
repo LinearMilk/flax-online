@@ -245,7 +245,7 @@ export default class GameEngine {
       const playedChip = player.playChip(x, y, chip.value);
       this.draw.chip(playedChip);
       boardSquare.activeChip = playedChip;
-      playedChip.validMoves = GameEngineChipMoves.findLegalMoves(this.squares, playedChip);
+      playedChip.validMoves = GameEngineChipMoves.findLegalMoves(this.selectedBoard, this.squares, playedChip);
 
       // redraw the board with valid moves
       this.createGameBoard(true);
