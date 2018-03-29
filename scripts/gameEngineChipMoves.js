@@ -132,6 +132,7 @@ export default class GameEngineChipMoves {
    */
   static checkMovesEast(chipToBeChecked, squareWithChip) {
     const chip = chipToBeChecked;
+
     const possibleMoves = chip.validMoves;
     if (squareWithChip) {
       const foundChip = squareWithChip.activeChip;
@@ -157,6 +158,7 @@ export default class GameEngineChipMoves {
    */
   static checkMovesSouth(chipToBeChecked, squareWithChip) {
     const chip = chipToBeChecked;
+    if (!chip || !squareWithChip) return undefined;
     const possibleMoves = chip.validMoves;
     if (squareWithChip) {
       const foundChip = squareWithChip.activeChip;
@@ -182,6 +184,7 @@ export default class GameEngineChipMoves {
    */
   static checkMovesWest(chipToBeChecked, squareWithChip) {
     const chip = chipToBeChecked;
+    if (!chip || !squareWithChip) return undefined;
     const possibleMoves = chip.validMoves;
     if (squareWithChip) {
       const foundChip = squareWithChip.activeChip;

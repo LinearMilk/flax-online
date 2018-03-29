@@ -15,15 +15,15 @@ test("square null should return (undefined)", () => {
 });
 
 test("chip(1) on [2,2] with square [2,1] containing a chip ", () => {
-  testConstants.chipThree.validMoves = [[1, 1], null, null, [1, 2]];
+  testConstants.chipThree.validMoves = [[2, 1], null, null, [1, 2]];
   testConstants.squares[2].activeChip = testConstants.chipTwo;
   expect(GameEngineChipMoves.checkMovesNorth(testConstants.chipThree, testConstants.squares[2])).toEqual(
     testConstants.chipThree.validMoves
   );
 });
 
-test("chip(1) on [2,2] with square [2,1] containing a chip ", () => {
-  testConstants.chipThree.validMoves = [[1, 1], null, null, [1, 2]];
+test("chip(1) on [2,2] with square [2,1] containing two chips ", () => {
+  testConstants.chipThree.validMoves = [[2, 1], null, null, [1, 2]];
   testConstants.squares[2].activeChip = testConstants.chipTwo;
   testConstants.squares[2].bottomChip = testConstants.chipTwo;
   expect(GameEngineChipMoves.checkMovesNorth(testConstants.chipThree, testConstants.squares[2])).toEqual([
