@@ -106,6 +106,7 @@ export default class GameEngineChipMoves {
    */
   static checkMovesNorth(chipToBeChecked, squareWithChip) {
     const chip = chipToBeChecked;
+    if (!chip || !squareWithChip) return undefined;
     const possibleMoves = chip.validMoves;
     if (squareWithChip) {
       const foundChip = squareWithChip.activeChip;
