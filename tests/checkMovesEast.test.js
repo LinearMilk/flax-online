@@ -22,7 +22,7 @@ test("chip(1) on [1,1] with square [2,1] containing a chip ", () => {
   );
 });
 
-test("chip(1) on [2,2] with square [2,1] containing two chips ", () => {
+test("chip(1) on [1,1] with square [2,1] containing two chips ", () => {
   testConstants.chipThree.validMoves = [[2, 1], null, null, [1, 2]];
   testConstants.squares[2].activeChip = testConstants.chipTwo;
   testConstants.squares[2].bottomChip = testConstants.chipTwo;
