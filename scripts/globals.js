@@ -1,5 +1,3 @@
-const gameBoardWidth = 13; // x
-const gameBoardHeight = 9; // y
 const squareSize = 46;
 const gameBoardFrameSize = 10;
 const squareBorderSize = 1;
@@ -11,4 +9,4 @@ const playerColours = [
   { colour: "#ee5053", border: "#c3392f" }
 ];
 
-export { gameBoardWidth, gameBoardHeight, squareSize, gameBoardFrameSize, squareBorderSize, playerColours };
+export { squareSize, gameBoardFrameSize, squareBorderSize, playerColours };
