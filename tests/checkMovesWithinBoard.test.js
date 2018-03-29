@@ -1,6 +1,4 @@
 import GameEngineChipMoves from "../scripts/gameEngineChipMoves";
-import Chip from "../scripts/chip";
-import * as globals from "../scripts/globals";
 
 import * as testConstants from "./testConstants";
 
