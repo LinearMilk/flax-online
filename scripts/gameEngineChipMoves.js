@@ -1,23 +1,22 @@
-import * as globals from "./globals";
-
 export default class GameEngineChipMoves {
   /**
    * Find the legal moves in the board for a played chip
+   * @param  {Board} board   - the game board
    * @param  {array} squares - the array of squares in the board
    * @param  {Chip} chip     - the played chip
    * @return {array}         - the possible moves in the 4 directions in the board [N, E, S, W]
    */
-  static findLegalMoves(squares, playedChip) {
+  static findLegalMoves(board, squares, playedChip) {
     const chip = playedChip;
-    const possibleMoves = GameEngineChipMoves.checkMovesWithinBoard(chip);
+    const possibleMoves = GameEngineChipMoves.checkMovesWithinBoard(board, chip);
     chip.validMoves = possibleMoves;
 
-    const foundSquareWithChipNorth = GameEngineChipMoves.findNearestChip(squares, chip, "North");
-    const foundSquareWithChipEast = GameEngineChipMoves.findNearestChip(squares, chip, "East");
-    const foundSquareWithChipSouth = GameEngineChipMoves.findNearestChip(squares, chip, "South");
-    const foundSquareWithChipWest = GameEngineChipMoves.findNearestChip(squares, chip, "West");
+    const foundSquareWithChipNorth = GameEngineChipMoves.findNearestChipsNorth(squares, chip);
+    const foundSquareWithChipEast = GameEngineChipMoves.findNearestChipsEast(squares, chip);
+    const foundSquareWithChipSouth = GameEngineChipMoves.findNearestChipsSouth(squares, chip);
+    const foundSquareWithChipWest = GameEngineChipMoves.findNearestChipsWest(squares, chip);
 
-    // Check if there is a chip in the way
+    // Check is there is a chip in the way
     GameEngineChipMoves.checkMovesNorth(chip, foundSquareWithChipNorth);
     GameEngineChipMoves.checkMovesEast(chip, foundSquareWithChipEast);
     GameEngineChipMoves.checkMovesSouth(chip, foundSquareWithChipSouth);
@@ -54,7 +53,7 @@ export default class GameEngineChipMoves {
         GameEngineChipMoves.findSquare(squares, chip)
       );
     }
-
+    
     return possibleMoves;
   }
 
@@ -164,10 +163,11 @@ export default class GameEngineChipMoves {
 
   /**
    * Check if move is within the board limits.
-   * @param  {chip} chip - the played chip
-   * @return {array}     - the possible moves within the board limists [N, E, S, W]
+   * @param  {Board} board - the game board
+   * @param  {Chip}  chip  - the played chip
+   * @return {array}       - the possible moves within the board limists [N, E, S, W]
    */
-  static checkMovesWithinBoard(chip) {
+  static checkMovesWithinBoard(board, chip) {
     // Postions for [N, E, S, W]
     const northPosition = [chip.xPosition(), chip.yPosition() - chip.value];
     const eastPosition = [chip.xPosition() + chip.value, chip.yPosition()];
@@ -178,8 +178,7 @@ export default class GameEngineChipMoves {
 
     for (let i = 0; i < possibleMoves.length; i += 1) {
       const [xPosition, yPostion] = possibleMoves[i];
-
-      if (xPosition <= 0 || xPosition > globals.gameBoardWidth || yPostion <= 0 || yPostion > globals.gameBoardHeight) {
+      if (xPosition <= 0 || xPosition > board.getBoardWidth() || yPostion <= 0 || yPostion > board.getBoardHeight()) {
         possibleMoves[i] = null;
       }
     }

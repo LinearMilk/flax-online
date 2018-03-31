@@ -8,14 +8,13 @@ export default class Drawing {
     this.ctx = this.canvas.getContext("2d");
     this.squareSize = globals.squareSize;
     this.squareBorderSize = globals.squareBorderSize;
-    this.squareBorderColour = "#e3698e";
-    this.squareColour = "#030b3e";
+    this.squareBorderColour = "#ffffff";
+    this.squareColour = "#fac861";
     this.squareRoomBorderColour = "#ffffff";
-    this.squareRoomColour = "#69d4fc";
+    this.squareRoomColour = "#fdf5c1";
     this.chipRadius = 17;
     this.gameBoardFrameSize = globals.gameBoardFrameSize;
-    this.chipBorderColour = "#636262";
-    this.chipBorderWidth = 1;
+    this.chipBorderWidth = 2;
     this.chipValueColour = "#ffffff";
     this.chipValueOffset = 7;
   }
@@ -38,6 +37,7 @@ export default class Drawing {
     this.ctx.restore();
     this.ctx.save();
     this.ctx.lineWidth = this.gameBoardFrameSize;
+    this.ctx.strokeStyle = this.squareColour;
     this.ctx.strokeRect(
       this.gameBoardFrameSize / 2,
       this.gameBoardFrameSize / 2,
@@ -111,14 +111,14 @@ export default class Drawing {
    * @param  {string} colour    - the colour code of the player
    */
   startingTile(positions, colour) {
-    this.ctx.fillStyle = this.chipBorderColour;
+    this.ctx.fillStyle = colour.border;
     this.ctx.fillRect(
       (positions[0] - 1) * this.squareSize + 2,
       (positions[1] - 1) * this.squareSize + 2,
       this.squareSize - 4,
       this.squareSize - 4
     );
-    this.ctx.fillStyle = colour;
+    this.ctx.fillStyle = colour.colour;
     this.ctx.fillRect(
       (positions[0] - 1) * this.squareSize + this.squareBorderSize + 2,
       (positions[1] - 1) * this.squareSize + this.squareBorderSize + 2,
@@ -146,9 +146,9 @@ export default class Drawing {
     this.ctx.translate((chip.xPosition() - 0.5) * this.squareSize, (chip.yPosition() - 0.5) * this.squareSize);
     this.ctx.beginPath();
     this.ctx.arc(0, 0, this.chipRadius, 0, 2 * Math.PI);
-    this.ctx.fillStyle = chip.colour;
+    this.ctx.fillStyle = chip.colour.colour;
     this.ctx.fill();
-    this.drawChipBorder();
+    this.drawChipBorder(chip);
     this.ctx.restore();
     this.drawChipValue(chip.xPosition(), chip.yPosition(), chip.value);
   }
@@ -166,9 +166,9 @@ export default class Drawing {
     );
     this.ctx.beginPath();
     this.ctx.arc(0, 0, this.chipRadius, 0, 2 * Math.PI);
-    this.ctx.fillStyle = chip.colour;
+    this.ctx.fillStyle = chip.colour.colour;
     this.ctx.fill();
-    this.drawChipBorder();
+    this.drawChipBorder(chip);
     this.ctx.restore();
   }
 
@@ -199,7 +199,7 @@ export default class Drawing {
     this.ctx.beginPath();
     this.ctx.arc(0, 0, this.chipRadius + 3, 0, 2 * Math.PI);
     this.ctx.lineWidth = 5;
-    this.ctx.strokeStyle = "yellow";
+    this.ctx.strokeStyle = "white";
     this.ctx.stroke();
     this.ctx.restore();
   }
@@ -222,10 +222,11 @@ export default class Drawing {
 
   /**
    * Draw the chip border
+   * @param {Chip} chip - the chip containing the colour
    */
-  drawChipBorder() {
+  drawChipBorder(chip) {
     this.ctx.lineWidth = this.chipBorderWidth;
-    this.ctx.strokeStyle = this.chipBorderColour;
+    this.ctx.strokeStyle = chip.colour.border;
     this.ctx.stroke();
   }
 
