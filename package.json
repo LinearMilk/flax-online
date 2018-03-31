@@ -4,7 +4,7 @@
   "description": "Abstract boardgame implementation in JS.",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "webpack-dev-server --mode development ./scripts/main.js --output ./dist/main.js --watch --open",
     "dev": "webpack --mode development ./scripts/main.js --output ./dist/main.js",
     "build": "webpack --mode production ./scripts/main.js --output ./dist/main.js",
@@ -35,6 +35,7 @@
     "eslint-plugin-prettier": "^2.6.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.0.6",
+    "jest": "^22.4.2",
     "husky": "^0.14.3",
     "prettier": "1.11.1",
     "pretty-quick": "^1.4.1",
