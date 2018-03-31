@@ -17,7 +17,7 @@ export default class GameEngineChipMoves {
     const foundSquareWithChipSouth = GameEngineChipMoves.findNearestChip(squares, chip, "South");
     const foundSquareWithChipWest = GameEngineChipMoves.findNearestChip(squares, chip, "West");
 
-    // Check is there is a chip in the way
+    // Check if there is a chip in the way
     GameEngineChipMoves.checkMovesNorth(chip, foundSquareWithChipNorth);
     GameEngineChipMoves.checkMovesEast(chip, foundSquareWithChipEast);
     GameEngineChipMoves.checkMovesSouth(chip, foundSquareWithChipSouth);
