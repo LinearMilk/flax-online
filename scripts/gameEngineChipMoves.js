@@ -11,10 +11,10 @@ export default class GameEngineChipMoves {
     const possibleMoves = GameEngineChipMoves.checkMovesWithinBoard(board, chip);
     chip.validMoves = possibleMoves;
 
-    const foundSquareWithChipNorth = GameEngineChipMoves.findNearestChipsNorth(squares, chip);
-    const foundSquareWithChipEast = GameEngineChipMoves.findNearestChipsEast(squares, chip);
-    const foundSquareWithChipSouth = GameEngineChipMoves.findNearestChipsSouth(squares, chip);
-    const foundSquareWithChipWest = GameEngineChipMoves.findNearestChipsWest(squares, chip);
+    const foundSquareWithChipNorth = GameEngineChipMoves.findNearestChip(squares, chip, "North");
+    const foundSquareWithChipEast = GameEngineChipMoves.findNearestChip(squares, chip, "East");
+    const foundSquareWithChipSouth = GameEngineChipMoves.findNearestChip(squares, chip, "South");
+    const foundSquareWithChipWest = GameEngineChipMoves.findNearestChip(squares, chip, "West");
 
     // Check is there is a chip in the way
     GameEngineChipMoves.checkMovesNorth(chip, foundSquareWithChipNorth);
@@ -53,7 +53,7 @@ export default class GameEngineChipMoves {
         GameEngineChipMoves.findSquare(squares, chip)
       );
     }
-    
+
     return possibleMoves;
   }
 
