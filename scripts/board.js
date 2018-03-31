@@ -5,12 +5,14 @@ export default class Board {
    * @param  {number} numPlayers        - number of players
    * @param  {array} rooms              - rooms array with rooms object containing room number and array of positios belonging to the room
    * @param  {array} startingPositions  - the available starting positions [[x, y], [x, y]]
+   * @param  {number} randomChipRow     - the row in the canvas where the random chip will be drawn
    */
-  constructor(dimensions, numPlayers, rooms, startingPositions) {
+  constructor(dimensions, numPlayers, rooms, startingPositions, randomChipRow) {
     this.boardDimensions = dimensions;
     this.numPlayers = numPlayers;
     this.rooms = rooms;
     this.startingPositions = startingPositions;
+    this.randomChipRow = randomChipRow;
   }
 
   /**

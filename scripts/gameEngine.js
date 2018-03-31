@@ -17,20 +17,21 @@ export default class GameEngine {
     this.rooms = [];
     this.draw = new Drawing();
 
-    this.player = new Player(globals.playerColours[3], [1, 9]);
-    this.players = [this.player];
-
     this.currentRandomChips = [];
     this.selectedChip = null;
     this.endGame = false;
 
-    const selectedBoardInfo = gameBoards.board1;
+    const selectedBoardInfo = gameBoards.board2;
     this.selectedBoard = new Board(
       selectedBoardInfo.dimensions,
       selectedBoardInfo.numPlayers,
       selectedBoardInfo.rooms,
-      selectedBoardInfo.startingPositions
+      selectedBoardInfo.startingPositions,
+      selectedBoardInfo.randomChipRow
     );
+
+    this.player = new Player(globals.playerColours[1], this.selectedBoard.startingPositions[0]);
+    this.players = [this.player];
   }
 
   /**
@@ -64,14 +65,14 @@ export default class GameEngine {
    * @param  {number} y - the row of the click
    */
   placeChipOnBoard(x, y) {
-    if (x >= 0 && x <= globals.gameBoardWidth && y >= 0 && y <= globals.gameBoardHeight) {
+    if (x >= 0 && x <= this.selectedBoard.getBoardWidth() && y >= 0 && y <= this.selectedBoard.getBoardHeight()) {
       if (this.selectedChip) {
         if (this.placeChip(x, y, this.player, this.selectedChip)) {
           // clear objects so player can't place same chip over and over
           this.currentRandomChips = [];
           this.selectedChip = null;
 
-          this.draw.clearRandomChips(1, 11);
+          this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
           this.getRandomChip();
           // TODO show legal moves
         }
@@ -85,7 +86,7 @@ export default class GameEngine {
    * @param  {number} y - the row of the click
    */
   selectChipToPlay(x, y) {
-    if (y === 11 && this.currentRandomChips.length > 0) {
+    if (y === this.selectedBoard.randomChipRow && this.currentRandomChips.length > 0) {
       let deSelectedChip;
       if (x === 1) {
         [this.selectedChip, deSelectedChip] = this.currentRandomChips;
@@ -205,15 +206,15 @@ export default class GameEngine {
       const chipValues = this.player.getRandomChipType();
 
       if (chipValues.length > 0) {
-        const chip1 = new Chip(this.player.getColour(), chipValues[0], [1, 11]);
-        const chip2 = new Chip(this.player.getColour(), chipValues[1], [2, 11]);
+        const chip1 = new Chip(this.player.getColour(), chipValues[0], [1, this.selectedBoard.randomChipRow]);
+        const chip2 = new Chip(this.player.getColour(), chipValues[1], [2, this.selectedBoard.randomChipRow]);
 
         this.currentRandomChips = [chip1, chip2];
 
         this.draw.chip(chip1);
         this.draw.chip(chip2);
       } else {
-        this.draw.gameOver(1, 11);
+        this.draw.gameOver(1, this.selectedBoard.randomChipRow);
         this.endGame = true;
       }
     }
@@ -245,7 +246,7 @@ export default class GameEngine {
       const playedChip = player.playChip(x, y, chip.value);
       this.draw.chip(playedChip);
       boardSquare.activeChip = playedChip;
-      playedChip.validMoves = GameEngineChipMoves.findLegalMoves(this.squares, playedChip);
+      playedChip.validMoves = GameEngineChipMoves.findLegalMoves(this.selectedBoard, this.squares, playedChip);
 
       // redraw the board with valid moves
       this.createGameBoard(true);
