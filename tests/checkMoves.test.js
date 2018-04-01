@@ -1,16 +1,20 @@
-import GameEngineChipMoves from "../scripts/gameEngineChipMoves";
-import * as testConstants from "./testConstants";
-
-beforeEach(() => {
-  testConstants.clearChipsFromSquares();
-});
-
+// import GameEngineChipMoves from "../scripts/gameEngineChipMoves";
+// import * as testConstants from "./testConstants";
+//
+// beforeEach(() => {
+//   testConstants.clearChipsFromSquares();
+// });
+//
 // test("chip null should return (undefined)", () => {
-//   expect(GameEngineChipMoves.checkMovesEast(null, testConstants.squares[0])).toBe(undefined);
+//   expect(GameEngineChipMoves.checkMoves(null, testConstants.squares[0], "West")).toBe(undefined);
 // });
 //
 // test("square null should return (undefined)", () => {
-//   expect(GameEngineChipMoves.checkMovesEast(testConstants.chipThree, null)).toBe(undefined);
+//   expect(GameEngineChipMoves.checkMoves(testConstants.chipThree, null)).toBe(undefined);
+// });
+//
+// test("direction null should return (undefined)", () => {
+//   expect(GameEngineChipMoves.checkMovesEast(testConstants.chipThree, testConstants.squares[0], null)).toBe(undefined);
 // });
 //
 // test("chip(1) on [1,1] with square [2,1] containing a chip ", () => {

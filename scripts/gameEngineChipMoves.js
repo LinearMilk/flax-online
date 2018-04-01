@@ -74,6 +74,36 @@ export default class GameEngineChipMoves {
   }
 
   /**
+   * Check if there is a chip in the way in the given direction
+   * @param  {Chip} chipToBeChecked     - chip to be check for valid move for the north position
+   * @param  {square} squareWithChip 		- nearest square with a chip in the north position
+   * @param  {string} direction     		- direction to be checked: "North","East","South","West"
+   * @return {array}                    - possible moves for the chip [N, E, S, W]
+   *
+   */
+  static checkMoves(chipToBeChecked, squareWithChip, direction) {
+    const chip = chipToBeChecked;
+    const possibleMoves = chip.validMoves;
+    if (squareWithChip) {
+      const foundChip = squareWithChip.activeChip;
+      switch (direction) {
+        case "North":
+          // if the found chip is on the way for the played chip
+          if (chip.yPosition() - chip.value < foundChip.yPosition()) {
+            possibleMoves[0] = null;
+          }
+          // if the found chip is exactly where the played chip can go
+          if (chip.yPosition() - chip.value === foundChip.yPosition() && squareWithChip.bottomChip) {
+            possibleMoves[0] = null;
+          }
+          break;
+        default:
+      }
+    }
+    return possibleMoves;
+  }
+
+  /**
    * Check if there is a chip in the way, for the North position
    * @param  {Chip} chipToBeChecked     - chip to be check for valid move for the north position
    * @param  {square} squareWithChip 		- nearest square with a chip in the north position
@@ -168,6 +198,7 @@ export default class GameEngineChipMoves {
    * @return {array}       - the possible moves within the board limists [N, E, S, W]
    */
   static checkMovesWithinBoard(board, chip) {
+    if (!chip || !board) return undefined;
     // Postions for [N, E, S, W]
     const northPosition = [chip.xPosition(), chip.yPosition() - chip.value];
     const eastPosition = [chip.xPosition() + chip.value, chip.yPosition()];
