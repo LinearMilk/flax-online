@@ -8,7 +8,7 @@ export default class GameEngineChipMoves {
    */
   static findLegalMoves(board, squares, playedChip) {
     const chip = playedChip;
-    const possibleMoves = GameEngineChipMoves.checkMovesWithinBoard(board, chip);
+    let possibleMoves = GameEngineChipMoves.checkMovesWithinBoard(board, chip);
     chip.validMoves = possibleMoves;
 
     const foundSquareWithChipNorth = GameEngineChipMoves.findNearestChip(squares, chip, "North");
@@ -17,10 +17,10 @@ export default class GameEngineChipMoves {
     const foundSquareWithChipWest = GameEngineChipMoves.findNearestChip(squares, chip, "West");
 
     // Check is there is a chip in the way
-    GameEngineChipMoves.checkMovesNorth(chip, foundSquareWithChipNorth);
-    GameEngineChipMoves.checkMovesEast(chip, foundSquareWithChipEast);
-    GameEngineChipMoves.checkMovesSouth(chip, foundSquareWithChipSouth);
-    GameEngineChipMoves.checkMovesWest(chip, foundSquareWithChipWest);
+    possibleMoves = GameEngineChipMoves.checkMoves(chip, foundSquareWithChipNorth);
+    possibleMoves = GameEngineChipMoves.checkMoves(chip, foundSquareWithChipEast);
+    possibleMoves = GameEngineChipMoves.checkMoves(chip, foundSquareWithChipSouth);
+    possibleMoves = GameEngineChipMoves.checkMoves(chip, foundSquareWithChipWest);
 
     // Check valid moves for the nearest chip in the north
     if (foundSquareWithChipNorth) {
@@ -77,60 +77,50 @@ export default class GameEngineChipMoves {
    * Check if there is a chip in the way in the given direction
    * @param  {Chip} chipToBeChecked     - chip to be check for valid move for the north position
    * @param  {square} squareWithChip 		- nearest square with a chip in the north position
-   * @param  {string} direction     		- optional, direction to be checked: "North","East","South","West", if not specified all driections will be checked
    * @return {array}                    - possible moves for the chip [N, E, S, W]
    *
    */
-  static checkMoves(chipToBeChecked, squareWithChip, direction) {
-    if (!chipToBeChecked || !squareWithChip) return undefined;
+  static checkMoves(chipToBeChecked, squareWithChip) {
+    if (!chipToBeChecked) return undefined;
     const chip = chipToBeChecked;
     const possibleMoves = chip.validMoves;
-    const foundChip = squareWithChip.activeChip;
-    switch (direction) {
-      case "North":
-        // if the found chip is in the way for the played chip or if the found chip is exactly where the played chip can go
-        if (
-          chip.yPosition() - chip.value < foundChip.yPosition() ||
-          (chip.yPosition() - chip.value === foundChip.yPosition() && squareWithChip.bottomChip)
-        ) {
-          possibleMoves[0] = null;
-        }
-        break;
-      case "East":
-        if (
-          chip.xPosition() + chip.value > foundChip.xPosition() ||
-          (chip.xPosition() + chip.value === foundChip.xPosition() && squareWithChip.bottomChip)
-        ) {
-          possibleMoves[1] = null;
-        }
-        break;
-      case "South":
-        if (
+    if (squareWithChip) {
+      const foundChip = squareWithChip.activeChip;
+
+      // for North and South positions
+
+      if (chip.xPosition() === foundChip.xPosition()) {
+        if (chip.yPosition() > foundChip.yPosition()) {
+          if (
+            chip.yPosition() - chip.value < foundChip.yPosition() ||
+            (chip.yPosition() - chip.value === foundChip.yPosition() && squareWithChip.bottomChip)
+          ) {
+            possibleMoves[0] = null;
+          }
+        } else if (
           chip.yPosition() + chip.value > foundChip.yPosition() ||
           (chip.yPosition() + chip.value === foundChip.yPosition() && squareWithChip.bottomChip)
         ) {
           possibleMoves[2] = null;
         }
-        break;
-      case "West":
-        if (
+      }
+      // for East and West postions
+      if (chip.yPosition() === foundChip.yPosition()) {
+        if (chip.xPosition() < foundChip.xPosition()) {
+          if (
+            chip.xPosition() + chip.value > foundChip.xPosition() ||
+            (chip.xPosition() + chip.value === foundChip.xPosition() && squareWithChip.bottomChip)
+          ) {
+            possibleMoves[1] = null;
+          }
+        } else if (
           chip.xPosition() - chip.value < foundChip.xPosition() ||
           (chip.xPosition() - chip.value === foundChip.xPosition() && squareWithChip.bottomChip)
         ) {
           possibleMoves[3] = null;
         }
-        break;
-      case null:
-        possibleMoves[0] = GameEngineChipMoves.checkMoves(chip, squareWithChip, "North").slice(0, 1);
-        possibleMoves[1] = GameEngineChipMoves.checkMoves(chip, squareWithChip, "East").slice(1, 2);
-        possibleMoves[2] = GameEngineChipMoves.checkMoves(chip, squareWithChip, "South").slice(2, 3);
-        possibleMoves[3] = GameEngineChipMoves.checkMoves(chip, squareWithChip, "West").slice(3);
-        break;
-
-      default:
-        return undefined;
+      }
     }
-
     return possibleMoves;
   }
 
