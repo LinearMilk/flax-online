@@ -67,14 +67,20 @@ export default class GameEngine {
   placeChipOnBoard(x, y) {
     if (x >= 0 && x <= this.selectedBoard.getBoardWidth() && y >= 0 && y <= this.selectedBoard.getBoardHeight()) {
       if (this.selectedChip) {
-        if (this.placeChip(x, y, this.player, this.selectedChip)) {
-          // clear objects so player can't place same chip over and over
-          this.currentRandomChips = [];
-          this.selectedChip = null;
+        const clickIsOnValidMove = this.player.getAvailableMoves().find(coordinates => {
+          if (coordinates.toString() === [x, y].toString()) return true;
+          return false;
+        });
 
-          this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
-          this.getRandomChip();
-          // TODO show legal moves
+        if (clickIsOnValidMove) {
+          if (this.placeChip(x, y, this.player, this.selectedChip)) {
+            // clear objects so player can't place same chip over and over
+            this.currentRandomChips = [];
+            this.selectedChip = null;
+
+            this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
+            this.getRandomChip();
+          }
         }
       }
     }
@@ -163,13 +169,18 @@ export default class GameEngine {
         if (square.activeChip) this.draw.chip(square.activeChip);
       });
 
+      // Highlight available moves
+      const availableMoves = [];
       this.player.chipsOnBoard.forEach(chip => {
-        chip.validMoves.forEach(move => {
-          if (move) {
-            this.draw.highlightChip(move[0], move[1]);
+        chip.validMoves.forEach(coordinates => {
+          if (coordinates) {
+            availableMoves.push(coordinates);
+            this.draw.highlightChip(coordinates[0], coordinates[1]);
           }
         });
       });
+
+      this.player.availableMoves = availableMoves;
     }
 
     // draw the first randomised chips for 1st player
