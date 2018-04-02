@@ -14,6 +14,7 @@ export default class Player {
     this.startingPosition = startingPosition;
     this.chipSupply = [8, 8, 8];
     this.chipsOnBoard = [];
+    this.availableMoves = [startingPosition];
   }
 
   /**
@@ -22,6 +23,14 @@ export default class Player {
    */
   getColour() {
     return this.colour;
+  }
+
+  /**
+   * Get the player's available moves on the board
+   * @return {array} the available moves for that player
+   */
+  getAvailableMoves() {
+    return this.availableMoves;
   }
 
   /**
