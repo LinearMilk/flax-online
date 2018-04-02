@@ -51,6 +51,12 @@ export default class GameEngineChipMoves {
     return possibleMoves;
   }
 
+  /**
+   * Find the square where the chip is
+   * @param {array} squares  - the array os squares on the board
+   * @param {Chip} chip      - the chip to be found
+   * @return the square where the chip is
+   */
   static findSquare(squares, chip) {
     if (chip && squares && squares.length > 0) {
       return squares.find(square => {
@@ -82,7 +88,6 @@ export default class GameEngineChipMoves {
       const foundChip = squareWithChip.activeChip;
 
       // for North and South positions
-
       if (chip.xPosition() === foundChip.xPosition()) {
         if (chip.yPosition() > foundChip.yPosition()) {
           if (
@@ -98,6 +103,7 @@ export default class GameEngineChipMoves {
           possibleMoves[2] = null;
         }
       }
+
       // for East and West postions
       if (chip.yPosition() === foundChip.yPosition()) {
         if (chip.xPosition() < foundChip.xPosition()) {
