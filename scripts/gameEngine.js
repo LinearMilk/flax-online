@@ -171,6 +171,12 @@ export default class GameEngine {
 
       // Highlight available moves
       const availableMoves = [];
+      if (this.hasFirstMoveAvailable(this.player)) {
+        const firstMoves = this.player.getStartingPosition();
+        this.draw.highlightChip(firstMoves[0], firstMoves[1]);
+        availableMoves.push(firstMoves);
+      }
+
       this.player.chipsOnBoard.forEach(chip => {
         chip.validMoves.forEach(coordinates => {
           if (coordinates) {
@@ -187,6 +193,20 @@ export default class GameEngine {
     if (!redraw) {
       this.getRandomChip();
     }
+  }
+
+  hasFirstMoveAvailable(player) {
+    const startingSquare = this.squares.find(square => {
+      const squareCoordinates = [square.xCoordinate, square.yCoordinate].toString();
+      const startingPosCoodinates = player.getStartingPosition().toString();
+
+      if (squareCoordinates === startingPosCoodinates) {
+        return true;
+      }
+      return false;
+    });
+
+    return startingSquare.bottomChip === null;
   }
 
   /**
