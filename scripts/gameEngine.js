@@ -30,6 +30,8 @@ export default class GameEngine {
       selectedBoardInfo.randomChipRow
     );
 
+    this.rooms = selectedBoardInfo.rooms;
+
     this.player = new Player(globals.playerColours[1], this.selectedBoard.startingPositions[0]);
     this.players = [this.player];
   }
@@ -80,10 +82,36 @@ export default class GameEngine {
 
             this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
             this.getRandomChip();
+            console.log(this.countPipsInRooms(this.player));
           }
         }
       }
     }
+  }
+
+  /**
+   * Count pips on all chips owned by a player in every room.
+   * @param  {Player} player - the player that is making the mov
+   * @param  {Board} board   - the chip being played
+   * @return {array}         - array of [[roomNumber,pipCount]]
+   */
+  countPipsInRooms(player) {
+    const chipsOnBoard = player.getChipsOnBoard();
+    const pipsInRooms = [];
+    this.rooms.forEach(room => {
+      const roomNumber = room.roomNum;
+      let sumOfPips = 0;
+      room.roomSquares.forEach(square => {
+        // console.log(square);
+        const foundChip = chipsOnBoard.find(chip => {
+          if (chip.xPosition() === square[0] && chip.yPosition() === square[1] && chip.isActive) return true;
+          return false;
+        });
+        if (foundChip) sumOfPips += foundChip.value;
+      });
+      pipsInRooms.push([roomNumber, sumOfPips]);
+    });
+    return pipsInRooms;
   }
 
   /**

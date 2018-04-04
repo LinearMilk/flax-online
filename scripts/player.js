@@ -18,6 +18,14 @@ export default class Player {
   }
 
   /**
+   * Get the player's chips placed on board
+   * @return {array} array of chips on board
+   */
+  getChipsOnBoard() {
+    return this.chipsOnBoard;
+  }
+
+  /**
    * Get the player's colour
    * @return {string} the player's colour
    */
