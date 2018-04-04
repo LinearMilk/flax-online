@@ -115,9 +115,15 @@ export default class GameEngine {
   }
 
   /**
+   * TODO: finish this function
+   * Count pips on all chips owned by a player in every room.
+   * @param  {array} players - array containing all players in a game
+   * @return {array}         - array of [player,points]]
+   */
   static countPoints(players) {
     const scoreSheet = [];
     players.forEach(player => {
+      countPipsInRooms(player);
     });
     return scoreSheet;
   }
