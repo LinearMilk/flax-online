@@ -15,6 +15,11 @@ export default class Player {
     this.chipSupply = [8, 8, 8];
     this.chipsOnBoard = [];
     this.availableMoves = [startingPosition];
+    this.isActive = false;
+  }
+
+  setIsActive(isActive) {
+    this.isActive = isActive;
   }
 
   /**
