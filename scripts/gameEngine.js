@@ -115,6 +115,14 @@ export default class GameEngine {
   }
 
   /**
+  static countPoints(players) {
+    const scoreSheet = [];
+    players.forEach(player => {
+    });
+    return scoreSheet;
+  }
+
+  /**
    * Select the random chip clikced, highlightening it
    * @param  {number} x - the column of the click
    * @param  {number} y - the row of the click
