@@ -30,8 +30,11 @@ export default class GameEngine {
       selectedBoardInfo.randomChipRow
     );
 
-    this.player = new Player(globals.playerColours[1], this.selectedBoard.startingPositions[0]);
-    this.players = [this.player];
+    const playerOne = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
+    const playerTwo = new Player(globals.playerColours[1], this.selectedBoard.startingPositions[1]);
+    // this.player = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
+    this.players = [playerOne, playerTwo];
+    this.activePlayer = playerOne;
   }
 
   /**
@@ -67,19 +70,24 @@ export default class GameEngine {
   placeChipOnBoard(x, y) {
     if (x >= 0 && x <= this.selectedBoard.getBoardWidth() && y >= 0 && y <= this.selectedBoard.getBoardHeight()) {
       if (this.selectedChip) {
-        const clickIsOnValidMove = this.player.getAvailableMoves().find(coordinates => {
+        const clickIsOnValidMove = this.activePlayer.getAvailableMoves().find(coordinates => {
           if (coordinates.toString() === [x, y].toString()) return true;
           return false;
         });
 
         if (clickIsOnValidMove) {
-          if (this.placeChip(x, y, this.player, this.selectedChip)) {
+          if (this.placeChip(x, y, this.activePlayer, this.selectedChip)) {
             // clear objects so player can't place same chip over and over
             this.currentRandomChips = [];
             this.selectedChip = null;
 
             this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
+            // Change active player
+            this.changeActivePlayer();
+
             this.getRandomChip();
+            // redraw the board with valid moves
+            this.createGameBoard(true);
           }
         }
       }
@@ -87,7 +95,7 @@ export default class GameEngine {
   }
 
   /**
-   * Select the random chip clikced, highlightening it
+   * Select the random chip clicked, highlighting it
    * @param  {number} x - the column of the click
    * @param  {number} y - the row of the click
    */
@@ -171,13 +179,13 @@ export default class GameEngine {
 
       // Highlight available moves
       const availableMoves = [];
-      if (this.hasFirstMoveAvailable(this.player)) {
-        const firstMoves = this.player.getStartingPosition();
+      if (this.hasFirstMoveAvailable(this.activePlayer)) {
+        const firstMoves = this.activePlayer.getStartingPosition();
         this.draw.highlightChip(firstMoves[0], firstMoves[1]);
         availableMoves.push(firstMoves);
       }
 
-      this.player.chipsOnBoard.forEach(chip => {
+      this.activePlayer.chipsOnBoard.forEach(chip => {
         chip.validMoves.forEach(coordinates => {
           if (coordinates) {
             availableMoves.push(coordinates);
@@ -186,15 +194,37 @@ export default class GameEngine {
         });
       });
 
-      this.player.availableMoves = availableMoves;
+      this.activePlayer.availableMoves = availableMoves;
     }
 
     // draw the first randomised chips for 1st player
     if (!redraw) {
+      GameEngine.setActivePlayer(this.activePlayer);
       this.getRandomChip();
     }
   }
 
+  static setActivePlayer(player) {
+    player.setIsActive(true);
+  }
+
+  /**
+   * Changes active player - IMPORTANT - works only with 2 players.
+   */
+  changeActivePlayer() {
+    this.players.forEach(player => {
+      if (player.isActive) player.setIsActive(false);
+      else {
+        player.setIsActive(true);
+        this.activePlayer = player;
+      }
+    });
+  }
+  /**
+   * checks if there is a bottom tile on the starting position for that player
+   * @param  {Player} player - player to check
+   * @return {boolean}       - true if there is no bottom chip (move availble), false if move not availble
+   */
   hasFirstMoveAvailable(player) {
     const startingSquare = this.squares.find(square => {
       const squareCoordinates = [square.xCoordinate, square.yCoordinate].toString();
@@ -205,8 +235,8 @@ export default class GameEngine {
       }
       return false;
     });
-
-    return startingSquare.bottomChip === null;
+    const isBottomChipPresent = startingSquare.bottomChip === null;
+    return isBottomChipPresent;
   }
 
   /**
@@ -234,11 +264,11 @@ export default class GameEngine {
    */
   getRandomChip() {
     if (!this.endGame && this.currentRandomChips.length <= 0) {
-      const chipValues = this.player.getRandomChipType();
+      const chipValues = this.activePlayer.getRandomChipType();
 
       if (chipValues.length > 0) {
-        const chip1 = new Chip(this.player.getColour(), chipValues[0], [1, this.selectedBoard.randomChipRow]);
-        const chip2 = new Chip(this.player.getColour(), chipValues[1], [2, this.selectedBoard.randomChipRow]);
+        const chip1 = new Chip(this.activePlayer.getColour(), chipValues[0], [1, this.selectedBoard.randomChipRow]);
+        const chip2 = new Chip(this.activePlayer.getColour(), chipValues[1], [2, this.selectedBoard.randomChipRow]);
 
         this.currentRandomChips = [chip1, chip2];
 
@@ -279,8 +309,6 @@ export default class GameEngine {
       boardSquare.activeChip = playedChip;
       playedChip.validMoves = GameEngineChipMoves.findLegalMoves(this.selectedBoard, this.squares, playedChip);
 
-      // redraw the board with valid moves
-      this.createGameBoard(true);
       return true;
     }
 
