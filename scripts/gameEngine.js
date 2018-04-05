@@ -86,8 +86,9 @@ export default class GameEngine {
             this.selectedChip = null;
 
             // logs the pips in rooms to console
-            console.log(this.activePlayer.name);
+            // console.log(this.activePlayer.name);
             // console.log(this.countPipsInRooms(this.activePlayer));
+            // console.log(this.generateScoreSheet(this.players));
             console.log(this.generateScoreSheet(this.players));
 
             // Change active player
@@ -127,18 +128,30 @@ export default class GameEngine {
   }
 
   /**
-   * Compile information about rooms and pips into an array
+   * Compile information about pips in each room for each player into an array
    * @param  {array} players - array containing all players in a game
-   * @return {array} scoreSheet - array of [[playerOne.name, pipCountRoom1,pipCountRoom2,...],[playerTwo.name, pipCountRoom1,pipCountRoom2,...]]
+   * @return {array} scoreSheet - array of [[playerOneRoomOnePipCount,playerTwoRoomOnePipCount],[playerOneRoomTwoPipCount,playerTwoRoomTwoPipCount],...]
    */
   generateScoreSheet(players) {
     const scoreSheet = [];
     players.forEach(player => {
-      scoreSheet.push(this.countPipsInRooms(player));
-      scoreSheet[scoreSheet.length - 1].unshift(player.name);
+      const pipsInRooms = this.countPipsInRooms(player);
+      for (let room = 0; room < pipsInRooms.length; room += 1) {
+        if (scoreSheet[room] === undefined) {
+          scoreSheet[room] = [];
+        }
+        scoreSheet[room].push(pipsInRooms[room]);
+      }
     });
-
     return scoreSheet;
+  }
+
+  static countPoints(scoreSheet) {
+    const scores = scoreSheet;
+    // const players = [];
+    // const scores = [];
+
+    return scores;
   }
 
   /**
