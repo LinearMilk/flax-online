@@ -85,11 +85,6 @@ export default class GameEngine {
             this.currentRandomChips = [];
             this.selectedChip = null;
 
-            // logs the pips in rooms to console
-            // console.log(this.activePlayer.name);
-            // console.log(this.countPipsInRooms(this.activePlayer));
-            // console.log(this.generateScoreSheet(this.players));
-            console.log(this.generateScoreSheet(this.players));
 
             // Change active player
             this.changeActivePlayer();
@@ -150,6 +145,10 @@ export default class GameEngine {
     const scores = scoreSheet;
     // const players = [];
     // const scores = [];
+
+      scores[0] += roomScores[0];
+      scores[1] += roomScores[1];
+    });
 
     return scores;
   }
