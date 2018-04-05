@@ -95,7 +95,7 @@ export default class GameEngine {
   }
 
   /**
-   * Select the random chip clciked, highlighting it
+   * Select the random chip clicked, highlighting it
    * @param  {number} x - the column of the click
    * @param  {number} y - the row of the click
    */
