@@ -95,7 +95,7 @@ export default class GameEngine {
   }
 
   /**
-   * Select the random chip clikced, highlightening it
+   * Select the random chip clciked, highlighting it
    * @param  {number} x - the column of the click
    * @param  {number} y - the row of the click
    */
@@ -208,7 +208,9 @@ export default class GameEngine {
     player.setIsActive(true);
   }
 
-  // assumes only TWO players
+  /**
+   * Changes active player - IMPORTANT - works only with 2 players.
+   */
   changeActivePlayer() {
     this.players.forEach(player => {
       if (player.isActive) player.setIsActive(false);
@@ -218,7 +220,11 @@ export default class GameEngine {
       }
     });
   }
-
+  /**
+   * checks if there is a bottom tile on the starting position for that player
+   * @param  {Player} player - player to check
+   * @return {boolean}       - true if there is no bottom chip (move availble), false if move not availble
+   */
   hasFirstMoveAvailable(player) {
     const startingSquare = this.squares.find(square => {
       const squareCoordinates = [square.xCoordinate, square.yCoordinate].toString();
@@ -229,8 +235,8 @@ export default class GameEngine {
       }
       return false;
     });
-
-    return startingSquare.bottomChip === null;
+    const isBottomChipPresent = startingSquare.bottomChip === null;
+    return isBottomChipPresent;
   }
 
   /**
