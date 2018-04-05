@@ -85,6 +85,10 @@ export default class GameEngine {
             this.currentRandomChips = [];
             this.selectedChip = null;
 
+            this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
+
+            console.log("scores...");
+            console.log(GameEngine.countPoints(this.generateScoreSheet(this.players)));
 
             // Change active player
             this.changeActivePlayer();
@@ -141,10 +145,21 @@ export default class GameEngine {
     return scoreSheet;
   }
 
-  static countPoints(scoreSheet) {
-    const scores = scoreSheet;
-    // const players = [];
-    // const scores = [];
+  static countPoints(pipCount) {
+    const pipCountRoom = pipCount;
+    const scores = [0, 0];
+
+    pipCountRoom.forEach(roomPipCount => {
+      const max = Math.max(...roomPipCount);
+      const roomScores = [0, 0];
+
+      if (max > 0) {
+        for (let i = 0; i < roomPipCount.length; i += 1) {
+          if (roomPipCount[i] === max) {
+            roomScores[i] += 4;
+          }
+        }
+      }
 
       scores[0] += roomScores[0];
       scores[1] += roomScores[1];
