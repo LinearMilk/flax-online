@@ -33,8 +33,8 @@ export default class GameEngine {
 
     const playerOne = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
     const playerTwo = new Player(globals.playerColours[1], this.selectedBoard.startingPositions[1]);
-    // playerOne.setName("green");
-    // playerTwo.setName("blue");
+    playerOne.setName("green");
+    playerTwo.setName("blue");
 
     // this.player = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
     this.players = [playerOne, playerTwo];
@@ -85,10 +85,10 @@ export default class GameEngine {
             this.currentRandomChips = [];
             this.selectedChip = null;
 
-            // this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
-
             // logs the pips in rooms to console
-            console.log(this.countPipsInRooms(this.activePlayer));
+            console.log(this.activePlayer.name);
+            // console.log(this.countPipsInRooms(this.activePlayer));
+            console.log(this.generateScoreSheet(this.players));
 
             // Change active player
             this.changeActivePlayer();
@@ -106,13 +106,12 @@ export default class GameEngine {
    * Count pips on all chips owned by a player in every room.
    * @param  {Player} player - the player that is making the mov
    * @param  {Board} board   - the chip being played
-   * @return {array}         - array of [[roomNumber,pipCount]]
+   * @return {array}         - array of [pipCount] in each room, 1st room at index 0
    */
   countPipsInRooms(player) {
     const chipsOnBoard = player.getChipsOnBoard();
     const pipsInRooms = [];
     this.rooms.forEach(room => {
-      const roomNumber = room.roomNum;
       let sumOfPips = 0;
       room.roomSquares.forEach(square => {
         // console.log(square);
@@ -122,27 +121,28 @@ export default class GameEngine {
         });
         if (foundChip) sumOfPips += foundChip.value;
       });
-      pipsInRooms.push([roomNumber, sumOfPips]);
+      pipsInRooms.push(sumOfPips);
     });
     return pipsInRooms;
   }
 
   /**
-   * TODO: finish this function
-   * Count pips on all chips owned by a player in every room.
+   * Compile information about rooms and pips into an array
    * @param  {array} players - array containing all players in a game
-   * @return {array}         - array of [player,points]]
+   * @return {array} scoreSheet - array of [[playerOne.name, pipCountRoom1,pipCountRoom2,...],[playerTwo.name, pipCountRoom1,pipCountRoom2,...]]
    */
-  static countPoints(players) {
+  generateScoreSheet(players) {
     const scoreSheet = [];
     players.forEach(player => {
-      this.countPipsInRooms(player);
+      scoreSheet.push(this.countPipsInRooms(player));
+      scoreSheet[scoreSheet.length - 1].unshift(player.name);
     });
+
     return scoreSheet;
   }
 
   /**
-   * Select the random chip clikced, highlightening it
+   * Select the random chip clicked, highlighting it
    * @param  {number} x - the column of the click
    * @param  {number} y - the row of the click
    */
