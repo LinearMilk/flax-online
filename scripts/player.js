@@ -16,8 +16,20 @@ export default class Player {
     this.chipsOnBoard = [];
     this.availableMoves = [startingPosition];
     this.isActive = false;
+    this.name = "";
   }
 
+  /**
+   * Sets player's name
+   * @param {string} name - player's name
+   */
+  setName(name) {
+    this.name = name;
+  }
+  /**
+   * Set this player as active/inactive
+   * @param {boolean} isActive - true if player is active (playing), false it it's not
+   */
   setIsActive(isActive) {
     this.isActive = isActive;
   }
