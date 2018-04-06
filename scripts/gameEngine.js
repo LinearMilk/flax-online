@@ -182,6 +182,7 @@ export default class GameEngine {
       // scoring variant for 2 players
       playersPipCount.forEach(roomPipCount => {
         const roomWinnersIndices = GameEngine.findHighestPipCountIndices(roomPipCount);
+        // if there is at least one winner
         if (roomWinnersIndices !== -1) {
           roomWinnersIndices.forEach(player => {
             scores[player] += firstPlaceRoomScore;
@@ -189,8 +190,22 @@ export default class GameEngine {
         }
       });
     } else {
-      console.log(secondPlaceRoomScore);
-      // scoring variant for 3-4 players
+      playersPipCount.forEach(roomPipCount => {
+        const roomWinnersIndices = GameEngine.findHighestPipCountIndices(roomPipCount);
+        if (roomWinnersIndices !== -1) {
+          roomWinnersIndices.forEach(player => {
+            scores[player] += firstPlaceRoomScore;
+          });
+          if (roomWinnersIndices.length === 1) {
+            const roomRunnerUpsIndices = GameEngine.findSecondHighestPipCountIndices(roomPipCount);
+            if (roomRunnerUpsIndices !== -1) {
+              roomRunnerUpsIndices.forEach(player => {
+                scores[player] += secondPlaceRoomScore;
+              });
+            }
+          }
+        }
+      });
     }
 
     return scores;
