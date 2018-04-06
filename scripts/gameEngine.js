@@ -193,15 +193,9 @@ export default class GameEngine {
    * @return {array}              - array of indices of players with highest amount of chips
    */
   static findHighestPipCountIndices(roomPipCount) {
-    const indices = [];
     const max = Math.max(...roomPipCount);
-    if (max === 0) return undefined;
-
-    let idx = roomPipCount.indexOf(max);
-    while (idx !== -1) {
-      indices.push(idx);
-      idx = roomPipCount.indexOf(max, idx + 1);
-    }
+    if (max === 0) return -1;
+    const indices = GameEngine.findIndicesOFMaxInArray(roomPipCount);
     return indices;
   }
 
@@ -212,17 +206,39 @@ export default class GameEngine {
    */
   static findSecondHighestPipCountIndices(roomPipCount) {
     if (!roomPipCount) return undefined;
-    const indices = [];
     const max = Math.max(...roomPipCount);
-    // check if there are pips
-    if (max === 0) return -1;
-    // check if all pips counts are not the same
+
+    // check if all pips counts are not the same and >0
     const lowerThanMax = roomPipCount.find(pipCount => {
       if (pipCount < max && pipCount > 0) return true;
       return false;
     });
     if (!lowerThanMax) return -1;
 
+    // removing max values from the array considered
+    const pipsWithoutMax = roomPipCount.slice();
+    const indicesOfMax = GameEngine.findIndicesOFMaxInArray(pipsWithoutMax);
+    indicesOfMax.forEach(index => {
+      pipsWithoutMax[index] = 0;
+    });
+    const indices = GameEngine.findIndicesOFMaxInArray(pipsWithoutMax);
+
+    return indices;
+  }
+
+  /**
+   * returns all indices containing max value of an array
+   * @param  {array} array - array containing pip counts for every player in one room
+   * @return {array}              - array of indices containg max value
+   */
+  static findIndicesOFMaxInArray(array) {
+    const indices = [];
+    const max = Math.max(...array);
+    let idx = array.indexOf(max);
+    while (idx !== -1) {
+      indices.push(idx);
+      idx = array.indexOf(max, idx + 1);
+    }
     return indices;
   }
 
