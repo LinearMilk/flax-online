@@ -205,6 +205,20 @@ export default class GameEngine {
   }
 
   /**
+   * checks if there is/are player(s) with second highthest amount of pips in room, and returns their index, -1 if none
+   * @param  {array} roomPipCount - array containing pip counts for every player in one room
+   * @return {array}              - array of indices of player(s) with 2nd highest amount of chips
+   */
+  static findSecondHighestScore(roomPipCount) {
+    if (!roomPipCount) return undefined;
+    const indices = [];
+    const max = Math.max(...roomPipCount);
+    if (max === 0) return -1;
+
+    return indices;
+  }
+
+  /**
    * Select the random chip clicked, highlighting it
    * @param  {number} x - the column of the click
    * @param  {number} y - the row of the click
