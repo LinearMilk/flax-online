@@ -210,11 +210,18 @@ export default class GameEngine {
    * @param  {array} roomPipCount - array containing pip counts for every player in one room
    * @return {array}              - array of indices of player(s) with 2nd highest amount of chips
    */
-  static findSecondHighestScore(roomPipCount) {
+  static findSecondHighestPipCountIndices(roomPipCount) {
     if (!roomPipCount) return undefined;
     const indices = [];
     const max = Math.max(...roomPipCount);
+    // check if there are pips
     if (max === 0) return -1;
+    // check if all pips counts are not the same
+    const lowerThanMax = roomPipCount.find(pipCount => {
+      if (pipCount < max && pipCount > 0) return true;
+      return false;
+    });
+    if (!lowerThanMax) return -1;
 
     return indices;
   }
