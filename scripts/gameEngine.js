@@ -88,7 +88,7 @@ export default class GameEngine {
             this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
 
             console.log("scores...");
-            console.log(GameEngine.countPoints(this.generateScoreSheet(this.players)));
+            console.log(GameEngine.countPoints2Player(this.generateRoomPipCount(this.players)));
 
             // Change active player
             this.changeActivePlayer();
@@ -129,43 +129,52 @@ export default class GameEngine {
   /**
    * Compile information about pips in each room for each player into an array
    * @param  {array} players - array containing all players in a game
-   * @return {array} scoreSheet - array of [[playerOneRoomOnePipCount,playerTwoRoomOnePipCount],[playerOneRoomTwoPipCount,playerTwoRoomTwoPipCount],...]
+   * @return {array}         - array of [[playerOneRoomOnePipCount,playerTwoRoomOnePipCount],[playerOneRoomTwoPipCount,playerTwoRoomTwoPipCount],...]
    */
-  generateScoreSheet(players) {
-    const scoreSheet = [];
+  generateRoomPipCount(players) {
+    const playersPipCount = [];
     players.forEach(player => {
       const pipsInRooms = this.countPipsInRooms(player);
       for (let room = 0; room < pipsInRooms.length; room += 1) {
-        if (scoreSheet[room] === undefined) {
-          scoreSheet[room] = [];
+        if (playersPipCount[room] === undefined) {
+          playersPipCount[room] = [];
         }
-        scoreSheet[room].push(pipsInRooms[room]);
+        playersPipCount[room].push(pipsInRooms[room]);
       }
     });
-    return scoreSheet;
+    return playersPipCount;
   }
 
-  static countPoints(pipCount) {
-    const pipCountRoom = pipCount;
-    const scores = [0, 0];
-
-    pipCountRoom.forEach(roomPipCount => {
+  /**
+   * Calculates score based on roomPipCount
+   * @param  {array} playerspipCount - array containing pip counts for every player in every room
+   * @return {array}         - array of [playerOneScore, playerTwoScore,...]
+   */
+  static countPoints2Player(playersPipCount) {
+    const scores = Array(playersPipCount[0].length).fill(0);
+    playersPipCount.forEach(roomPipCount => {
       const max = Math.max(...roomPipCount);
-      const roomScores = [0, 0];
 
       if (max > 0) {
         for (let i = 0; i < roomPipCount.length; i += 1) {
           if (roomPipCount[i] === max) {
-            roomScores[i] += 4;
+            scores[i] += 4;
           }
         }
       }
-
-      scores[0] += roomScores[0];
-      scores[1] += roomScores[1];
     });
-
     return scores;
+  }
+
+  static findHighestScore(roomPipCount) {
+    const indices = [];
+    const max = Math.max(...roomPipCount);
+    let idx = roomPipCount.indexOf(max);
+    while (idx !== -1) {
+      indices.push(idx);
+      idx = roomPipCount.indexOf(max, idx + 1);
+    }
+    return indices;
   }
 
   /**
