@@ -172,10 +172,26 @@ export default class GameEngine {
    * @return {array}                 - array of [playerOneScore, playerTwoScore,...]
    */
   static countPoints(playersPipCount) {
-    const scores = Array(playersPipCount[0].length).fill(0);
-    // scoring variant for 2 players
+    if (!playersPipCount) return undefined;
+    const noOfPlayers = playersPipCount[0].length;
+    const scores = Array(noOfPlayers).fill(0);
+    const firstPlaceRoomScore = 4;
+    const secondPlaceRoomScore = 2;
 
-    // scoring variant for 3-4 players
+    if (noOfPlayers === 2) {
+      // scoring variant for 2 players
+      playersPipCount.forEach(roomPipCount => {
+        const roomWinnersIndices = GameEngine.findHighestPipCountIndices(roomPipCount);
+        if (roomWinnersIndices !== -1) {
+          roomWinnersIndices.forEach(player => {
+            scores[player] += firstPlaceRoomScore;
+          });
+        }
+      });
+    } else {
+      console.log(secondPlaceRoomScore);
+      // scoring variant for 3-4 players
+    }
 
     return scores;
   }
