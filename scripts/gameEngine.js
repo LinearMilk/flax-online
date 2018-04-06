@@ -188,14 +188,15 @@ export default class GameEngine {
   }
 
   /**
-   * checks if there are any pips in room, and returns index of players with highest amount of chips
+   * checks if there are any pips in room, and returns indices of players with highest amount of chips
    * @param  {array} roomPipCount - array containing pip counts for every player in one room
    * @return {array}              - array of indices of players with highest amount of chips
    */
-  static findHighestScore(roomPipCount) {
+  static findHighestPipCountIndices(roomPipCount) {
     const indices = [];
     const max = Math.max(...roomPipCount);
     if (max === 0) return undefined;
+
     let idx = roomPipCount.indexOf(max);
     while (idx !== -1) {
       indices.push(idx);
