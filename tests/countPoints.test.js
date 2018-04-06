@@ -77,10 +77,10 @@ test("3p 1r, 2 pips pl3 1 pip pl1 1 pip pl2 should return [2,2,4]", () => {
 });
 
 test("3p 1r, 2 pips pl3 2 pip pl1 1 pip pl2 should return [4,2,4]", () => {
-  expect(GameEngine.countPoints([[2, 1, 2]])).toEqual([4, 2, 4]);
+  expect(GameEngine.countPoints([[2, 1, 2]])).toEqual([4, 0, 4]);
 });
 
-test("3p 5r, mixed pips should return [16,10,14]", () => {
+test("3p 5r, mixed pips should return [14,10,14]", () => {
   expect(GameEngine.countPoints([[2, 1, 2], [5, 0, 0], [0, 1, 2], [2, 2, 2], [3, 1, 1]])).toEqual([16, 10, 14]);
 });
 
@@ -94,4 +94,22 @@ test("3p 2r, 0 pips should return [0,0,0]", () => {
 
 test("4p 2r, 0 pips should return [0,0,0,0]", () => {
   expect(GameEngine.countPoints([[0, 0, 0, 0], [0, 0, 0, 0]])).toEqual([0, 0, 0, 0]);
+});
+
+test("4p 2r, mixed pips should return [4,4,4,4]", () => {
+  expect(GameEngine.countPoints([[1, 1, 0, 0], [0, 0, 1, 1]])).toEqual([4, 4, 4, 4]);
+});
+
+test("4p 2r, mixed pips should return [6,4,6,4]", () => {
+  expect(GameEngine.countPoints([[5, 7, 5, 0], [1, 0, 1, 1]])).toEqual([6, 4, 6, 4]);
+});
+
+test("4p 2r, mixed pips should return [4,8,4,2]", () => {
+  expect(GameEngine.countPoints([[5, 7, 5, 0], [1, 2, 1, 1]])).toEqual([4, 4, 4, 4]);
+});
+
+test("4p 5r, mixed pips should return [10,8,10,4]", () => {
+  expect(GameEngine.countPoints([[13, 9, 15, 5], [7, 12, 2, 6], [5, 3, 15, 11], [12, 1, 7, 10], [7, 9, 7, 6]])).toEqual(
+    [10, 8, 10, 4]
+  );
 });
