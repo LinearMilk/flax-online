@@ -1,5 +1,4 @@
 import GameEngine from "../scripts/gameEngine";
-import * as testConstants from "./testConstants";
 
 test("no pips array should return (undefined)", () => {
   expect(GameEngine.findSecondHighestPipCountIndices(null)).toBe(undefined);

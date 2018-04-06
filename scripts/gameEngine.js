@@ -173,17 +173,10 @@ export default class GameEngine {
    */
   static countPoints(playersPipCount) {
     const scores = Array(playersPipCount[0].length).fill(0);
-    playersPipCount.forEach(roomPipCount => {
-      const max = Math.max(...roomPipCount);
+    // scoring variant for 2 players
 
-      if (max > 0) {
-        for (let i = 0; i < roomPipCount.length; i += 1) {
-          if (roomPipCount[i] === max) {
-            scores[i] += 4;
-          }
-        }
-      }
-    });
+    // scoring variant for 3-4 players
+
     return scores;
   }
 
