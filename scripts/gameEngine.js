@@ -146,9 +146,9 @@ export default class GameEngine {
   }
 
   /**
-   * Calculates score based on roomPipCount
+   * Calculates score based on roomPipCount for 2 players ONLY
    * @param  {array} playerspipCount - array containing pip counts for every player in every room
-   * @return {array}         - array of [playerOneScore, playerTwoScore,...]
+   * @return {array}                 - array of [playerOneScore, playerTwoScore]
    */
   static countPoints2Player(playersPipCount) {
     const scores = Array(playersPipCount[0].length).fill(0);
@@ -166,9 +166,36 @@ export default class GameEngine {
     return scores;
   }
 
+  /**
+   * Calculates score based on roomPipCount
+   * @param  {array} playerspipCount - array containing pip counts for every player in every room
+   * @return {array}                 - array of [playerOneScore, playerTwoScore,...]
+   */
+  static countPoints(playersPipCount) {
+    const scores = Array(playersPipCount[0].length).fill(0);
+    playersPipCount.forEach(roomPipCount => {
+      const max = Math.max(...roomPipCount);
+
+      if (max > 0) {
+        for (let i = 0; i < roomPipCount.length; i += 1) {
+          if (roomPipCount[i] === max) {
+            scores[i] += 4;
+          }
+        }
+      }
+    });
+    return scores;
+  }
+
+  /**
+   * checks if there are any pips in room, and returns index of players with highest amount of chips
+   * @param  {array} roomPipCount - array containing pip counts for every player in one room
+   * @return {array}              - array of indices of players with highest amount of chips
+   */
   static findHighestScore(roomPipCount) {
     const indices = [];
     const max = Math.max(...roomPipCount);
+    if (max === 0) return undefined;
     let idx = roomPipCount.indexOf(max);
     while (idx !== -1) {
       indices.push(idx);
