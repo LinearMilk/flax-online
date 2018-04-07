@@ -22,7 +22,7 @@ export default class GameEngine {
     this.selectedChip = null;
     this.endGame = false;
 
-    const selectedBoardInfo = gameBoards.board2;
+    const selectedBoardInfo = gameBoards.board3;
     this.selectedBoard = new Board(
       selectedBoardInfo.dimensions,
       selectedBoardInfo.numPlayers,
