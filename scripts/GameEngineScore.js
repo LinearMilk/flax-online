@@ -83,6 +83,8 @@ export default class GameEngineScore {
     return scores;
   }
 
+  // breakTies(playersPipCount) {}
+
   /**
    * checks if there are any pips in room, and returns indices of players with highest amount of chips
    * @param  {array} roomPipCount - array containing pip counts for every player in one room

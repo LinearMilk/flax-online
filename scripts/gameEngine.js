@@ -28,7 +28,8 @@ export default class GameEngine {
       selectedBoardInfo.numPlayers,
       selectedBoardInfo.rooms,
       selectedBoardInfo.startingPositions,
-      selectedBoardInfo.randomChipRow
+      selectedBoardInfo.randomChipRow,
+      selectedBoardInfo.tieBreakerRoomNum
     );
     this.rooms = selectedBoardInfo.rooms;
 
@@ -37,7 +38,6 @@ export default class GameEngine {
     playerOne.setName("green");
     playerTwo.setName("blue");
 
-    // this.player = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
     this.players = [playerOne, playerTwo];
     this.activePlayer = playerOne;
     this.score = new GameEngineScore(this.players, this.rooms);
