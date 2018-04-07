@@ -3,6 +3,7 @@ import Player from "./player";
 import Chip from "./chip";
 import Board from "./board";
 import GameEngineChipMoves from "./gameEngineChipMoves";
+import GameEngineScore from "./GameEngineScore";
 import gameBoards from "./boards";
 import * as globals from "./globals";
 
@@ -29,12 +30,17 @@ export default class GameEngine {
       selectedBoardInfo.startingPositions,
       selectedBoardInfo.randomChipRow
     );
+    this.rooms = selectedBoardInfo.rooms;
 
     const playerOne = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
     const playerTwo = new Player(globals.playerColours[1], this.selectedBoard.startingPositions[1]);
+    playerOne.setName("green");
+    playerTwo.setName("blue");
+
     // this.player = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
     this.players = [playerOne, playerTwo];
     this.activePlayer = playerOne;
+    this.score = new GameEngineScore(this.players, this.rooms);
   }
 
   /**
@@ -82,6 +88,10 @@ export default class GameEngine {
             this.selectedChip = null;
 
             this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
+
+            console.log("scores...");
+            console.log(GameEngineScore.countPoints(this.score.generateRoomPipCount(this.players)));
+
             // Change active player
             this.changeActivePlayer();
 
