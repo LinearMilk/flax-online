@@ -144,7 +144,7 @@ export default class Drawing {
    * @param  {number} yPosition - relative y position
    */
   clearRandomChips(xPosition, yPosition) {
-    this.ctx.fillStyle = "gray";
+    this.ctx.fillStyle = "white";
     this.ctx.fillRect((xPosition - 1) * this.squareSize, (yPosition - 1) * this.squareSize, 100, 100);
   }
 
@@ -235,7 +235,7 @@ export default class Drawing {
     this.ctx.beginPath();
     this.ctx.arc(0, 0, this.chipRadius + 3, 0, 2 * Math.PI);
     this.ctx.lineWidth = 6;
-    this.ctx.strokeStyle = "gray";
+    this.ctx.strokeStyle = "white";
     this.ctx.stroke();
     this.ctx.restore();
   }
@@ -311,5 +311,20 @@ export default class Drawing {
     this.ctx.arc(0, 0, 3, 0, 2 * Math.PI);
     this.ctx.fill();
     this.ctx.restore();
+  }
+  /**
+   * Draw players' names and current score
+   * @param  {array} players - array containing players in the game
+   * @param  {array} scores - array containing current scores
+   */
+  currentScore(players, score) {
+    this.ctx.fillStyle = "white";
+    this.ctx.fillRect(350, 480, 200, 100);
+    this.ctx.fillStyle = players[0].colour.colour;
+    this.ctx.font = "25px Georgia";
+    this.ctx.fillText(`${players[0].name}: ${score[0]}`, 350, 500);
+    this.ctx.fillStyle = players[1].colour.colour;
+    this.ctx.font = "25px Georgia";
+    this.ctx.fillText(`${players[1].name}: ${score[1]}`, 350, 530);
   }
 }
