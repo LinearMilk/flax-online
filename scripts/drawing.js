@@ -111,20 +111,31 @@ export default class Drawing {
    * @param  {string} colour    - the colour code of the player
    */
   startingTile(positions, colour) {
-    this.ctx.fillStyle = colour.border;
-    this.ctx.fillRect(
-      (positions[0] - 1) * this.squareSize + 2,
-      (positions[1] - 1) * this.squareSize + 2,
-      this.squareSize - 4,
-      this.squareSize - 4
-    );
+    const x = (positions[0] - 1) * this.squareSize + this.squareBorderSize + 2;
+    const y = (positions[1] - 1) * this.squareSize + this.squareBorderSize + 2;
+    const height = this.squareSize - 2 * this.squareBorderSize - 4;
+    const width = this.squareSize - 2 * this.squareBorderSize - 4;
+
     this.ctx.fillStyle = colour.colour;
-    this.ctx.fillRect(
-      (positions[0] - 1) * this.squareSize + this.squareBorderSize + 2,
-      (positions[1] - 1) * this.squareSize + this.squareBorderSize + 2,
-      this.squareSize - 2 * this.squareBorderSize - 4,
-      this.squareSize - 2 * this.squareBorderSize - 4
-    );
+    this.ctx.strokeStyle = colour.border;
+    this.ctx.lineWidth = 1;
+
+    let radius = 5;
+    radius = { tl: radius, tr: radius, br: radius, bl: radius };
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(x + radius.tl, y);
+    this.ctx.lineTo(x + width - radius.tr, y);
+    this.ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+    this.ctx.lineTo(x + width, y + height - radius.br);
+    this.ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+    this.ctx.lineTo(x + radius.bl, y + height);
+    this.ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+    this.ctx.lineTo(x, y + radius.tl);
+    this.ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+    this.ctx.closePath();
+    this.ctx.fill();
+    this.ctx.stroke();
   }
 
   /**
