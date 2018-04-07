@@ -33,7 +33,7 @@ export default class GameEngine {
     this.rooms = selectedBoardInfo.rooms;
 
     const playerOne = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
-    const playerTwo = new Player(globals.playerColours[1], this.selectedBoard.startingPositions[1]);
+    const playerTwo = new Player(globals.playerColours[3], this.selectedBoard.startingPositions[1]);
     playerOne.setName("green");
     playerTwo.setName("blue");
 
@@ -182,16 +182,11 @@ export default class GameEngine {
 
     // Draw all the chips played on that board
     if (redraw) {
-      this.squares.forEach(square => {
-        if (square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
-        if (square.activeChip) this.draw.chip(square.activeChip);
-      });
-
       // Highlight available moves
       const availableMoves = [];
       if (this.hasFirstMoveAvailable(this.activePlayer)) {
         const firstMoves = this.activePlayer.getStartingPosition();
-        this.draw.highlightChip(firstMoves[0], firstMoves[1]);
+        this.draw.highlightChip(firstMoves[0], firstMoves[1], this.activePlayer.colour);
         availableMoves.push(firstMoves);
       }
 
@@ -199,9 +194,15 @@ export default class GameEngine {
         chip.validMoves.forEach(coordinates => {
           if (coordinates) {
             availableMoves.push(coordinates);
-            this.draw.highlightChip(coordinates[0], coordinates[1]);
+            this.draw.highlightChip(coordinates[0], coordinates[1], this.activePlayer.colour);
           }
         });
+      });
+
+      // drawing the chips should be after highlighting them
+      this.squares.forEach(square => {
+        if (square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
+        if (square.activeChip) this.draw.chip(square.activeChip);
       });
 
       this.activePlayer.availableMoves = availableMoves;
