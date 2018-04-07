@@ -83,12 +83,21 @@ export default class GameEngineScore {
     return scores;
   }
 
-  // breakTies(playersPipCount) {}
+  /**
+   * checks if there are any pips in room, and returns indices of players with highest amount of pips
+   * @param  {array} roomPipCount       - array containing pip counts for every player in one room
+   * @param  {number} tieBreakerRoomNum - number of the room that's used as a tie breaker
+   * @return {array}                    - array of indices of players with highest amount of pips in the tie breaker room
+   */
+  static breakTies(playersPipCount, tieBreakerRoomNum) {
+    const indices = GameEngineScore.findHighestPipCountIndices(playersPipCount[tieBreakerRoomNum - 1]);
+    return indices;
+  }
 
   /**
-   * checks if there are any pips in room, and returns indices of players with highest amount of chips
+   * checks if there are any pips in room, and returns indices of players with highest amount of pips
    * @param  {array} roomPipCount - array containing pip counts for every player in one room
-   * @return {array}              - array of indices of players with highest amount of chips
+   * @return {array}              - array of indices of players with highest amount of pips
    */
   static findHighestPipCountIndices(roomPipCount) {
     const max = Math.max(...roomPipCount);
