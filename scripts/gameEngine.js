@@ -89,9 +89,6 @@ export default class GameEngine {
 
             this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
 
-            console.log("scores...");
-            console.log(GameEngineScore.countPoints(this.score.generateRoomPipCount(this.players)));
-
             // Change active player
             this.changeActivePlayer();
 
@@ -182,21 +179,37 @@ export default class GameEngine {
 
     // Draw all the chips played on that board
     if (redraw) {
-      // Highlight available moves
-      const availableMoves = [];
-      if (this.hasFirstMoveAvailable(this.activePlayer)) {
-        const firstMoves = this.activePlayer.getStartingPosition();
-        this.draw.highlightChip(firstMoves[0], firstMoves[1], this.activePlayer.colour);
-        availableMoves.push(firstMoves);
-      }
+      let availableMoves = [];
 
+      // Get all available moves
       this.activePlayer.chipsOnBoard.forEach(chip => {
         chip.validMoves.forEach(coordinates => {
           if (coordinates) {
             availableMoves.push(coordinates);
-            this.draw.highlightChip(coordinates[0], coordinates[1], this.activePlayer.colour);
           }
         });
+      });
+
+      // Filters out players starting tiles
+      availableMoves = availableMoves.filter(move => {
+        const search = globals.searchArrayInArray(this.selectedBoard.startingPositions, move);
+        if (search > -1) {
+          return false;
+        }
+        return true;
+      });
+
+      // Add starting tile if available
+      if (this.hasFirstMoveAvailable(this.activePlayer)) {
+        const firstMoves = this.activePlayer.getStartingPosition();
+        availableMoves.push(firstMoves);
+      }
+
+      this.activePlayer.availableMoves = availableMoves;
+
+      // Draw all available moves
+      this.activePlayer.availableMoves.forEach(move => {
+        this.draw.highlightChip(move[0], move[1], this.activePlayer.colour);
       });
 
       // drawing the chips should be after highlighting them
@@ -204,8 +217,6 @@ export default class GameEngine {
         if (square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
         if (square.activeChip) this.draw.chip(square.activeChip);
       });
-
-      this.activePlayer.availableMoves = availableMoves;
     }
 
     // draw the first randomised chips for 1st player
@@ -318,7 +329,12 @@ export default class GameEngine {
       const playedChip = player.playChip(x, y, chip.value);
       this.draw.chip(playedChip);
       boardSquare.activeChip = playedChip;
-      playedChip.validMoves = GameEngineChipMoves.findLegalMoves(this.selectedBoard, this.squares, playedChip);
+      playedChip.validMoves = GameEngineChipMoves.findLegalMoves(
+        this.selectedBoard,
+        this.squares,
+        this.players,
+        playedChip
+      );
 
       return true;
     }
