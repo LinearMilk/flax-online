@@ -94,6 +94,50 @@ const gameBoards = {
         roomSquares: [[11, 10], [12, 10], [12, 9]]
       }
     ]
+  },
+  board3: {
+    dimensions: [12, 10],
+    randomChipRow: 12,
+    numPlayers: 2,
+    startingPositions: [[8, 10], [5, 1]],
+    rooms: [
+      {
+        roomNum: 1,
+        roomSquares: [[1, 1], [1, 2], [2, 1], [2, 2]]
+      },
+      {
+        roomNum: 2,
+        roomSquares: [[4, 1], [5, 1], [6, 1], [4, 2]]
+      },
+      {
+        roomNum: 3,
+        roomSquares: [[10, 1], [9, 2], [10, 2], [11, 2], [9, 3]]
+      },
+      {
+        roomNum: 4,
+        roomSquares: [[1, 5], [1, 6], [2, 6], [1, 7]]
+      },
+      {
+        roomNum: 5,
+        roomSquares: [[6, 4], [5, 5], [6, 5], [7, 5], [6, 6], [7, 6], [8, 6], [7, 7]]
+      },
+      {
+        roomNum: 6,
+        roomSquares: [[11, 5], [12, 4], [12, 5], [12, 6]]
+      },
+      {
+        roomNum: 7,
+        roomSquares: [[3, 10], [2, 9], [3, 9], [4, 9], [4, 8]]
+      },
+      {
+        roomNum: 8,
+        roomSquares: [[7, 10], [8, 10], [9, 10], [9, 9]]
+      },
+      {
+        roomNum: 9,
+        roomSquares: [[11, 10], [11, 9], [12, 10], [12, 9]]
+      }
+    ]
   }
 };
 
