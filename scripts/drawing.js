@@ -312,4 +312,19 @@ export default class Drawing {
     this.ctx.fill();
     this.ctx.restore();
   }
+  /**
+   * Draw players' names and current score
+   * @param  {array} players - array containing players in the game
+   * @param  {array} scores - array containing current scores
+   */
+  currentScore(players, score) {
+    this.ctx.fillStyle = "white";
+    this.ctx.fillRect(350, 480, 200, 100);
+    this.ctx.fillStyle = players[0].colour.colour;
+    this.ctx.font = "25px Georgia";
+    this.ctx.fillText(`${players[0].name}: ${score[0]}`, 350, 500);
+    this.ctx.fillStyle = players[1].colour.colour;
+    this.ctx.font = "25px Georgia";
+    this.ctx.fillText(`${players[1].name}: ${score[1]}`, 350, 530);
+  }
 }

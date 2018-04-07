@@ -35,7 +35,7 @@ export default class GameEngine {
     const playerOne = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
     const playerTwo = new Player(globals.playerColours[3], this.selectedBoard.startingPositions[1]);
     playerOne.setName("green");
-    playerTwo.setName("blue");
+    playerTwo.setName("red");
 
     // this.player = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
     this.players = [playerOne, playerTwo];
@@ -89,8 +89,8 @@ export default class GameEngine {
 
             this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
 
-            console.log("scores...");
-            console.log(GameEngineScore.countPoints(this.score.generateRoomPipCount(this.players)));
+            const scores = GameEngineScore.countPoints(this.score.generateRoomPipCount(this.players));
+            this.draw.currentScore(this.players, scores);
 
             // Change active player
             this.changeActivePlayer();
