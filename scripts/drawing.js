@@ -11,7 +11,7 @@ export default class Drawing {
     this.squareBorderColour = "#ffffff";
     this.squareColour = "#fac861";
     this.squareRoomBorderColour = "#ffffff";
-    this.squareRoomColour = "#fdf5c1";
+    this.squareRoomColour = "#fdf4b3";
     this.chipRadius = 17;
     this.gameBoardFrameSize = globals.gameBoardFrameSize;
     this.chipBorderWidth = 2;
@@ -102,7 +102,7 @@ export default class Drawing {
     this.clearRandomChips(xPosition, yPosition);
     this.ctx.fillStyle = "red";
     this.ctx.font = "20px Georgia";
-    this.ctx.fillText("Game Over :(", 10, 450);
+    this.ctx.fillText("Game Over :(", 10, 500);
   }
 
   /**
@@ -111,20 +111,31 @@ export default class Drawing {
    * @param  {string} colour    - the colour code of the player
    */
   startingTile(positions, colour) {
-    this.ctx.fillStyle = colour.border;
-    this.ctx.fillRect(
-      (positions[0] - 1) * this.squareSize + 2,
-      (positions[1] - 1) * this.squareSize + 2,
-      this.squareSize - 4,
-      this.squareSize - 4
-    );
+    const x = (positions[0] - 1) * this.squareSize + this.squareBorderSize + 2;
+    const y = (positions[1] - 1) * this.squareSize + this.squareBorderSize + 2;
+    const height = this.squareSize - 2 * this.squareBorderSize - 4;
+    const width = this.squareSize - 2 * this.squareBorderSize - 4;
+
     this.ctx.fillStyle = colour.colour;
-    this.ctx.fillRect(
-      (positions[0] - 1) * this.squareSize + this.squareBorderSize + 2,
-      (positions[1] - 1) * this.squareSize + this.squareBorderSize + 2,
-      this.squareSize - 2 * this.squareBorderSize - 4,
-      this.squareSize - 2 * this.squareBorderSize - 4
-    );
+    this.ctx.strokeStyle = colour.border;
+    this.ctx.lineWidth = 2;
+
+    let radius = 5;
+    radius = { tl: radius, tr: radius, br: radius, bl: radius };
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(x + radius.tl, y);
+    this.ctx.lineTo(x + width - radius.tr, y);
+    this.ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+    this.ctx.lineTo(x + width, y + height - radius.br);
+    this.ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+    this.ctx.lineTo(x + radius.bl, y + height);
+    this.ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+    this.ctx.lineTo(x, y + radius.tl);
+    this.ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+    this.ctx.closePath();
+    this.ctx.fill();
+    this.ctx.stroke();
   }
 
   /**
@@ -178,28 +189,37 @@ export default class Drawing {
    * @param  {Chip} chip       - the not select Chip
    */
   chipsHighlights(selectChip, chip) {
-    this.highlightChip(selectChip.xPosition(), selectChip.yPosition());
+    this.highlightChip(selectChip.xPosition(), selectChip.yPosition(), chip.colour);
     this.chip(selectChip);
     this.deHighlightChip(chip.xPosition(), chip.yPosition());
     this.chip(chip);
   }
 
   /**
-   * ********** Private Methods ************
-   */
-
-  /**
    * Draw highlight aroud the chip
    * @param  {number} xPosition - relative x position for the highlight
    * @param  {number} yPosition - relative y position for the highlight
+   * @param  {object} colour    - the colour for the hightlight
    */
-  highlightChip(xPosition, yPosition) {
+  highlightChip(xPosition, yPosition, colour) {
     this.ctx.save();
     this.ctx.translate((xPosition - 0.5) * this.squareSize, (yPosition - 0.5) * this.squareSize);
     this.ctx.beginPath();
     this.ctx.arc(0, 0, this.chipRadius + 3, 0, 2 * Math.PI);
-    this.ctx.lineWidth = 5;
-    this.ctx.strokeStyle = "white";
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeStyle = colour.border;
+    this.ctx.stroke();
+    this.ctx.restore();
+    this.highlightChipInnerBorder(xPosition, yPosition, colour);
+  }
+
+  highlightChipInnerBorder(xPosition, yPosition, colour) {
+    this.ctx.save();
+    this.ctx.translate((xPosition - 0.5) * this.squareSize, (yPosition - 0.5) * this.squareSize);
+    this.ctx.beginPath();
+    this.ctx.arc(0, 0, this.chipRadius, 0, 2 * Math.PI);
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeStyle = colour.colour;
     this.ctx.stroke();
     this.ctx.restore();
   }
