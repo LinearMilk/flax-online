@@ -144,7 +144,7 @@ export default class Drawing {
    * @param  {number} yPosition - relative y position
    */
   clearRandomChips(xPosition, yPosition) {
-    this.ctx.fillStyle = "gray";
+    this.ctx.fillStyle = "white";
     this.ctx.fillRect((xPosition - 1) * this.squareSize, (yPosition - 1) * this.squareSize, 100, 100);
   }
 
@@ -235,7 +235,7 @@ export default class Drawing {
     this.ctx.beginPath();
     this.ctx.arc(0, 0, this.chipRadius + 3, 0, 2 * Math.PI);
     this.ctx.lineWidth = 6;
-    this.ctx.strokeStyle = "gray";
+    this.ctx.strokeStyle = "white";
     this.ctx.stroke();
     this.ctx.restore();
   }
