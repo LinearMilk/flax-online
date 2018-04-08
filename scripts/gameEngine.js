@@ -3,7 +3,7 @@ import Player from "./player";
 import Chip from "./chip";
 import Board from "./board";
 import GameEngineChipMoves from "./gameEngineChipMoves";
-import GameEngineScore from "./GameEngineScore";
+import GameEngineScores from "./gameEngineScores";
 import gameBoards from "./boards";
 import * as globals from "./globals";
 
@@ -40,7 +40,7 @@ export default class GameEngine {
     // this.player = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
     this.players = [playerOne, playerTwo];
     this.activePlayer = playerOne;
-    this.score = new GameEngineScore(this.players, this.rooms);
+    this.score = new GameEngineScores(this.players, this.rooms);
   }
 
   /**
