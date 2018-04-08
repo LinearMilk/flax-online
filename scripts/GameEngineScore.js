@@ -3,9 +3,10 @@
  * Responsible for counting pips and scoring logic.
  */
 export default class GameEngineScore {
-  constructor(players, rooms) {
+  constructor(players, rooms, tieBreakerRoomNum) {
     this.players = players;
     this.rooms = rooms;
+    this.tieBreakerRoomNum = tieBreakerRoomNum;
   }
   /**
    * Count pips on all chips owned by a player in every room.
@@ -89,9 +90,29 @@ export default class GameEngineScore {
    * @param  {number} tieBreakerRoomNum - number of the room that's used as a tie breaker
    * @return {array}                    - array of indices of players with highest amount of pips in the tie breaker room
    */
-  static breakTies(playersPipCount, tieBreakerRoomNum) {
-    const indices = GameEngineScore.findHighestPipCountIndices(playersPipCount[tieBreakerRoomNum - 1]);
+  breakTies(playersPipCount) {
+    const indices = GameEngineScore.findHighestPipCountIndices(playersPipCount[this.tieBreakerRoomNum - 1]);
     return indices;
+  }
+
+  static findWinner(scores) {
+    console.log(scores);
+  }
+
+  /**
+   * logs winner (or winners) to the console, 2player ONLY
+   * @param  {array} players            - array containing players in the game
+   * @param  {array} indices            - array containing indices of winning player(s)
+   * @return {undefined}
+   */
+  static logWinner(players, indices) {
+    let winnerText = "";
+    if (indices.length === 1) {
+      winnerText = `the winning player is: ${players[indices[0]].name}`;
+    } else {
+      winnerText = `the players ${players[indices[0]].name} & ${players[indices[1]].name} are tied for the victory.`;
+    }
+    console.log(winnerText);
   }
 
   /**
