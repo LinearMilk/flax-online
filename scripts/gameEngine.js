@@ -329,12 +329,7 @@ export default class GameEngine {
       const playedChip = player.playChip(x, y, chip.value);
       this.draw.chip(playedChip);
       boardSquare.activeChip = playedChip;
-      playedChip.validMoves = GameEngineChipMoves.findLegalMoves(
-        this.selectedBoard,
-        this.squares,
-        this.players,
-        playedChip
-      );
+      playedChip.validMoves = GameEngineChipMoves.findLegalMoves(this.selectedBoard, this.squares, playedChip);
 
       return true;
     }
