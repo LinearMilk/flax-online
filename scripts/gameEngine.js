@@ -102,7 +102,7 @@ export default class GameEngine {
 
             this.currentRandomChips = this.getRandomChip();
             // redraw the board with valid moves
-            this.createGameBoard(true);
+            this.createGameBoard();
           }
         }
       }
@@ -195,7 +195,7 @@ export default class GameEngine {
    *
    * @param  {boolean} redraw   - flag if it is creating the board for the first time (false) or redrawing (true)
    */
-  createGameBoard(redraw = false) {
+  createGameBoard() {
     this.draw.gameBoardFrame(
       this.selectedBoard.getBoardWidth(),
       this.selectedBoard.getBoardHeight(),
@@ -214,20 +214,18 @@ export default class GameEngine {
     this.draw.randomChips(this.currentRandomChips);
 
     // Draw all the chips played on that board
-    if (redraw) {
-      this.getAvailableMovesForActivePlayer();
+    this.getAvailableMovesForActivePlayer();
 
-      // Draw all available moves
-      this.activePlayer.availableMoves.forEach(move => {
-        this.draw.highlightChip(move[0], move[1], this.activePlayer.colour);
-      });
+    // Draw all available moves
+    this.activePlayer.availableMoves.forEach(move => {
+      this.draw.highlightChip(move[0], move[1], this.activePlayer.colour);
+    });
 
-      // drawing the chips (should be after highlighting them)
-      this.squares.forEach(square => {
-        if (square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
-        if (square.activeChip) this.draw.chip(square.activeChip);
-      });
-    }
+    // drawing the chips (should be after highlighting them)
+    this.squares.forEach(square => {
+      if (square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
+      if (square.activeChip) this.draw.chip(square.activeChip);
+    });
   }
 
   static setActivePlayer(player) {
