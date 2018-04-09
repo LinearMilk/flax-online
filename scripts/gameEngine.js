@@ -102,7 +102,7 @@ export default class GameEngine {
 
             this.currentRandomChips = this.getRandomChip();
             // redraw the board with valid moves
-            this.createGameBoard();
+            this.drawGameBoard();
           }
         }
       }
@@ -188,14 +188,12 @@ export default class GameEngine {
   }
 
   /**
-   * Create and draw the game board.
+   * Draw the game board.
    * Draws the Board frame, squares and the lightened squares representing the rooms.
    * Will draw the placed chips if it is redrawing.
-   * Redrawing will clear out the valid moves highlights when it's a player's turn.
-   *
-   * @param  {boolean} redraw   - flag if it is creating the board for the first time (false) or redrawing (true)
+   * Will clear out the valid moves highlights when it's a player's turn.
    */
-  createGameBoard() {
+  drawGameBoard() {
     this.draw.gameBoardFrame(
       this.selectedBoard.getBoardWidth(),
       this.selectedBoard.getBoardHeight(),
