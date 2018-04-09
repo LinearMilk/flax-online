@@ -1,4 +1,4 @@
-import GameEngineScore from "../scripts/gameEngineScore";
+import GameEngineScore from "../scripts/gameEngineScores";
 
 test("no pips array should return (undefined)", () => {
   expect(GameEngineScore.countPoints(null)).toBe(undefined);
