@@ -164,6 +164,11 @@ export default class Drawing {
     this.drawChipValue(chip.xPosition(), chip.yPosition(), chip.value);
   }
 
+  randomChips(chips) {
+    this.chip(chips[0]);
+    this.chip(chips[1]);
+  }
+
   /**
    * Draw the bottom chip, when a chip is place on top of it
    * @param  {Chip} chip       - chip object with positions, colour and value

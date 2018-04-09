@@ -2,6 +2,7 @@ import Drawing from "./drawing";
 import Player from "./player";
 import Chip from "./chip";
 import Board from "./board";
+import Square from "./square";
 import GameEngineChipMoves from "./gameEngineChipMoves";
 import GameEngineScores from "./gameEngineScores";
 import gameBoards from "./boards";
@@ -30,17 +31,21 @@ export default class GameEngine {
       selectedBoardInfo.startingPositions,
       selectedBoardInfo.randomChipRow
     );
+    this.squares = this.createSquares();
     this.rooms = selectedBoardInfo.rooms;
+    this.assignRoomNumbersToSquares();
 
     const playerOne = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
     const playerTwo = new Player(globals.playerColours[3], this.selectedBoard.startingPositions[1]);
     playerOne.setName("green");
     playerTwo.setName("red");
 
-    // this.player = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
     this.players = [playerOne, playerTwo];
     this.activePlayer = playerOne;
     this.score = new GameEngineScores(this.players, this.rooms);
+
+    GameEngine.setActivePlayer(this.activePlayer);
+    this.currentRandomChips = this.getRandomChip();
   }
 
   /**
@@ -95,7 +100,7 @@ export default class GameEngine {
             // Change active player
             this.changeActivePlayer();
 
-            this.getRandomChip();
+            this.currentRandomChips = this.getRandomChip();
             // redraw the board with valid moves
             this.createGameBoard(true);
           }
@@ -127,6 +132,61 @@ export default class GameEngine {
     }
   }
 
+  createSquares() {
+    const squares = [];
+    for (let x = 1; x <= this.selectedBoard.getBoardWidth(); x += 1) {
+      for (let y = 1; y <= this.selectedBoard.getBoardHeight(); y += 1) {
+        squares.push(new Square(x, y));
+      }
+    }
+    return squares;
+  }
+
+  assignRoomNumbersToSquares() {
+    this.rooms.forEach(room => {
+      const roomNumber = room.roomNum;
+      room.roomSquares.forEach(roomSquare => {
+        const [x, y] = roomSquare;
+        this.squares.find(square => {
+          if (square.xCoordinate === x && square.yCoordinate === y) {
+            return true;
+          }
+          return false;
+        }).roomNumber = roomNumber;
+      });
+    });
+  }
+
+  getAvailableMovesForActivePlayer() {
+    let availableMoves = [];
+
+    // Get all available moves
+    this.activePlayer.chipsOnBoard.forEach(chip => {
+      chip.validMoves.forEach(coordinates => {
+        if (coordinates) {
+          availableMoves.push(coordinates);
+        }
+      });
+    });
+
+    // Filters out players starting tiles
+    availableMoves = availableMoves.filter(move => {
+      const search = globals.searchArrayInArray(this.selectedBoard.startingPositions, move);
+      if (search > -1) {
+        return false;
+      }
+      return true;
+    });
+
+    // Add starting tile if available
+    if (this.hasFirstMoveAvailable(this.activePlayer)) {
+      const firstMoves = this.activePlayer.getStartingPosition();
+      availableMoves.push(firstMoves);
+    }
+
+    this.activePlayer.availableMoves = availableMoves;
+  }
+
   /**
    * Create and draw the game board.
    * Draws the Board frame, squares and the lightened squares representing the rooms.
@@ -142,90 +202,31 @@ export default class GameEngine {
       globals.squareSize
     );
 
-    // Draw all the squares from the board
-    for (let i = 1; i <= this.selectedBoard.getBoardWidth(); i += 1) {
-      for (let j = 1; j <= this.selectedBoard.getBoardHeight(); j += 1) {
-        this.draw.gameSquare(i, j);
-        if (!redraw) {
-          this.squares.push({
-            xCoordinate: i,
-            yCoordinate: j,
-            roomNumber: 0,
-            activeChip: null,
-            bottomChip: null,
-            startingTile: ""
-          });
-        }
-      }
-    }
-
-    // Draw all the lightened squares for the rooms
-    this.selectedBoard.getRooms().forEach(room => {
-      const roomNumber = room.roomNum;
-      room.roomSquares.forEach(roomSquare => {
-        const [x, y] = roomSquare;
-        this.draw.rooms(x, y);
-        if (!redraw) {
-          this.squares.find(square => {
-            if (square.xCoordinate === x && square.yCoordinate === y) {
-              return true;
-            }
-
-            return false;
-          }).roomNumber = roomNumber;
-        }
-      });
+    // Draw all the squares and the lightened squares for the rooms
+    this.squares.forEach(square => {
+      this.draw.gameSquare(square.xCoordinate, square.yCoordinate);
+      if (square.roomNumber > 0) this.draw.rooms(square.xCoordinate, square.yCoordinate);
     });
 
     // Draw Starting tiles
     this.createStartingTiles(this.players);
 
+    this.draw.randomChips(this.currentRandomChips);
+
     // Draw all the chips played on that board
     if (redraw) {
-      let availableMoves = [];
-
-      // Get all available moves
-      this.activePlayer.chipsOnBoard.forEach(chip => {
-        chip.validMoves.forEach(coordinates => {
-          if (coordinates) {
-            availableMoves.push(coordinates);
-          }
-        });
-      });
-
-      // Filters out players starting tiles
-      availableMoves = availableMoves.filter(move => {
-        const search = globals.searchArrayInArray(this.selectedBoard.startingPositions, move);
-        if (search > -1) {
-          return false;
-        }
-        return true;
-      });
-
-      // Add starting tile if available
-      if (this.hasFirstMoveAvailable(this.activePlayer)) {
-        const firstMoves = this.activePlayer.getStartingPosition();
-        availableMoves.push(firstMoves);
-      }
-
-      this.activePlayer.availableMoves = availableMoves;
+      this.getAvailableMovesForActivePlayer();
 
       // Draw all available moves
       this.activePlayer.availableMoves.forEach(move => {
         this.draw.highlightChip(move[0], move[1], this.activePlayer.colour);
       });
 
-      // drawing the chips should be after highlighting them
+      // drawing the chips (should be after highlighting them)
       this.squares.forEach(square => {
         if (square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
         if (square.activeChip) this.draw.chip(square.activeChip);
       });
-    }
-
-    // draw the first randomised chips for 1st player
-    if (!redraw) {
-      GameEngine.setActivePlayer(this.activePlayer);
-      this.getRandomChip();
     }
   }
 
@@ -288,22 +289,22 @@ export default class GameEngine {
    * Get a random Chip from the current player
    */
   getRandomChip() {
+    let chip1;
+    let chip2;
+
     if (!this.endGame && this.currentRandomChips.length <= 0) {
       const chipValues = this.activePlayer.getRandomChipType();
 
       if (chipValues.length > 0) {
-        const chip1 = new Chip(this.activePlayer.getColour(), chipValues[0], [1, this.selectedBoard.randomChipRow]);
-        const chip2 = new Chip(this.activePlayer.getColour(), chipValues[1], [2, this.selectedBoard.randomChipRow]);
-
-        this.currentRandomChips = [chip1, chip2];
-
-        this.draw.chip(chip1);
-        this.draw.chip(chip2);
+        chip1 = new Chip(this.activePlayer.getColour(), chipValues[0], [1, this.selectedBoard.randomChipRow]);
+        chip2 = new Chip(this.activePlayer.getColour(), chipValues[1], [2, this.selectedBoard.randomChipRow]);
       } else {
         this.draw.gameOver(1, this.selectedBoard.randomChipRow);
         this.endGame = true;
       }
     }
+
+    return [chip1, chip2];
   }
 
   /**
