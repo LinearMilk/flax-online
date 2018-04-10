@@ -316,6 +316,7 @@ export default class Drawing {
     this.ctx.fill();
     this.ctx.restore();
   }
+
   /**
    * Draw players' names and current score
    * @param  {array} players - array containing players in the game

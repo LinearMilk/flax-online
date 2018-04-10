@@ -16,6 +16,7 @@ export default class GameEngine {
   constructor() {
     this.draw = new Drawing();
     this.endGame = false;
+    this.scores = null;
 
     this.currentRandomChips = [];
     this.selectedChip = null;
@@ -29,7 +30,8 @@ export default class GameEngine {
     [this.activePlayer] = this.players;
     this.activePlayer.setIsActive(true);
 
-    this.score = new GameEngineScores(this.players, this.rooms);
+    this.scoreObject = new GameEngineScores(this.players, this.rooms);
+    this.countPoints();
 
     this.createStartingTiles(this.players);
 
@@ -94,6 +96,7 @@ export default class GameEngine {
 
     return selectedBoard;
   }
+
   /**
    * Place the selected chip on the board
    * @param  {number} x - the column of the click
@@ -118,6 +121,9 @@ export default class GameEngine {
 
             this.currentRandomChips = this.getRandomChip();
             this.getAvailableMovesForActivePlayer();
+
+            this.countPoints();
+
             // redraw the board with valid moves
             this.drawGameBoard();
           }
@@ -130,8 +136,7 @@ export default class GameEngine {
    * Count the points for the game
    */
   countPoints() {
-    const scores = GameEngineScores.countPoints(this.score.generateRoomPipCount(this.players));
-    this.draw.currentScore(this.players, scores);
+    this.scores = GameEngineScores.countPoints(this.scoreObject.generateRoomPipCount(this.players));
   }
 
   /**
@@ -249,8 +254,9 @@ export default class GameEngine {
       if (square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
       if (square.activeChip) this.draw.chip(square.activeChip);
     });
+
     // drawing the score
-    this.countPoints();
+    this.draw.currentScore(this.players, this.scores);
   }
 
   /**
