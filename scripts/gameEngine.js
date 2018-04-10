@@ -23,16 +23,9 @@ export default class GameEngine {
     this.selectedChip = null;
     this.endGame = false;
 
-    const selectedBoardInfo = gameBoards.board3;
-    this.selectedBoard = new Board(
-      selectedBoardInfo.dimensions,
-      selectedBoardInfo.numPlayers,
-      selectedBoardInfo.rooms,
-      selectedBoardInfo.startingPositions,
-      selectedBoardInfo.randomChipRow
-    );
+    this.selectedBoard = GameEngine.getSelectedBoard();
     this.squares = this.createSquares();
-    this.rooms = selectedBoardInfo.rooms;
+    this.rooms = this.selectedBoard.rooms;
     this.assignRoomNumbersToSquares();
 
     const playerOne = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
@@ -74,6 +67,18 @@ export default class GameEngine {
     );
   }
 
+  static getSelectedBoard() {
+    const selectedBoardInfo = gameBoards.board3;
+    const selectedBoard = new Board(
+      selectedBoardInfo.dimensions,
+      selectedBoardInfo.numPlayers,
+      selectedBoardInfo.rooms,
+      selectedBoardInfo.startingPositions,
+      selectedBoardInfo.randomChipRow
+    );
+
+    return selectedBoard;
+  }
   /**
    * Place the selected chip on the board
    * @param  {number} x - the column of the click
@@ -266,7 +271,7 @@ export default class GameEngine {
   }
 
   /**
-   * Create and draw starting tiles for the players in game
+   * Create starting tiles for the players in game
    * @param  {array} player  - array of players in play
    */
   createStartingTiles(players) {
