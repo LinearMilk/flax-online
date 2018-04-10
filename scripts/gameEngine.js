@@ -43,6 +43,7 @@ export default class GameEngine {
     this.players = [playerOne, playerTwo];
     this.activePlayer = playerOne;
     this.score = new GameEngineScores(this.players, this.rooms);
+    this.createStartingTiles(this.players);
 
     GameEngine.setActivePlayer(this.activePlayer);
     this.currentRandomChips = this.getRandomChip();
@@ -207,7 +208,9 @@ export default class GameEngine {
     });
 
     // Draw Starting tiles
-    this.createStartingTiles(this.players);
+    this.players.forEach(player => {
+      this.draw.startingTile(player);
+    });
 
     this.draw.randomChips(this.currentRandomChips);
 
@@ -276,8 +279,6 @@ export default class GameEngine {
         }
         return false;
       }).startingTile = player;
-
-      this.draw.startingTile(player.getStartingPosition(), player.getColour());
     });
   }
 

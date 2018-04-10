@@ -107,17 +107,16 @@ export default class Drawing {
 
   /**
    * Draw the player's starting tile, given it's position.
-   * @param  {array} positions  - x and y position for the starting tile
-   * @param  {string} colour    - the colour code of the player
+   * @param  {Player} player  - the player with x and y position for the starting tile and colour
    */
-  startingTile(positions, colour) {
-    const x = (positions[0] - 1) * this.squareSize + this.squareBorderSize + 2;
-    const y = (positions[1] - 1) * this.squareSize + this.squareBorderSize + 2;
+  startingTile(player) {
+    const x = (player.startingPosition[0] - 1) * this.squareSize + this.squareBorderSize + 2;
+    const y = (player.startingPosition[1] - 1) * this.squareSize + this.squareBorderSize + 2;
     const height = this.squareSize - 2 * this.squareBorderSize - 4;
     const width = this.squareSize - 2 * this.squareBorderSize - 4;
 
-    this.ctx.fillStyle = colour.colour;
-    this.ctx.strokeStyle = colour.border;
+    this.ctx.fillStyle = player.colour.colour;
+    this.ctx.strokeStyle = player.colour.border;
     this.ctx.lineWidth = 2;
 
     let radius = 5;
