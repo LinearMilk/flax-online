@@ -31,7 +31,7 @@ export default class GameEngine {
     this.activePlayer.setIsActive(true);
 
     this.scoreObject = new GameEngineScores(this.players, this.rooms);
-    this.countPoints();
+    this.setPoints();
 
     this.createStartingTiles(this.players);
 
@@ -81,6 +81,56 @@ export default class GameEngine {
   }
 
   /**
+   * Create starting tiles for the players in game
+   * @param  {array} player  - array of players in play
+   */
+  createStartingTiles(players) {
+    players.forEach(player => {
+      this.squares.find(square => {
+        const squareCoordinates = [square.xCoordinate, square.yCoordinate].toString();
+        const startingPosCoodinates = player.getStartingPosition().toString();
+
+        if (squareCoordinates === startingPosCoodinates) {
+          return true;
+        }
+        return false;
+      }).startingTile = player;
+    });
+  }
+
+  /**
+   * Create the Squares in the board
+   * @return array of square objects
+   */
+  createSquares() {
+    const squares = [];
+    for (let x = 1; x <= this.selectedBoard.getBoardWidth(); x += 1) {
+      for (let y = 1; y <= this.selectedBoard.getBoardHeight(); y += 1) {
+        squares.push(new Square(x, y));
+      }
+    }
+    return squares;
+  }
+
+  /**
+   * Set each squares are rooms, adding room number to it
+   */
+  assignRoomNumbersToSquares() {
+    this.rooms.forEach(room => {
+      const roomNumber = room.roomNum;
+      room.roomSquares.forEach(roomSquare => {
+        const [x, y] = roomSquare;
+        this.squares.find(square => {
+          if (square.xCoordinate === x && square.yCoordinate === y) {
+            return true;
+          }
+          return false;
+        }).roomNumber = roomNumber;
+      });
+    });
+  }
+
+  /**
    * Create the board object for the game
    * @param {object} selectedBoardInfo - the board selected for the game
    * @return the Board object for the game
@@ -120,9 +170,9 @@ export default class GameEngine {
             this.changeActivePlayer();
 
             this.currentRandomChips = this.getRandomChip();
-            this.getAvailableMovesForActivePlayer();
+            this.setAvailableMovesForActivePlayer();
 
-            this.countPoints();
+            this.setPoints();
 
             // redraw the board with valid moves
             this.drawGameBoard();
@@ -133,10 +183,35 @@ export default class GameEngine {
   }
 
   /**
-   * Count the points for the game
+   * Add a new chip to the board object.
+   * @param  {number} x      - the column for the chip's placement
+   * @param  {number} y      - the row for the chip's placement
+   * @param  {Player} player - the player that is making the move
+   * @param  {Chip} chip     - the chip being played
+   * @return {boolean} if the chip was placed or not
    */
-  countPoints() {
-    this.scores = GameEngineScores.countPoints(this.scoreObject.generateRoomPipCount(this.players));
+  placeChip(x, y, player, chip) {
+    const boardSquare = this.squares.find(square => {
+      if (square.xCoordinate === x && square.yCoordinate === y) {
+        return true;
+      }
+      return false;
+    });
+
+    if (boardSquare.bottomChip === null) {
+      if (boardSquare.activeChip != null) {
+        boardSquare.bottomChip = boardSquare.activeChip;
+        boardSquare.bottomChip.inActivate();
+      }
+
+      const playedChip = player.playChip(x, y, chip.value);
+      boardSquare.activeChip = playedChip;
+      playedChip.validMoves = GameEngineChipMoves.findLegalMoves(this.selectedBoard, this.squares, playedChip);
+
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -162,32 +237,10 @@ export default class GameEngine {
     }
   }
 
-  createSquares() {
-    const squares = [];
-    for (let x = 1; x <= this.selectedBoard.getBoardWidth(); x += 1) {
-      for (let y = 1; y <= this.selectedBoard.getBoardHeight(); y += 1) {
-        squares.push(new Square(x, y));
-      }
-    }
-    return squares;
-  }
-
-  assignRoomNumbersToSquares() {
-    this.rooms.forEach(room => {
-      const roomNumber = room.roomNum;
-      room.roomSquares.forEach(roomSquare => {
-        const [x, y] = roomSquare;
-        this.squares.find(square => {
-          if (square.xCoordinate === x && square.yCoordinate === y) {
-            return true;
-          }
-          return false;
-        }).roomNumber = roomNumber;
-      });
-    });
-  }
-
-  getAvailableMovesForActivePlayer() {
+  /**
+   * Set the Available moves for the active player
+   */
+  setAvailableMovesForActivePlayer() {
     let availableMoves = [];
 
     // Get all available moves
@@ -242,12 +295,19 @@ export default class GameEngine {
     });
 
     this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
-    this.draw.randomChips(this.currentRandomChips);
 
-    // Draw all available moves
-    this.activePlayer.availableMoves.forEach(move => {
-      this.draw.highlightChip(move[0], move[1], this.activePlayer.colour);
-    });
+    if (this.endGame) {
+      this.draw.gameOver(1, this.selectedBoard.randomChipRow);
+    } else {
+      // Draw all available moves (don't draw if it's the players first move)
+      if (this.activePlayer.availableMoves.length > 1) {
+        this.activePlayer.availableMoves.forEach(move => {
+          this.draw.highlightChip(move[0], move[1], this.activePlayer.colour);
+        });
+      }
+
+      this.draw.randomChips(this.currentRandomChips);
+    }
 
     // drawing the chips (should be after highlighting them)
     this.squares.forEach(square => {
@@ -271,6 +331,7 @@ export default class GameEngine {
       }
     });
   }
+
   /**
    * checks if there is a bottom tile on the starting position for that player
    * @param  {Player} player - player to check
@@ -291,24 +352,6 @@ export default class GameEngine {
   }
 
   /**
-   * Create starting tiles for the players in game
-   * @param  {array} player  - array of players in play
-   */
-  createStartingTiles(players) {
-    players.forEach(player => {
-      this.squares.find(square => {
-        const squareCoordinates = [square.xCoordinate, square.yCoordinate].toString();
-        const startingPosCoodinates = player.getStartingPosition().toString();
-
-        if (squareCoordinates === startingPosCoodinates) {
-          return true;
-        }
-        return false;
-      }).startingTile = player;
-    });
-  }
-
-  /**
    * Get a random Chip from the current player
    */
   getRandomChip() {
@@ -322,7 +365,6 @@ export default class GameEngine {
         chip1 = new Chip(this.activePlayer.getColour(), chipValues[0], [1, this.selectedBoard.randomChipRow]);
         chip2 = new Chip(this.activePlayer.getColour(), chipValues[1], [2, this.selectedBoard.randomChipRow]);
       } else {
-        this.draw.gameOver(1, this.selectedBoard.randomChipRow);
         this.endGame = true;
       }
     }
@@ -331,35 +373,10 @@ export default class GameEngine {
   }
 
   /**
-   * Add a new chip to the board object.
-   * @param  {number} x      - the column for the chip's placement
-   * @param  {number} y      - the row for the chip's placement
-   * @param  {Player} player - the player that is making the move
-   * @param  {Chip} chip     - the chip being played
-   * @return {boolean} if the chip was placed or not
+   * Count the points for the game and set in this.scores
    */
-  placeChip(x, y, player, chip) {
-    const boardSquare = this.squares.find(square => {
-      if (square.xCoordinate === x && square.yCoordinate === y) {
-        return true;
-      }
-      return false;
-    });
-
-    if (boardSquare.bottomChip === null) {
-      if (boardSquare.activeChip != null) {
-        boardSquare.bottomChip = boardSquare.activeChip;
-        boardSquare.bottomChip.inActivate();
-      }
-
-      const playedChip = player.playChip(x, y, chip.value);
-      boardSquare.activeChip = playedChip;
-      playedChip.validMoves = GameEngineChipMoves.findLegalMoves(this.selectedBoard, this.squares, playedChip);
-
-      return true;
-    }
-
-    return false;
+  setPoints() {
+    this.scores = GameEngineScores.countPoints(this.scoreObject.generateRoomPipCount(this.players));
   }
 
   /**
