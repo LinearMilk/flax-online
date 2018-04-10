@@ -15,6 +15,6 @@ export default class Game {
    * @param  {number} numPlayers - the selected number of players for the game
    */
   startGame() {
-    this.gameEngine.createGameBoard();
+    this.gameEngine.drawGameBoard();
   }
 }
