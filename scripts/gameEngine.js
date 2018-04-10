@@ -93,11 +93,6 @@ export default class GameEngine {
             this.currentRandomChips = [];
             this.selectedChip = null;
 
-            this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
-
-            const scores = GameEngineScores.countPoints(this.score.generateRoomPipCount(this.players));
-            this.draw.currentScore(this.players, scores);
-
             // Change active player
             this.changeActivePlayer();
 
@@ -109,6 +104,11 @@ export default class GameEngine {
         }
       }
     }
+  }
+
+  countPoints() {
+    const scores = GameEngineScores.countPoints(this.score.generateRoomPipCount(this.players));
+    this.draw.currentScore(this.players, scores);
   }
 
   /**
@@ -213,6 +213,7 @@ export default class GameEngine {
       this.draw.startingTile(player);
     });
 
+    this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
     this.draw.randomChips(this.currentRandomChips);
 
     // Draw all available moves
@@ -225,6 +226,8 @@ export default class GameEngine {
       if (square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
       if (square.activeChip) this.draw.chip(square.activeChip);
     });
+    // drawing the score
+    this.countPoints();
   }
 
   static setActivePlayer(player) {
@@ -303,7 +306,7 @@ export default class GameEngine {
   }
 
   /**
-   * Add a new chip to the board object and draw it on the canvas.
+   * Add a new chip to the board object.
    * @param  {number} x      - the column for the chip's placement
    * @param  {number} y      - the row for the chip's placement
    * @param  {Player} player - the player that is making the move
@@ -322,11 +325,9 @@ export default class GameEngine {
       if (boardSquare.activeChip != null) {
         boardSquare.bottomChip = boardSquare.activeChip;
         boardSquare.bottomChip.inActivate();
-        this.draw.bottomChip(boardSquare.bottomChip);
       }
 
       const playedChip = player.playChip(x, y, chip.value);
-      this.draw.chip(playedChip);
       boardSquare.activeChip = playedChip;
       playedChip.validMoves = GameEngineChipMoves.findLegalMoves(this.selectedBoard, this.squares, playedChip);
 
