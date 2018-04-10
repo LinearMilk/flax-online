@@ -14,14 +14,11 @@ import * as globals from "./globals";
  */
 export default class GameEngine {
   constructor() {
-    this.selectedBoard = null;
-    this.squares = [];
-    this.rooms = [];
     this.draw = new Drawing();
+    this.endGame = false;
 
     this.currentRandomChips = [];
     this.selectedChip = null;
-    this.endGame = false;
 
     this.selectedBoard = GameEngine.getSelectedBoard();
     this.squares = this.createSquares();
@@ -35,10 +32,10 @@ export default class GameEngine {
 
     this.players = [playerOne, playerTwo];
     this.activePlayer = playerOne;
+    this.activePlayer.setIsActive(true);
     this.score = new GameEngineScores(this.players, this.rooms);
     this.createStartingTiles(this.players);
 
-    GameEngine.setActivePlayer(this.activePlayer);
     this.currentRandomChips = this.getRandomChip();
   }
 
@@ -233,10 +230,6 @@ export default class GameEngine {
     });
     // drawing the score
     this.countPoints();
-  }
-
-  static setActivePlayer(player) {
-    player.setIsActive(true);
   }
 
   /**
