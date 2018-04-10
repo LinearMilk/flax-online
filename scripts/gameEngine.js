@@ -20,27 +20,24 @@ export default class GameEngine {
     this.currentRandomChips = [];
     this.selectedChip = null;
 
-    this.selectedBoard = GameEngine.getSelectedBoard();
+    this.selectedBoard = GameEngine.getSelectedBoard(gameBoards.board3);
     this.squares = this.createSquares();
     this.rooms = this.selectedBoard.rooms;
     this.assignRoomNumbersToSquares();
 
-    const playerOne = new Player(globals.playerColours[0], this.selectedBoard.startingPositions[0]);
-    const playerTwo = new Player(globals.playerColours[3], this.selectedBoard.startingPositions[1]);
-    playerOne.setName("green");
-    playerTwo.setName("red");
-
-    this.players = [playerOne, playerTwo];
-    this.activePlayer = playerOne;
+    this.players = this.createPlayers(this.selectedBoard.numPlayers);
+    [this.activePlayer] = this.players;
     this.activePlayer.setIsActive(true);
+
     this.score = new GameEngineScores(this.players, this.rooms);
+
     this.createStartingTiles(this.players);
 
     this.currentRandomChips = this.getRandomChip();
   }
 
   /**
-   * Add event listener to the canvas
+   * Add event listener to the canvas to listen to the clicks on the board
    */
   addEventListener() {
     let xClick = -1;
@@ -64,8 +61,29 @@ export default class GameEngine {
     );
   }
 
-  static getSelectedBoard() {
-    const selectedBoardInfo = gameBoards.board3;
+  /**
+   * Create the players for the game
+   * @param {number} numPlayers - the number of players for the game
+   * @return the array of players
+   */
+  createPlayers(numPlayers) {
+    const playerNames = ["green", "red", "blue", "black"];
+    const players = [];
+    for (let i = 0; i < numPlayers; i += 1) {
+      const player = new Player(globals.playerColours[i], this.selectedBoard.startingPositions[i]);
+      player.setName(playerNames[i]);
+      players.push(player);
+    }
+
+    return players;
+  }
+
+  /**
+   * Create the board object for the game
+   * @param {object} selectedBoardInfo - the board selected for the game
+   * @return the Board object for the game
+   */
+  static getSelectedBoard(selectedBoardInfo) {
     const selectedBoard = new Board(
       selectedBoardInfo.dimensions,
       selectedBoardInfo.numPlayers,
@@ -108,6 +126,9 @@ export default class GameEngine {
     }
   }
 
+  /**
+   * Count the points for the game
+   */
   countPoints() {
     const scores = GameEngineScores.countPoints(this.score.generateRoomPipCount(this.players));
     this.draw.currentScore(this.players, scores);
