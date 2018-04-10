@@ -102,6 +102,7 @@ export default class GameEngine {
             this.changeActivePlayer();
 
             this.currentRandomChips = this.getRandomChip();
+            this.getAvailableMovesForActivePlayer();
             // redraw the board with valid moves
             this.drawGameBoard();
           }
@@ -213,9 +214,6 @@ export default class GameEngine {
     });
 
     this.draw.randomChips(this.currentRandomChips);
-
-    // Draw all the chips played on that board
-    this.getAvailableMovesForActivePlayer();
 
     // Draw all available moves
     this.activePlayer.availableMoves.forEach(move => {
