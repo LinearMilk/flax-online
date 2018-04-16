@@ -67,6 +67,15 @@ export default class Player {
   }
 
   /**
+   * Get the number of chips left in the player's chip supply
+   * @return {number} available chips to play
+   */
+  getChipCount() {
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    return this.chipSupply.reduce(reducer);
+  }
+
+  /**
    * Play the Chip on the given coordenates. Generates the chip object.
    * @param  {number} x         - x relative position of chip (column number)
    * @param  {number} y         - y relative position of chip (row number)
