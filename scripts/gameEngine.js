@@ -247,7 +247,15 @@ export default class GameEngine {
     this.activePlayer.chipsOnBoard.forEach(chip => {
       chip.validMoves.forEach(coordinates => {
         if (coordinates) {
-          availableMoves.push(coordinates);
+          const newMoveCoordinates = coordinates.toString();
+          const coordinatesExistInAvailableMoves = availableMoves.find(move => {
+            const existingMoveCoordinates = move.toString();
+            if (existingMoveCoordinates === newMoveCoordinates) {
+              return true;
+            }
+            return false;
+          });
+          if (!coordinatesExistInAvailableMoves) availableMoves.push(coordinates);
         }
       });
     });
@@ -335,7 +343,7 @@ export default class GameEngine {
   /**
    * checks if there is a bottom tile on the starting position for that player
    * @param  {Player} player - player to check
-   * @return {boolean}       - true if there is no bottom chip (move availble), false if move not availble
+   * @return {boolean}       - true if there is no bottom chip (move available), false if move not available
    */
   hasFirstMoveAvailable(player) {
     const startingSquare = this.squares.find(square => {
