@@ -166,12 +166,16 @@ export default class GameEngine {
             this.currentRandomChips = [];
             this.selectedChip = null;
 
+            /**
+             * TODO fix bug:
+             * not highlighting moves when there is only one move available
+             */
             // Change active player
-            this.changeActivePlayer();
-
+            do {
+              this.changeActivePlayer();
+              this.setAvailableMovesForActivePlayer();
+            } while (this.activePlayer.availableMoves.length === 0 && !this.endGame);
             this.currentRandomChips = this.getRandomChip();
-            this.setAvailableMovesForActivePlayer();
-
             this.setPoints();
 
             // redraw the board with valid moves
