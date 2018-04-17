@@ -166,14 +166,13 @@ export default class GameEngine {
             this.currentRandomChips = [];
             this.selectedChip = null;
 
-            /**
-             * TODO fix bug:
-             * not highlighting moves when there is only one move available
-             */
             // Change active player
+            let playersChangingTurnsCounter = 0;
             do {
               this.changeActivePlayer();
               this.setAvailableMovesForActivePlayer();
+              playersChangingTurnsCounter += 1;
+              if (playersChangingTurnsCounter > this.players.length) this.endGame = true;
             } while (this.activePlayer.availableMoves.length === 0 && !this.endGame);
             this.currentRandomChips = this.getRandomChip();
             this.setPoints();
@@ -312,7 +311,7 @@ export default class GameEngine {
       this.draw.gameOver(1, this.selectedBoard.randomChipRow);
     } else {
       // Draw all available moves (don't draw if it's the players first move)
-      if (this.activePlayer.availableMoves.length > 1) {
+      if (this.activePlayer.availableMoves.length > 0) {
         this.activePlayer.availableMoves.forEach(move => {
           this.draw.highlightChip(move[0], move[1], this.activePlayer.colour);
         });
