@@ -167,11 +167,14 @@ export default class GameEngine {
             this.selectedChip = null;
 
             // Change active player
-            this.changeActivePlayer();
-
+            let playersChangingTurnsCounter = 0;
+            do {
+              this.changeActivePlayer();
+              this.setAvailableMovesForActivePlayer();
+              playersChangingTurnsCounter += 1;
+              if (playersChangingTurnsCounter > this.players.length) this.endGame = true;
+            } while (this.activePlayer.availableMoves.length === 0 && !this.endGame);
             this.currentRandomChips = this.getRandomChip();
-            this.setAvailableMovesForActivePlayer();
-
             this.setPoints();
 
             // redraw the board with valid moves
@@ -307,8 +310,8 @@ export default class GameEngine {
     if (this.endGame) {
       this.draw.gameOver(1, this.selectedBoard.randomChipRow);
     } else {
-      // Draw all available moves (don't draw if it's the players first move)
-      if (this.activePlayer.availableMoves.length > 1) {
+      // Draw all available moves
+      if (this.activePlayer.availableMoves.length > 0) {
         this.activePlayer.availableMoves.forEach(move => {
           this.draw.highlightChip(move[0], move[1], this.activePlayer.colour);
         });
