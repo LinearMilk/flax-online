@@ -310,7 +310,7 @@ export default class GameEngine {
     if (this.endGame) {
       this.draw.gameOver(1, this.selectedBoard.randomChipRow);
     } else {
-      // Draw all available moves (don't draw if it's the players first move)
+      // Draw all available moves
       if (this.activePlayer.availableMoves.length > 0) {
         this.activePlayer.availableMoves.forEach(move => {
           this.draw.highlightChip(move[0], move[1], this.activePlayer.colour);
