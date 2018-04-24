@@ -309,7 +309,7 @@ export default class GameEngine {
 
     if (this.endGame) {
       this.draw.gameOver(1, this.selectedBoard.randomChipRow);
-      console.log();
+      this.scores.logWinner(this.scores.findWinner(this.scores));
     } else {
       // Draw all available moves
       if (this.activePlayer.availableMoves.length > 0) {

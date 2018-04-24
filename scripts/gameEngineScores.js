@@ -94,7 +94,7 @@ export default class GameEngineScore {
     return indices;
   }
 
-  static findWinner(scores) {
+  findWinner(scores) {
     let indices = [];
     const possibleWinnersIndices = this.findIndicesOFMaxInArray(scores);
     if (possibleWinnersIndices.length === 1) indices = possibleWinnersIndices;
