@@ -91,28 +91,24 @@ export default class GameEngineScore {
    */
   breakTies(playersPipCount) {
     const indices = GameEngineScore.findHighestPipCountIndices(playersPipCount[this.tieBreakerRoomNum - 1]);
-    // console.log(this.tieBreakerRoomNum);
-    // console.log(indices);
     return indices;
   }
 
+  /**
+   * checks if there is a single player with highest score, in case of tie calls a tiebreaker and returns winner. If tiebreaker is still tied calls it a draw.
+   * @param  {array} scores - array containing scores for all players
+   * @return {array}        - array of indices of winners (single index if there is only one)
+   */
   findWinner(scores) {
     let indices = [];
     const possibleWinnersIndices = GameEngineScore.findIndicesOFMaxInArray(scores);
-    console.log("possibleWinners:");
-    console.log(possibleWinnersIndices);
     if (possibleWinnersIndices.length === 1) indices = possibleWinnersIndices;
     else {
       const pipCount = this.generateRoomPipCount(this.players);
-      // console.log(pipCount);
       const tieBreakerWinners = this.breakTies(pipCount);
-      console.log("tieBreakerWinners:");
-      console.log(tieBreakerWinners);
       if (Array.isArray(tieBreakerWinners)) {
         possibleWinnersIndices.forEach(index => {
           tieBreakerWinners.forEach(ind => {
-            console.log(index);
-            console.log(ind);
             if (index === ind) indices.push(index);
           });
         });
@@ -120,8 +116,6 @@ export default class GameEngineScore {
         indices = possibleWinnersIndices;
       }
     }
-    console.log("end of function indices:");
-    console.log(indices);
     return indices;
   }
 
@@ -132,7 +126,6 @@ export default class GameEngineScore {
    */
   logWinner(indices) {
     let winnerText = "";
-    console.log(indices);
     if (indices.length === 1) {
       winnerText = `the winning player is: ${this.players[indices[0]].name}`;
     } else {
