@@ -64,14 +64,14 @@ export default class GameEngineScore {
     const secondPlaceRoomScore = 2;
 
     playersPipCount.forEach(roomPipCount => {
-      const roomWinnersIndices = this.findHighestPipCountIndices(roomPipCount);
+      const roomWinnersIndices = GameEngineScore.findHighestPipCountIndices(roomPipCount);
       // if there is at least one winner
       if (roomWinnersIndices !== -1) {
         roomWinnersIndices.forEach(player => {
           scores[player] += firstPlaceRoomScore;
         });
         if (roomWinnersIndices.length === 1 && noOfPlayers !== 2) {
-          const roomRunnerUpsIndices = this.findSecondHighestPipCountIndices(roomPipCount);
+          const roomRunnerUpsIndices = GameEngineScore.findSecondHighestPipCountIndices(roomPipCount);
           if (roomRunnerUpsIndices !== -1) {
             roomRunnerUpsIndices.forEach(player => {
               scores[player] += secondPlaceRoomScore;
@@ -87,26 +87,41 @@ export default class GameEngineScore {
   /**
    * checks if there are any pips in room, and returns indices of players with highest amount of pips
    * @param  {array}playersPipCount       - array containing pip counts for every player in one room
-   * @return {array}                    - array of indices of players with highest amount of pips in the tie breaker room
+   * @return {array}                      - array of indices of players with highest amount of pips in the tie breaker room
    */
   breakTies(playersPipCount) {
     const indices = GameEngineScore.findHighestPipCountIndices(playersPipCount[this.tieBreakerRoomNum - 1]);
+    // console.log(this.tieBreakerRoomNum);
+    // console.log(indices);
     return indices;
   }
 
   findWinner(scores) {
     let indices = [];
-    const possibleWinnersIndices = this.findIndicesOFMaxInArray(scores);
+    const possibleWinnersIndices = GameEngineScore.findIndicesOFMaxInArray(scores);
+    console.log("possibleWinners:");
+    console.log(possibleWinnersIndices);
     if (possibleWinnersIndices.length === 1) indices = possibleWinnersIndices;
     else {
       const pipCount = this.generateRoomPipCount(this.players);
+      // console.log(pipCount);
       const tieBreakerWinners = this.breakTies(pipCount);
-      scores.forEach(index => {
-        tieBreakerWinners.forEach(ind => {
-          if (index === ind) indices.push(index);
+      console.log("tieBreakerWinners:");
+      console.log(tieBreakerWinners);
+      if (Array.isArray(tieBreakerWinners)) {
+        possibleWinnersIndices.forEach(index => {
+          tieBreakerWinners.forEach(ind => {
+            console.log(index);
+            console.log(ind);
+            if (index === ind) indices.push(index);
+          });
         });
-      });
+      } else {
+        indices = possibleWinnersIndices;
+      }
     }
+    console.log("end of function indices:");
+    console.log(indices);
     return indices;
   }
 
@@ -117,6 +132,7 @@ export default class GameEngineScore {
    */
   logWinner(indices) {
     let winnerText = "";
+    console.log(indices);
     if (indices.length === 1) {
       winnerText = `the winning player is: ${this.players[indices[0]].name}`;
     } else {
@@ -134,9 +150,10 @@ export default class GameEngineScore {
    * @return {array}              - array of indices of players with highest amount of pips
    */
   static findHighestPipCountIndices(roomPipCount) {
+    if (!roomPipCount) return -1;
     const max = Math.max(...roomPipCount);
     if (max === 0) return -1;
-    const indices = this.findIndicesOFMaxInArray(roomPipCount);
+    const indices = GameEngineScore.findIndicesOFMaxInArray(roomPipCount);
     return indices;
   }
 
@@ -158,11 +175,11 @@ export default class GameEngineScore {
 
     // removing max values from the array considered
     const pipsWithoutMax = roomPipCount.slice();
-    const indicesOfMax = this.findIndicesOFMaxInArray(pipsWithoutMax);
+    const indicesOfMax = GameEngineScore.findIndicesOFMaxInArray(pipsWithoutMax);
     indicesOfMax.forEach(index => {
       pipsWithoutMax[index] = 0;
     });
-    const indices = this.findIndicesOFMaxInArray(pipsWithoutMax);
+    const indices = GameEngineScore.findIndicesOFMaxInArray(pipsWithoutMax);
 
     return indices;
   }
