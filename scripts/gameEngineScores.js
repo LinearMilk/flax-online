@@ -86,8 +86,7 @@ export default class GameEngineScore {
 
   /**
    * checks if there are any pips in room, and returns indices of players with highest amount of pips
-   * @param  {array} roomPipCount       - array containing pip counts for every player in one room
-   * @param  {number} tieBreakerRoomNum - number of the room that's used as a tie breaker
+   * @param  {array}playersPipCount       - array containing pip counts for every player in one room
    * @return {array}                    - array of indices of players with highest amount of pips in the tie breaker room
    */
   breakTies(playersPipCount) {
@@ -96,23 +95,37 @@ export default class GameEngineScore {
   }
 
   static findWinner(scores) {
-    console.log(scores);
+    let indices = [];
+    const possibleWinnersIndices = this.findIndicesOFMaxInArray(scores);
+    if (possibleWinnersIndices.length === 1) indices = possibleWinnersIndices;
+    else {
+      const pipCount = this.generateRoomPipCount(this.players);
+      const tieBreakerWinners = this.breakTies(pipCount);
+      scores.forEach(index => {
+        tieBreakerWinners.forEach(ind => {
+          if (index === ind) indices.push(index);
+        });
+      });
+    }
+    return indices;
   }
 
   /**
    * logs winner (or winners) to the console, 2player ONLY
-   * @param  {array} players            - array containing players in the game
-   * @param  {array} indices            - array containing indices of winning player(s)
+   * @param  {array} indices - array containing indices of winning player(s)
    * @return {undefined}
    */
-  static logWinner(players, indices) {
+  logWinner(indices) {
     let winnerText = "";
     if (indices.length === 1) {
-      winnerText = `the winning player is: ${players[indices[0]].name}`;
+      winnerText = `the winning player is: ${this.players[indices[0]].name}`;
     } else {
-      winnerText = `the players ${players[indices[0]].name} & ${players[indices[1]].name} are tied for the victory.`;
+      winnerText = `the players ${this.players[indices[0]].name} & ${
+        this.players[indices[1]].name
+      } are tied for the victory.`;
     }
     console.log(winnerText);
+    return undefined;
   }
 
   /**
@@ -157,7 +170,7 @@ export default class GameEngineScore {
   /**
    * returns all indices containing max value of an array
    * @param  {array} array - array containing pip counts for every player in one room
-   * @return {array}              - array of indices containg max value
+   * @return {array}       - array of indices containg max value
    */
   static findIndicesOFMaxInArray(array) {
     const indices = [];

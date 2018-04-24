@@ -309,6 +309,7 @@ export default class GameEngine {
 
     if (this.endGame) {
       this.draw.gameOver(1, this.selectedBoard.randomChipRow);
+      console.log();
     } else {
       // Draw all available moves
       if (this.activePlayer.availableMoves.length > 0) {
@@ -387,7 +388,8 @@ export default class GameEngine {
    * Count the points for the game and set in this.scores
    */
   setPoints() {
-    this.scores = GameEngineScores.countPoints(this.scoreObject.generateRoomPipCount(this.players));
+    const playersPipCount = this.scoreObject.generateRoomPipCount(this.players);
+    this.scores = GameEngineScores.countPoints(playersPipCount);
   }
 
   /**
