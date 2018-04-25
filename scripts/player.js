@@ -12,7 +12,7 @@ export default class Player {
   constructor(colour, startingPosition) {
     this.colour = colour;
     this.startingPosition = startingPosition;
-    this.chipSupply = [5, 1, 1];
+    this.chipSupply = [8, 8, 8];
     this.chipsOnBoard = [];
     this.availableMoves = [startingPosition];
     this.isActive = false;
