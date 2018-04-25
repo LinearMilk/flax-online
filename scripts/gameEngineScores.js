@@ -3,9 +3,10 @@
  * Responsible for counting pips and scoring logic.
  */
 export default class GameEngineScore {
-  constructor(players, rooms) {
+  constructor(players, rooms, tieBreakerRoomNum) {
     this.players = players;
     this.rooms = rooms;
+    this.tieBreakerRoomNum = tieBreakerRoomNum;
   }
   /**
    * Count pips on all chips owned by a player in every room.
@@ -63,14 +64,14 @@ export default class GameEngineScore {
     const secondPlaceRoomScore = 2;
 
     playersPipCount.forEach(roomPipCount => {
-      const roomWinnersIndices = this.findHighestPipCountIndices(roomPipCount);
+      const roomWinnersIndices = GameEngineScore.findHighestPipCountIndices(roomPipCount);
       // if there is at least one winner
       if (roomWinnersIndices !== -1) {
         roomWinnersIndices.forEach(player => {
           scores[player] += firstPlaceRoomScore;
         });
         if (roomWinnersIndices.length === 1 && noOfPlayers !== 2) {
-          const roomRunnerUpsIndices = this.findSecondHighestPipCountIndices(roomPipCount);
+          const roomRunnerUpsIndices = GameEngineScore.findSecondHighestPipCountIndices(roomPipCount);
           if (roomRunnerUpsIndices !== -1) {
             roomRunnerUpsIndices.forEach(player => {
               scores[player] += secondPlaceRoomScore;
@@ -84,14 +85,68 @@ export default class GameEngineScore {
   }
 
   /**
-   * checks if there are any pips in room, and returns indices of players with highest amount of chips
+   * checks if there are any pips in room, and returns indices of players with highest amount of pips
+   * @param  {array}playersPipCount       - array containing pip counts for every player in one room
+   * @return {array}                      - array of indices of players with highest amount of pips in the tie breaker room
+   */
+  breakTies(playersPipCount) {
+    const indices = GameEngineScore.findHighestPipCountIndices(playersPipCount[this.tieBreakerRoomNum - 1]);
+    return indices;
+  }
+
+  /**
+   * checks if there is a single player with highest score, in case of tie calls a tiebreaker and returns winner. If tiebreaker is still tied calls it a draw.
+   * @param  {array} scores - array containing scores for all players
+   * @return {array}        - array of indices of winners (single index if there is only one)
+   */
+  findWinner(scores) {
+    let indices = [];
+    const possibleWinnersIndices = GameEngineScore.findIndicesOFMaxInArray(scores);
+    if (possibleWinnersIndices.length === 1) indices = possibleWinnersIndices;
+    else {
+      const pipCount = this.generateRoomPipCount(this.players);
+      const tieBreakerWinners = this.breakTies(pipCount);
+      if (Array.isArray(tieBreakerWinners)) {
+        possibleWinnersIndices.forEach(index => {
+          tieBreakerWinners.forEach(ind => {
+            if (index === ind) indices.push(index);
+          });
+        });
+      } else {
+        indices = possibleWinnersIndices;
+      }
+    }
+    return indices;
+  }
+
+  /**
+   * logs winner (or winners) to the console, 2player ONLY
+   * @param  {array} indices - array containing indices of winning player(s)
+   * @return {undefined}
+   */
+  logWinner(indices) {
+    let winnerText = "";
+    if (indices.length === 1) {
+      winnerText = `the winning player is: ${this.players[indices[0]].name}`;
+    } else {
+      winnerText = `the players ${this.players[indices[0]].name} & ${
+        this.players[indices[1]].name
+      } are tied for the victory.`;
+    }
+    console.log(winnerText);
+    return undefined;
+  }
+
+  /**
+   * checks if there are any pips in room, and returns indices of players with highest amount of pips
    * @param  {array} roomPipCount - array containing pip counts for every player in one room
-   * @return {array}              - array of indices of players with highest amount of chips
+   * @return {array}              - array of indices of players with highest amount of pips
    */
   static findHighestPipCountIndices(roomPipCount) {
+    if (!roomPipCount) return -1;
     const max = Math.max(...roomPipCount);
     if (max === 0) return -1;
-    const indices = this.findIndicesOFMaxInArray(roomPipCount);
+    const indices = GameEngineScore.findIndicesOFMaxInArray(roomPipCount);
     return indices;
   }
 
@@ -113,11 +168,11 @@ export default class GameEngineScore {
 
     // removing max values from the array considered
     const pipsWithoutMax = roomPipCount.slice();
-    const indicesOfMax = this.findIndicesOFMaxInArray(pipsWithoutMax);
+    const indicesOfMax = GameEngineScore.findIndicesOFMaxInArray(pipsWithoutMax);
     indicesOfMax.forEach(index => {
       pipsWithoutMax[index] = 0;
     });
-    const indices = this.findIndicesOFMaxInArray(pipsWithoutMax);
+    const indices = GameEngineScore.findIndicesOFMaxInArray(pipsWithoutMax);
 
     return indices;
   }
@@ -125,7 +180,7 @@ export default class GameEngineScore {
   /**
    * returns all indices containing max value of an array
    * @param  {array} array - array containing pip counts for every player in one room
-   * @return {array}              - array of indices containg max value
+   * @return {array}       - array of indices containg max value
    */
   static findIndicesOFMaxInArray(array) {
     const indices = [];

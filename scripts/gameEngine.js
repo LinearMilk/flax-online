@@ -30,7 +30,9 @@ export default class GameEngine {
     [this.activePlayer] = this.players;
     this.activePlayer.setIsActive(true);
 
-    this.scoreObject = new GameEngineScores(this.players, this.rooms);
+    this.tieBreakerRoomNum = this.selectedBoard.tieBreakerRoomNum;
+
+    this.scoreObject = new GameEngineScores(this.players, this.rooms, this.tieBreakerRoomNum);
     this.setPoints();
 
     this.createStartingTiles(this.players);
@@ -141,7 +143,8 @@ export default class GameEngine {
       selectedBoardInfo.numPlayers,
       selectedBoardInfo.rooms,
       selectedBoardInfo.startingPositions,
-      selectedBoardInfo.randomChipRow
+      selectedBoardInfo.randomChipRow,
+      selectedBoardInfo.tieBreakerRoomNum
     );
 
     return selectedBoard;
@@ -309,6 +312,7 @@ export default class GameEngine {
 
     if (this.endGame) {
       this.draw.gameOver(1, this.selectedBoard.randomChipRow);
+      this.scoreObject.logWinner(this.scoreObject.findWinner(this.scores));
     } else {
       // Draw all available moves
       if (this.activePlayer.availableMoves.length > 0) {
@@ -387,7 +391,8 @@ export default class GameEngine {
    * Count the points for the game and set in this.scores
    */
   setPoints() {
-    this.scores = GameEngineScores.countPoints(this.scoreObject.generateRoomPipCount(this.players));
+    const playersPipCount = this.scoreObject.generateRoomPipCount(this.players);
+    this.scores = GameEngineScores.countPoints(playersPipCount);
   }
 
   /**

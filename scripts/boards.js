@@ -4,6 +4,7 @@ const gameBoards = {
     randomChipRow: 11,
     numPlayers: 2,
     startingPositions: [[1, 9], [13, 1]],
+    tieBreakerRoomNum: 5,
     rooms: [
       {
         roomNum: 1,
@@ -48,6 +49,7 @@ const gameBoards = {
     randomChipRow: 12,
     numPlayers: 2,
     startingPositions: [[8, 10], [5, 1]],
+    tieBreakerRoomNum: 6,
     rooms: [
       {
         roomNum: 1,
@@ -100,6 +102,7 @@ const gameBoards = {
     randomChipRow: 12,
     numPlayers: 2,
     startingPositions: [[8, 10], [5, 1]],
+    tieBreakerRoomNum: 5,
     rooms: [
       {
         roomNum: 1,
