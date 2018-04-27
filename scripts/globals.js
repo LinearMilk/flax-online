@@ -3,10 +3,10 @@ const gameBoardFrameSize = 10;
 const squareBorderSize = 1;
 
 const playerColours = [
-  { colour: "#8bc63f", border: "#459445" },
-  { colour: "#ee5053", border: "#c3392f" },
-  { colour: "#3fabe3", border: "#1e73be" },
-  { colour: "#808080", border: "#4f4f4f" }
+  { colour: "#8bc63f", border: "#459445", colourRgba: "139, 198, 63", borderRgba: "69, 148, 69", name: "green" },
+  { colour: "#ee5053", border: "#c3392f", colourRgba: "238, 80, 83", borderRgba: "195, 57, 47", name: "red" },
+  { colour: "#3fabe3", border: "#1e73be", colourRgba: "63, 171, 227", borderRgba: "30, 115, 190", name: "blue" },
+  { colour: "#808080", border: "#4f4f4f", colourRgba: "128, 128, 128", borderRgba: "79, 79, 79", name: "grey" }
 ];
 
 function searchArrayInArray(haystack, needle) {
