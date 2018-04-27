@@ -71,11 +71,10 @@ export default class GameEngine {
    * @return the array of players
    */
   createPlayers(numPlayers) {
-    const playerNames = ["green", "red", "blue", "black"];
     const players = [];
     for (let i = 0; i < numPlayers; i += 1) {
       const player = new Player(globals.playerColours[i], this.selectedBoard.startingPositions[i]);
-      player.setName(playerNames[i]);
+      player.setName(globals.playerColours[i].name);
       players.push(player);
     }
 
