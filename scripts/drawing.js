@@ -211,7 +211,7 @@ export default class Drawing {
     this.ctx.beginPath();
     this.ctx.arc(0, 0, this.chipRadius + 3, 0, 2 * Math.PI);
     this.ctx.lineWidth = 2;
-    this.ctx.strokeStyle = colour.border;
+    this.ctx.strokeStyle = `rgba(${colour.borderRgba}, 0.5)`;
     this.ctx.stroke();
     this.ctx.restore();
     this.highlightChipInnerBorder(xPosition, yPosition, colour);
@@ -223,7 +223,7 @@ export default class Drawing {
     this.ctx.beginPath();
     this.ctx.arc(0, 0, this.chipRadius, 0, 2 * Math.PI);
     this.ctx.lineWidth = 2;
-    this.ctx.strokeStyle = colour.colour;
+    this.ctx.strokeStyle = `rgba(${colour.colourRgba}, 0.5)`;
     this.ctx.stroke();
     this.ctx.restore();
   }
