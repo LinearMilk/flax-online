@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/css/game.css">
 </head>
 
-<body onload="game.startGame();">
+<body>
   <div class="content">
 
     <div class="splash-screen">
@@ -53,6 +53,7 @@
   <script>
     $(".btn-play").click(function () {
       $(".splash-screen").css("display", "none");
+      game.startGame();
     });
   </script>
 </body>
