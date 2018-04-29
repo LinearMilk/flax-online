@@ -3,17 +3,123 @@
 
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>Flax online</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/game.css">
 </head>
 
-<body onload="game.startGame();">
-  <div id="game">
-    <canvas id="game-canvas" width="650" height="600" style="background: white;">
-      This is an interactive game.
-    </canvas>
+<body>
+  <div class="content">
 
+    <div class="splash-screen">
+      <div class="splash-content">
+
+        <div class="splash-content-center">
+          <div class="splash-logo">
+            <img class="splash-logo-img" src="/img/logo.png" />
+          </div>
+
+          <div class="splash-options btn-group-vertical">
+            <button type="button" class="btn btn-play">Play</button>
+            <button type="button" class="btn btn-rules" data-toggle="modal" data-target="#rules">Rules</button>
+            <button type="button" class="btn btn-about" data-toggle="modal" data-target="#about">About</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Rules Modal -->
+    <div class="modal fade" id="rules" tabindex="-1" role="dialog" aria-labelledby="rulesTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rulesTitle">Game Rules</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ut aliquam odio. Proin aliquet nulla non justo molestie semper.
+              Sed viverra massa et velit ultricies vulputate. Suspendisse egestas massa augue, sit amet varius ligula accumsan
+              et. Fusce vel porta tellus. Aliquam erat volutpat. Nam pulvinar quam ex, quis efficitur mi pellentesque vitae.
+              Morbi eu justo hendrerit, vehicula elit vel, porttitor diam. In eget mi leo. Phasellus dui risus, egestas quis
+              lacus at, lobortis condimentum diam.
+            </p>
+            <p>
+              Etiam ultrices eros tincidunt, porta nibh non, ultricies diam. Nunc semper viverra arcu et eleifend. Phasellus rhoncus convallis
+              dolor, non vulputate felis eleifend ut. Donec et augue metus. Aliquam ut cursus dui. Proin dignissim dolor
+              eu fermentum iaculis. Nunc in commodo odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. In
+              eget tortor et massa faucibus ultricies non id ligula. Phasellus ut vehicula dui, nec faucibus lacus. Curabitur
+              maximus iaculis eleifend. Nulla et justo ultrices, ultrices ligula a, pharetra ex. Morbi lacinia tellus eget
+              vestibulum tristique.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Rules Modal end -->
+
+    <!-- About Modal -->
+    <div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="aboutTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aboutTitle">About this game...</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ut aliquam odio. Proin aliquet nulla non justo molestie semper.
+              Sed viverra massa et velit ultricies vulputate. Suspendisse egestas massa augue, sit amet varius ligula accumsan
+              et. Fusce vel porta tellus. Aliquam erat volutpat. Nam pulvinar quam ex, quis efficitur mi pellentesque vitae.
+              Morbi eu justo hendrerit, vehicula elit vel, porttitor diam. In eget mi leo. Phasellus dui risus, egestas quis
+              lacus at, lobortis condimentum diam.
+            </p>
+            <p>
+              Etiam ultrices eros tincidunt, porta nibh non, ultricies diam. Nunc semper viverra arcu et eleifend. Phasellus rhoncus convallis
+              dolor, non vulputate felis eleifend ut. Donec et augue metus. Aliquam ut cursus dui. Proin dignissim dolor
+              eu fermentum iaculis. Nunc in commodo odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. In
+              eget tortor et massa faucibus ultricies non id ligula. Phasellus ut vehicula dui, nec faucibus lacus. Curabitur
+              maximus iaculis eleifend. Nulla et justo ultrices, ultrices ligula a, pharetra ex. Morbi lacinia tellus eget
+              vestibulum tristique.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- About Modal end -->
+
+
+    <div id="game">
+      <canvas id="game-canvas" width="572" height="600" style="background: white;">
+        This is an interactive game.
+      </canvas>
+    </div>
 
   </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+  <script>
+    $(".btn-play").click(function () {
+      $(".splash-screen").css("display", "none");
+      game.startGame();
+    });
+  </script>
 </body>
 
 </html>

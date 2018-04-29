@@ -1,0 +1,101 @@
+.content {
+  text-align: center;
+}
+
+.splash-screen {
+  position: fixed; /* Sit on top of the page content */
+  display: block;
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("/img/splash-bg.png");
+  background-size: 100%;
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+}
+
+.splash-content {
+  display: table;
+  width: 100%;
+  height: 100%;
+}
+
+.splash-content-center {
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.splash-logo-img {
+  width: 350px;
+  margin-bottom: 50px;
+}
+
+.btn {
+  margin-bottom: 15px;
+  color: white;
+  font-weight: bold;
+}
+
+.btn-group-vertical .btn,
+.btn-group-vertical .btn-group {
+  font-size: 18px;
+  width: 150px;
+  height: 50px;
+  border-radius: 0;
+}
+
+.btn-group-vertical > .btn-group:not(:last-child) > .btn,
+.btn-group-vertical > .btn:not(:last-child):not(.dropdown-toggle) {
+  border-radius: 0;
+}
+
+.btn-play {
+  background-color: #8bc63f;
+}
+
+.btn-rules {
+  background-color: #3fabe3;
+}
+
+.btn-about {
+  background-color: #808080;
+}
+
+.modal-content {
+  background-color: #fefaf2;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .modal-dialog {
+    max-width: 800px;
+    margin: 1.75rem auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .btn-group-vertical .btn,
+  .btn-group-vertical .btn-group {
+    font-size: 34px;
+    width: 250px;
+    height: 100px;
+    border-radius: 0.25rem;
+    margin-bottom: 25px;
+  }
+
+  .splash-logo-img {
+    width: 70%;
+    margin-bottom: 100px;
+  }
+
+  .modal-dialog {
+    font-size: 26px;
+  }
+
+  .modal-title,
+  .close {
+    font-size: 36px;
+  }
+}
