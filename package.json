@@ -47,5 +47,8 @@
   },
   "prettier": {
     "printWidth": 120
+  },
+  "dependencies": {
+    "bootstrap": "^4.1.0"
   }
 }
