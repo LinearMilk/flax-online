@@ -50,8 +50,8 @@ export default class GameEngine {
       "click",
       e => {
         const pos = globals.getMousePos(this.draw.getCanvas(), e);
-        xClick = pos.x;
-        yClick = pos.y;
+        xClick = pos.x + 10;
+        yClick = pos.y + 10;
 
         const coordinates = GameEngine.getClickCoordinates(xClick, yClick);
         if (coordinates) {
