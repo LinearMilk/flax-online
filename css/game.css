@@ -63,6 +63,18 @@
   background-color: #808080;
 }
 
+.modal-content {
+  background-color: #fefaf2;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .modal-dialog {
+    max-width: 800px;
+    margin: 1.75rem auto;
+  }
+}
+
 @media (max-width: 768px) {
   .btn-group-vertical .btn,
   .btn-group-vertical .btn-group {
@@ -76,5 +88,14 @@
   .splash-logo-img {
     width: 70%;
     margin-bottom: 100px;
+  }
+
+  .modal-dialog {
+    font-size: 26px;
+  }
+
+  .modal-title,
+  .close {
+    font-size: 36px;
   }
 }
