@@ -1,2 +1,3 @@
-# lux-online
+# FLAX
+
 Abstract boardgame implementation in JS.
