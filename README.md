@@ -60,3 +60,7 @@ On their turn the player draws a random chip from their supply and places it on 
 ### Scoring
 
 Players earn 4 points for every room in which they have the most pips (combined on all their chips). If the players are tied, both of them get the points. If at the end of the game players are tied for victory, the player with more pips in the central room is the winner. If the players are tied still, they share the victory.
+
+## Bugs and Issues
+
+Have a bug or an issue with this template? [Open a new issue](https://github.com/LinearMilk/flax-online/issues) here on GitHub.
