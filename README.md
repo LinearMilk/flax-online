@@ -4,6 +4,6 @@
 
 ## Preview
 
-[![ Scrrenshot - current version](http://linearmilk.com/previews/flax-preview.png)](http://flax.linearmilk.com)
+[![ Screenshot - current version](http://linearmilk.com/previews/flax-preview.png)](http://flax.linearmilk.com)
 
-**[Live Preview](http://flax.linearmilk.com)**
+**[Playtest current version](http://flax.linearmilk.com)**
