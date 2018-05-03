@@ -73,4 +73,4 @@ Team working on [Flax](http://flax.linearmilk.com):
 
 * [Witold Henszel](http://linearmilk.com/)
 * [Luara Neumann](https://www.linkedin.com/in/luara-neumann-boeira-b89a8638/)
-* [Daniel Holm](https://www.linkedin.com/in/danielholm83/)
+* [Daniel Holm](https://www.linkedin.com/in/danielholm83/) - Layout and design
