@@ -23,7 +23,7 @@ To run the game locally:
 
 ### Installation
 
-After downloading, run npm install, to download dependencies. Then run npm run start to start the development server, the script will open the game in your default browser at [http://localhost:8080/](http://localhost:8080/).
+After downloading, run `npm install`, to download dependencies. Then run `npm run start` to start the development server, the script will open the game in your default browser at [http://localhost:8080/](http://localhost:8080/).
 In the current version only changes to HTML and JavaScript are live-reloaded.
 
 ### NPM Scripts
@@ -56,3 +56,7 @@ On their turn the player draws a random chip from their supply and places it on 
 * Players never can place a chip on their opponent's starting tile.
 * Players cannot skip moves, if a valid move exist for current player, they must make it.
 * Once per game a player may place another chip on top of their starting chip.
+
+### Scoring
+
+Players earn 4 points for every room in which they have the most pips (combined on all their chips). If the players are tied, both of them get the points. If at the end of the game players are tied for victory, the player with more pips in the central room is the winner. If the players are tied still, they share the victory.
