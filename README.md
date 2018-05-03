@@ -64,3 +64,13 @@ Players earn 4 points for every room in which they have the most pips (combined 
 ## Bugs and Issues
 
 Have a bug or an issue with this template? [Open a new issue](https://github.com/LinearMilk/flax-online/issues) here on GitHub.
+
+## About
+
+Flax has been created as a challenge to ourselves and as a tribute to the game we like very much. It is based on [Glüx](http://www.queen-games.com/en/2016/10/gluex-light-your-way-2/), if you like it please [buy Glüx](https://www.amazon.co.uk/Queen-Games-010221-English-German/dp/B01GX992G4/) and support [people who made it](http://www.queen-games.com/en/#).
+
+Team working on [Flax](http://flax.linearmilk.com):
+
+* [Witold Henszel](http://linearmilk.com/)
+* [Luara Neumann](https://www.linkedin.com/in/luara-neumann-boeira-b89a8638/)
+* [Daniel Holm](https://www.linkedin.com/in/danielholm83/)
