@@ -7,3 +7,9 @@
 [![ Screenshot - current version](http://linearmilk.com/previews/flax-preview.png)](http://flax.linearmilk.com)
 
 **[Playtest current version](http://flax.linearmilk.com)**
+
+## Status
+
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/LinearMilk/flax-online/master/LICENSE)
+[![dependencies Status](https://david-dm.org/LinearMilk/flax-online/status.svg)](https://david-dm.org/LinearMilk/flax-online)
+[![devDependencies Status](https://david-dm.org/LinearMilk/flax-online/dev-status.svg)](https://david-dm.org/LinearMilk/flax-online?type=dev)
