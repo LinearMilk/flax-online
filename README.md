@@ -23,10 +23,11 @@ To run the game locally:
 
 Installation
 
-After downloading, run npm install, to download dependencies. Then run npm run start to start the development server, the script will open the game in your default browser at http://localhost:8080/ (http://localhost:8080/).
+After downloading, run npm install, to download dependencies. Then run npm run start to start the development server, the script will open the game in your default browser at [http://localhost:8080/](http://localhost:8080/).
 In the current version only changes to HTML and JavaScript are live-reloaded.
 
 NPM Scripts
-npm run start opens the project in your default browser and live reloads when changes are made
-npm run build builds the minified version in production mode
-npm run test runs the tests using Jest(https://facebook.github.io/jest/)
+
+* `npm run start` opens the project in your default browser and live reloads when changes are made
+* `npm run build` builds the minified version in production mode
+* `npm run test` runs the tests using Jest(https://facebook.github.io/jest/)
