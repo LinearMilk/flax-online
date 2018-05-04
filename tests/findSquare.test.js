@@ -1,5 +1,5 @@
 import GameEngineChipMoves from "../scripts/gameEngineChipMoves";
-import Chip from "../scripts/chip";
+import Chip from "../scripts/model/chip";
 import * as testConstants from "./testConstants";
 
 beforeEach(() => {
