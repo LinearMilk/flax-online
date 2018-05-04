@@ -1,4 +1,4 @@
-import GameEngine from "./gameEngine";
+import GameEngine from "./engine/gameEngine";
 
 export default class Game {
   /**

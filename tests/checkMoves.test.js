@@ -1,4 +1,4 @@
-import GameEngineChipMoves from "../scripts/gameEngineChipMoves";
+import GameEngineChipMoves from "../scripts/engine/gameEngineChipMoves";
 import * as testConstants from "./testConstants";
 
 beforeEach(() => {
