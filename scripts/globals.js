@@ -1,7 +1,23 @@
+/**
+ * Size of the square in the board, in pixels.
+ */
 const squareSize = 46;
+
+/**
+ * Size of the frame around the board, in pixels.
+ */
 const gameBoardFrameSize = 10;
+
+/**
+ * Size of the border of each square, in pixels.
+ */
 const squareBorderSize = 1;
 
+/**
+ * Player's colours in the game.
+ * colour and border for chip and first tile colour.
+ * colourRgba and borderRgba for chip move highlight.
+ */
 const playerColours = [
   { colour: "#8bc63f", border: "#459445", colourRgba: "139, 198, 63", borderRgba: "69, 148, 69", name: "green" },
   { colour: "#ee5053", border: "#c3392f", colourRgba: "238, 80, 83", borderRgba: "195, 57, 47", name: "red" },
@@ -9,6 +25,12 @@ const playerColours = [
   { colour: "#808080", border: "#4f4f4f", colourRgba: "128, 128, 128", borderRgba: "79, 79, 79", name: "grey" }
 ];
 
+/**
+ * Seach for an array within another array
+ * @param {array} haystack  - the array of arrays
+ * @param {array} needle    - the array to be searched
+ * @return the position of needle in haystack, -1 if it is not present
+ */
 function searchArrayInArray(haystack, needle) {
   let current;
   let j;
@@ -22,6 +44,12 @@ function searchArrayInArray(haystack, needle) {
   return -1;
 }
 
+/**
+ * Get the correct mouse click in the canvas (when canvas is not in position 0,0 of the html)
+ * @param {object} canvas - the game canvas
+ * @param {any} evt       - the click event
+ * @return x, y with adjusted clicked positions
+ */
 function getMousePos(canvas, evt) {
   const rect = canvas.getBoundingClientRect();
   return {
