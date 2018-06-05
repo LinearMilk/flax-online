@@ -68,6 +68,15 @@
   text-align: left;
 }
 
+a {
+  color: #1e73be;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #3fabe3;
+}
+
 @media (min-width: 768px) {
   .modal-dialog {
     max-width: 800px;
