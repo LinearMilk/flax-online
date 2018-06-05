@@ -5,9 +5,9 @@
   "main": "main.js",
   "scripts": {
     "test": "jest",
-    "start": "webpack-dev-server --mode development ./scripts/main.js --output ./dist/main.js --watch --open",
-    "dev": "webpack --mode development ./scripts/main.js --output ./dist/main.js",
-    "build": "webpack --mode production ./scripts/main.js --output ./dist/main.js",
+    "start": "webpack-serve --config ./webpack.config.js --port 8080 --open",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
     "precommit": "pretty-quick --staged"
   },
   "repository": {
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/LinearMilk/lux-online#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-loader": "^7.1.4",
@@ -44,7 +45,6 @@
     "to-string-loader": "^1.1.5",
     "webpack": "^4.10.0",
     "webpack-cli": "^2.1.4",
-    "webpack-dev-server": "^3.1.4",
     "webpack-serve": "^1.0.2"
   },
   "prettier": {
