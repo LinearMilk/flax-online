@@ -1,6 +1,15 @@
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+// the path(s) that should be cleaned
+const pathsToClean = ["dist"];
+// the clean options to use
+const cleanOptions = {
+  verbose: true,
+  dry: false
+};
 
 module.exports = {
   entry: { main: "./scripts/main.js" },
@@ -56,6 +65,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(pathsToClean, cleanOptions),
     new HtmlWebPackPlugin({
       template: "./index.html",
       filename: "./index.html"
