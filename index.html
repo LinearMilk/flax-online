@@ -10,7 +10,7 @@
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/game.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -21,7 +21,7 @@
 
         <div class="splash-content-center">
           <div class="splash-logo">
-            <img class="splash-logo-img" src="/img/logo.png" />
+            <img class="splash-logo-img" src="img/logo.png" />
           </div>
 
           <div class="splash-options btn-group-vertical">
@@ -71,33 +71,27 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="aboutTitle">About this game</h5>
+            <h5 class="modal-title" id="aboutTitle">About this game...</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <p>
-              Flax has been created as a challenge to ourselves and as a tribute to the game we like very much. It is based on
-              <a href="http://www.queen-games.com/en/2016/10/gluex-light-your-way-2/" target="_blank">Glüx</a>, if you like it please
-              <a href="https://www.amazon.co.uk/Queen-Games-010221-English-German/dp/B01GX992G4/" target="_blank">buy Glüx</a> and support
-              <a href="http://www.queen-games.com/en/#" target="_blank">people who made it</a>.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ut aliquam odio. Proin aliquet nulla non justo molestie semper.
+              Sed viverra massa et velit ultricies vulputate. Suspendisse egestas massa augue, sit amet varius ligula accumsan
+              et. Fusce vel porta tellus. Aliquam erat volutpat. Nam pulvinar quam ex, quis efficitur mi pellentesque vitae.
+              Morbi eu justo hendrerit, vehicula elit vel, porttitor diam. In eget mi leo. Phasellus dui risus, egestas quis
+              lacus at, lobortis condimentum diam.
             </p>
-            <p class="font-weight-bold">
-              Team working on Flax:
+            <p>
+              Etiam ultrices eros tincidunt, porta nibh non, ultricies diam. Nunc semper viverra arcu et eleifend. Phasellus rhoncus convallis
+              dolor, non vulputate felis eleifend ut. Donec et augue metus. Aliquam ut cursus dui. Proin dignissim dolor
+              eu fermentum iaculis. Nunc in commodo odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. In
+              eget tortor et massa faucibus ultricies non id ligula. Phasellus ut vehicula dui, nec faucibus lacus. Curabitur
+              maximus iaculis eleifend. Nulla et justo ultrices, ultrices ligula a, pharetra ex. Morbi lacinia tellus eget
+              vestibulum tristique.
             </p>
-            <ul>
-              <li>
-                <a href="http://linearmilk.com/" target="_blank">Witold Henszel</a>
-              </li>
-              <li>
-                <a href="https://www.linkedin.com/in/luara-neumann-boeira-b89a8638/" target="_blank">Luara Neumann</a>
-              </li>
-              <li>
-                <a href="https://www.linkedin.com/in/danielholm83/" target="_blank">Daniel Holm</a> - Layout and Design
-              </li>
-            </ul>
-
           </div>
         </div>
       </div>
@@ -118,14 +112,15 @@
     crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
+  <script src="main.js"></script>
   <script>
-    $(".btn-play").click(function () {
-      $(".splash-screen").fadeOut("slow", function () {
-        $(".splash-screen").css("display", "none");
-      });
-      game.startGame();
-    });
-  </script>
+  $(".btn-play").click(function() {
+  $(".splash-screen").fadeOut("slow", function() {
+    $(".splash-screen").css("display", "none");
+  });
+  game.startGame();
+});
+</script>
 </body>
 
 </html>
