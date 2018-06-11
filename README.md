@@ -29,14 +29,17 @@ In the current version only changes to HTML and JavaScript are live-reloaded.
 ### NPM Scripts
 
 * `npm run start` opens the project in your default browser and live reloads when changes are made
-* `npm run build` builds the minified version in production mode
+* `npm run dev` builds the unminified version to 'dist' folder in development mode
+* `npm run build` builds the minified version to 'dist' folder in production mode
 * `npm run test` runs tests using [Jest](https://facebook.github.io/jest/)
 
 ## Rules
 
 ### Game board
 
-The board is divided into square tiles, which form rooms (darker areas) and paths (lighter areas). Each player has a defined starting position (firs tile placement) on the board as well.
+The board is divided into square tiles, which form rooms (darker areas) and paths (lighter areas). Each player has a defined starting position (first tile placement) on the board as well.
+
+![Board explanation](http://linearmilk.com/flax_rules/game_board.jpg)
 
 ### Players
 
@@ -51,11 +54,19 @@ On their turn the player draws a random chip from their supply and places it on 
 ### Placement Rules
 
 * On their first turns the players have to put their chip on their respective starting tiles.
-* On subsequent turns the player can place a chip in straight line from any of their chips, counting the exact number of pips on the starting chip. Players cannot place a chip if their way is blocked, either by their own chip or their opponent's.
+* On subsequent turns the player can place a chip in straight line, horizontally or vertically, from any of their chips, counting the exact number of pips on the starting chip. Players cannot place a chip if their way is blocked, either by their own chip or their opponent's.
 * If the destination square already contains a chip (their own or their opponent's), player can put a chip on top of existing chip covering it. This can only be done once per square, that is a stack of chips never can be higher than two. The bottom chip is not counted for movement or scoring anymore.
 * Players never can place a chip on their opponent's starting tile.
 * Players cannot skip moves, if a valid move exist for current player, they must make it.
 * Once per game a player may place another chip on top of their starting chip.
+
+#### Examples
+
+![placement example](http://linearmilk.com/flax_rules/placement_1.jpg)
+
+![placement example](http://linearmilk.com/flax_rules/placement_2.jpg)
+
+![placement example](http://linearmilk.com/flax_rules/placement_3.jpg)
 
 ### Scoring
 
