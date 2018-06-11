@@ -55,11 +55,16 @@ On their turn the player draws a random chip from their supply and places it on 
 
 * On their first turns the players have to put their chip on their respective starting tiles.
 * On subsequent turns the player can place a chip in straight line, horizontally or vertically, from any of their chips, counting the exact number of pips on the starting chip. Players cannot place a chip if their way is blocked, either by their own chip or their opponent's.
-  ![placement example](http://linearmilk.com/flax_rules/placement_1.jpg) ![placement example](http://linearmilk.com/flax_rules/placement_2.jpg)
 * If the destination square already contains a chip (their own or their opponent's), player can put a chip on top of existing chip covering it. This can only be done once per square, that is a stack of chips never can be higher than two. The bottom chip is not counted for movement or scoring anymore.
 * Players never can place a chip on their opponent's starting tile.
 * Players cannot skip moves, if a valid move exist for current player, they must make it.
 * Once per game a player may place another chip on top of their starting chip.
+
+####Examples
+
+![placement example](http://linearmilk.com/flax_rules/placement_1.jpg)
+
+![placement example](http://linearmilk.com/flax_rules/placement_2.jpg)
 
 ### Scoring
 
