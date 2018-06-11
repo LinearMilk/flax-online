@@ -1,4 +1,4 @@
-import Chip from "../scripts/chip";
+import Chip from "../scripts/model/chip";
 
 const chipOne = new Chip("white", 1, [1, 1]);
 const chipTwo = new Chip("white", 1, [2, 1]);

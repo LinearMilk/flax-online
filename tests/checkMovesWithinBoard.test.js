@@ -1,6 +1,6 @@
-import GameEngineChipMoves from "../scripts/gameEngineChipMoves";
+import GameEngineChipMoves from "../scripts/engine/gameEngineChipMoves";
 import gameBoards from "../scripts/boards";
-import Board from "../scripts/board";
+import Board from "../scripts/model/board";
 import * as testConstants from "./testConstants";
 
 const testBoardInfo = gameBoards.board2;

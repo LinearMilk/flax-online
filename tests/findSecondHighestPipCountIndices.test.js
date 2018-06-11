@@ -1,4 +1,4 @@
-import GameEngineScore from "../scripts/gameEngineScores";
+import GameEngineScore from "../scripts/engine/gameEngineScores";
 
 test("no pips array should return (undefined)", () => {
   expect(GameEngineScore.findSecondHighestPipCountIndices(null)).toBe(undefined);

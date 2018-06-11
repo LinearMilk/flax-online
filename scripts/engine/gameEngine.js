@@ -1,12 +1,12 @@
-import Drawing from "./drawing";
-import Player from "./player";
-import Chip from "./chip";
-import Board from "./board";
-import Square from "./square";
+import Player from "../model/player";
+import Chip from "../model/chip";
+import Board from "../model/board";
+import Square from "../model/square";
+import Drawing from "../drawing";
 import GameEngineChipMoves from "./gameEngineChipMoves";
 import GameEngineScores from "./gameEngineScores";
-import gameBoards from "./boards";
-import * as globals from "./globals";
+import gameBoards from "../boards";
+import * as globals from "../globals";
 
 /**
  * Game Engine
