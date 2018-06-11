@@ -4,11 +4,6 @@
 const squareSize = 46;
 
 /**
- * Size of the frame around the board, in pixels.
- */
-const gameBoardFrameSize = 10;
-
-/**
  * Size of the border of each square, in pixels.
  */
 const squareBorderSize = 1;
@@ -58,4 +53,4 @@ function getMousePos(canvas, evt) {
   };
 }
 
-export { squareSize, gameBoardFrameSize, squareBorderSize, playerColours, searchArrayInArray, getMousePos };
+export { squareSize, squareBorderSize, playerColours, searchArrayInArray, getMousePos };

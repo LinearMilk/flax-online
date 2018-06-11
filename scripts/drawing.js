@@ -13,7 +13,6 @@ export default class Drawing {
     this.squareRoomBorderColour = "#ffffff";
     this.squareRoomColour = "#fdf4b3";
     this.chipRadius = 17;
-    this.gameBoardFrameSize = globals.gameBoardFrameSize;
     this.chipBorderWidth = 2;
     this.chipValueColour = "#ffffff";
     this.chipValueOffset = 7;
@@ -25,26 +24,6 @@ export default class Drawing {
    */
   getCanvas() {
     return this.canvas;
-  }
-
-  /**
-   * Draw the gameboard Frame
-   * @param  {number} width     - relative number of the column
-   * @param  {number} height    - relative number of the row
-   * @param  {number} fieldSize - the size of each square in pixels
-   */
-  gameBoardFrame(width, height, fieldSize) {
-    this.ctx.restore();
-    this.ctx.save();
-    this.ctx.lineWidth = this.gameBoardFrameSize;
-    this.ctx.strokeStyle = this.squareColour;
-    this.ctx.strokeRect(
-      this.gameBoardFrameSize / 2,
-      this.gameBoardFrameSize / 2,
-      width * fieldSize + this.gameBoardFrameSize,
-      height * fieldSize + this.gameBoardFrameSize
-    );
-    this.ctx.translate(this.gameBoardFrameSize, this.gameBoardFrameSize);
   }
 
   /**
