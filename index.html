@@ -45,21 +45,42 @@
             </button>
           </div>
           <div class="modal-body">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ut aliquam odio. Proin aliquet nulla non justo molestie semper.
-              Sed viverra massa et velit ultricies vulputate. Suspendisse egestas massa augue, sit amet varius ligula accumsan
-              et. Fusce vel porta tellus. Aliquam erat volutpat. Nam pulvinar quam ex, quis efficitur mi pellentesque vitae.
-              Morbi eu justo hendrerit, vehicula elit vel, porttitor diam. In eget mi leo. Phasellus dui risus, egestas quis
-              lacus at, lobortis condimentum diam.
+            <p class="font-weight-bold">
+              Game Board
             </p>
             <p>
-              Etiam ultrices eros tincidunt, porta nibh non, ultricies diam. Nunc semper viverra arcu et eleifend. Phasellus rhoncus convallis
-              dolor, non vulputate felis eleifend ut. Donec et augue metus. Aliquam ut cursus dui. Proin dignissim dolor
-              eu fermentum iaculis. Nunc in commodo odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. In
-              eget tortor et massa faucibus ultricies non id ligula. Phasellus ut vehicula dui, nec faucibus lacus. Curabitur
-              maximus iaculis eleifend. Nulla et justo ultrices, ultrices ligula a, pharetra ex. Morbi lacinia tellus eget
-              vestibulum tristique.
+              The board is divided into square tiles, which form rooms (darker areas) and paths (lighter areas). Each player has a defined starting position (first tile placement) on the board as well.
             </p>
+            <p class="font-weight-bold">
+              Players
+            </p>
+            <p>
+              The game is played between 2 players. On their turn the player draws a random chip from their supply and places it on the board according to placement rules. If a player doesn't have a legal placement available their turn immediately ends. Each players has at his disposal a stack of 24 double-sided chips, 8 of each of 3 types: 1/6, 2/5 and 3/4.
+            </p>
+            <p class="font-weight-bold">
+              Placement Rules
+            </p>
+            <p>
+              <ul>
+                <li>On their first turns the players have to put their chip on their respective starting tiles.</li>
+                <li>On subsequent turns the player can place a chip in straight line, horizontally or vertically, from any of their chips, counting the exact number of pips on the starting chip. Players cannot place a chip if their way is blocked, either by their own chip or their opponent's.</li>
+                <li>If the destination square already contains a chip (their own or their opponent's), player can put a chip on top of existing chip covering it. This can only be done once per square, that is a stack of chips never can be higher than two. The bottom chip is not counted for movement or scoring anymore.</li>
+                <li>Players never can place a chip on their opponent's starting tile.</li>
+                <li>Players cannot skip moves, if a valid move exist for current player, they must make it.</li>
+                <li>Once per game a player may place another chip on top of their starting chip.</li>
+              </ul>
+            </p>
+            <p class="font-weight-bold">
+              Scoring
+            </p>
+            <p>
+              Players earn 4 points for every room in which they have the most pips (combined on all their chips). If the players are tied, both of them get the points. If at the end of the game players are tied for victory, the player with more pips in the central room is the winner. If the players are tied still, they share the victory.
+            </p>
+
+
+
+
+
           </div>
         </div>
       </div>
@@ -106,7 +127,7 @@
 
 
     <div id="game">
-      <canvas id="game-canvas" width="572" height="600" style="background: white;">
+      <canvas id="game-canvas" width="572" height="600" style="background: white">
         This is an interactive game.
       </canvas>
     </div>

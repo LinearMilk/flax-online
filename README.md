@@ -37,7 +37,7 @@ In the current version only changes to HTML and JavaScript are live-reloaded.
 
 ### Game board
 
-The board is divided into square tiles, which form rooms (darker areas) and paths (lighter areas). Each player has a defined starting position (firs tile placement) on the board as well.
+The board is divided into square tiles, which form rooms (darker areas) and paths (lighter areas). Each player has a defined starting position (first tile placement) on the board as well.
 
 ![Board explanation](http://linearmilk.com/flax_rules/game_board.jpg)
 
@@ -60,7 +60,7 @@ On their turn the player draws a random chip from their supply and places it on 
 * Players cannot skip moves, if a valid move exist for current player, they must make it.
 * Once per game a player may place another chip on top of their starting chip.
 
-####Examples
+#### Examples
 
 ![placement example](http://linearmilk.com/flax_rules/placement_1.jpg)
 
