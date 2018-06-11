@@ -1,11 +1,42 @@
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const path = require("path");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+// the path(s) that should be cleaned
+const pathsToClean = ["dist"];
+// the clean options to use
+const cleanOptions = {
+  verbose: true,
+  dry: false
+};
 
 module.exports = {
+  entry: { main: "./scripts/main.js" },
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "main.js"
+  },
   module: {
     rules: [
       {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              outputPath: "img/"
+            }
+          }
+        ]
+      },
+      {
         test: /\.css$/,
-        use: ["to-string-loader", "css-loader"]
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: ["css-loader"]
+        })
       },
       {
         enforce: "pre",
@@ -34,9 +65,13 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(pathsToClean, cleanOptions),
     new HtmlWebPackPlugin({
       template: "./index.html",
       filename: "./index.html"
+    }),
+    new ExtractTextPlugin({
+      filename: "style.css"
     })
   ]
 };
