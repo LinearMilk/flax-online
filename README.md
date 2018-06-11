@@ -29,7 +29,8 @@ In the current version only changes to HTML and JavaScript are live-reloaded.
 ### NPM Scripts
 
 * `npm run start` opens the project in your default browser and live reloads when changes are made
-* `npm run build` builds the minified version in production mode
+* `npm run dev` builds the unminified version to 'dist' folder in development mode
+* `npm run build` builds the minified version to 'dist' folder in production mode
 * `npm run test` runs tests using [Jest](https://facebook.github.io/jest/)
 
 ## Rules
@@ -37,6 +38,8 @@ In the current version only changes to HTML and JavaScript are live-reloaded.
 ### Game board
 
 The board is divided into square tiles, which form rooms (darker areas) and paths (lighter areas). Each player has a defined starting position (firs tile placement) on the board as well.
+
+![Board explanation](http://linearmilk.com/flax_rules/game_board.jpg)
 
 ### Players
 
