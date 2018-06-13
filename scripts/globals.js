@@ -9,6 +9,11 @@ const squareSize = 46;
 const squareBorderSize = 1;
 
 /**
+ * Height of the game progress box, in pixels.
+ */
+const gameProgressBoxHeight = 50;
+
+/**
  * Player's colours in the game.
  * colour and border for chip and first tile colour.
  * colourRgba and borderRgba for chip move highlight.
@@ -53,4 +58,4 @@ function getMousePos(canvas, evt) {
   };
 }
 
-export { squareSize, squareBorderSize, playerColours, searchArrayInArray, getMousePos };
+export { squareSize, squareBorderSize, gameProgressBoxHeight, playerColours, searchArrayInArray, getMousePos };

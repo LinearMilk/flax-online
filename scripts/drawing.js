@@ -16,6 +16,7 @@ export default class Drawing {
     this.chipBorderWidth = 2;
     this.chipValueColour = "#ffffff";
     this.chipValueOffset = 7;
+    this.gameProgressBoxHeight = globals.gameProgressBoxHeight;
   }
 
   /**
@@ -24,6 +25,17 @@ export default class Drawing {
    */
   getCanvas() {
     return this.canvas;
+  }
+
+  /**
+   * Draw game progress box, with random chip to play and other game info
+   */
+  gameProgressBox() {
+    this.ctx.restore();
+    this.ctx.save();
+    this.ctx.fillStyle = "black";
+    this.ctx.fillRect(0, 0, 552, this.gameProgressBoxHeight);
+    this.ctx.translate(0, this.gameProgressBoxHeight);
   }
 
   /**

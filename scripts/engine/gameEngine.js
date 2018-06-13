@@ -291,6 +291,8 @@ export default class GameEngine {
    * Will clear out the valid moves highlights when it's a player's turn.
    */
   drawGameBoard() {
+    this.draw.gameProgressBox();
+
     // Draw all the squares and the lightened squares for the rooms
     this.squares.forEach(square => {
       this.draw.gameSquare(square.xCoordinate, square.yCoordinate);
@@ -389,6 +391,7 @@ export default class GameEngine {
     this.scores = GameEngineScores.countPoints(playersPipCount);
   }
 
+  // TODO fix Y coordinate for the game progress box
   /**
    * Translater the click coordinates into column and row clicked on the board.
    * @param  {number} xClick - the x click coordinates in pixels
@@ -396,12 +399,10 @@ export default class GameEngine {
    * @return {array}         - the square clicked [column, row]
    */
   static getClickCoordinates(xClick, yClick) {
-    console.log(`${xClick}, ${yClick}`);
     const x = Math.floor(xClick / globals.squareSize) + 1;
-    const y = Math.floor(yClick / globals.squareSize) + 1;
-    console.log(`${x}, ${y}`);
+    const y = Math.floor((yClick - globals.gameProgressBoxHeight) / globals.squareSize) + 1;
     const xInSquare = x * globals.squareSize - xClick;
-    const yInSquare = y * globals.squareSize - yClick;
+    const yInSquare = y * globals.squareSize - yClick + globals.gameProgressBoxHeight;
 
     // If clicked on the edges of the square, do NOT draw the Chip (square == [40, 40])
     if (xInSquare <= 5 || xInSquare >= 35 || yInSquare <= 5 || yInSquare >= 35) {
