@@ -53,13 +53,15 @@ export default class GameEngine {
         xClick = pos.x;
         yClick = pos.y;
 
-        const coordinates = GameEngine.getClickCoordinates(xClick, yClick);
-        if (coordinates) {
-          const [x, y] = coordinates;
-          this.placeChipOnBoard(x, y);
-
-          // Check for click on Chip choice
-          this.selectChipToPlay(x, y);
+        const clickInfo = GameEngine.getClickCoordinates(xClick, yClick);
+        if (clickInfo) {
+          const [x, y] = clickInfo.coordinates;
+          if (clickInfo.clickInBoard) {
+            this.placeChipOnBoard(x, y);
+          } else {
+            // Check for click on Chip choice
+            this.selectChipToPlay(x, y);
+          }
         }
       },
       false
@@ -226,21 +228,35 @@ export default class GameEngine {
    * @param  {number} y - the row of the click
    */
   selectChipToPlay(x, y) {
-    if (y === this.selectedBoard.randomChipRow && this.currentRandomChips.length > 0) {
+    console.log(`x:${x}`);
+    console.log(`y:${y}`);
+    if (GameEngine.isClickOnRandomChipRow(y) && this.currentRandomChips.length > 0) {
       let deSelectedChip;
-      if (x === 1) {
+      if (GameEngine.isClickOnRandomChip1(x)) {
         [this.selectedChip, deSelectedChip] = this.currentRandomChips;
         deSelectedChip.isHighlighted = false;
-      } else if (x === 2) {
+      } else if (GameEngine.isClickOnRandomChip2(x)) {
         [deSelectedChip, this.selectedChip] = this.currentRandomChips;
         deSelectedChip.isHighlighted = false;
       }
 
-      if (x === 1 || x === 2) {
+      if (GameEngine.isClickOnRandomChip1(x) || GameEngine.isClickOnRandomChip2(x)) {
         this.selectedChip.isHighlighted = true;
         this.draw.chipsHighlights(this.selectedChip, deSelectedChip);
       }
     }
+  }
+
+  static isClickOnRandomChipRow(y) {
+    return y > globals.randomChipLocation.row && y < globals.randomChipLocation.row + 1;
+  }
+
+  static isClickOnRandomChip1(x) {
+    return x > globals.randomChipLocation.column1 && x < globals.randomChipLocation.column1 + 1;
+  }
+
+  static isClickOnRandomChip2(x) {
+    return x > globals.randomChipLocation.column2 && x < globals.randomChipLocation.column2 + 1;
   }
 
   /**
@@ -373,8 +389,14 @@ export default class GameEngine {
       const chipValues = this.activePlayer.getRandomChipType();
 
       if (chipValues.length > 0) {
-        chip1 = new Chip(this.activePlayer.getColour(), chipValues[0], [1, this.selectedBoard.randomChipRow]);
-        chip2 = new Chip(this.activePlayer.getColour(), chipValues[1], [2, this.selectedBoard.randomChipRow]);
+        chip1 = new Chip(this.activePlayer.getColour(), chipValues[0], [
+          globals.randomChipLocation.column1,
+          globals.randomChipLocation.row
+        ]);
+        chip2 = new Chip(this.activePlayer.getColour(), chipValues[1], [
+          globals.randomChipLocation.column2,
+          globals.randomChipLocation.row
+        ]);
       } else {
         this.endGame = true;
       }
@@ -391,7 +413,6 @@ export default class GameEngine {
     this.scores = GameEngineScores.countPoints(playersPipCount);
   }
 
-  // TODO fix Y coordinate for the game progress box
   /**
    * Translater the click coordinates into column and row clicked on the board.
    * @param  {number} xClick - the x click coordinates in pixels
@@ -399,16 +420,29 @@ export default class GameEngine {
    * @return {array}         - the square clicked [column, row]
    */
   static getClickCoordinates(xClick, yClick) {
-    const x = Math.floor(xClick / globals.squareSize) + 1;
-    const y = Math.floor((yClick - globals.gameProgressBoxHeight) / globals.squareSize) + 1;
-    const xInSquare = x * globals.squareSize - xClick;
-    const yInSquare = y * globals.squareSize - yClick + globals.gameProgressBoxHeight;
+    let coordinates = null;
+    let clickInBoard = false;
+    if (yClick <= globals.gameProgressBoxHeight) {
+      // click within the game progress box
+      const x = Math.round(xClick / globals.squareSize * 10) / 10 + 1;
+      const y = Math.round((yClick - globals.gameProgressBoxHeight) / globals.squareSize * 10) / 10 + 1;
 
-    // If clicked on the edges of the square, do NOT draw the Chip (square == [40, 40])
-    if (xInSquare <= 5 || xInSquare >= 35 || yInSquare <= 5 || yInSquare >= 35) {
-      return null;
+      coordinates = [x, y];
+    } else {
+      // click within the game board
+      const x = Math.floor(xClick / globals.squareSize) + 1;
+      const y = Math.floor((yClick - globals.gameProgressBoxHeight) / globals.squareSize) + 1;
+      const xInSquare = x * globals.squareSize - xClick;
+      const yInSquare = y * globals.squareSize - yClick + globals.gameProgressBoxHeight;
+
+      // If clicked on the edges of the square, do NOT draw the Chip (square == [40, 40])
+      if (xInSquare <= 5 || xInSquare >= 35 || yInSquare <= 5 || yInSquare >= 35) {
+        return null;
+      }
+      clickInBoard = true;
+      coordinates = [x, y];
     }
 
-    return [x, y];
+    return { coordinates, clickInBoard };
   }
 }

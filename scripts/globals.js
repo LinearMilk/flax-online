@@ -11,7 +11,13 @@ const squareBorderSize = 1;
 /**
  * Height of the game progress box, in pixels.
  */
-const gameProgressBoxHeight = 50;
+const gameProgressBoxHeight = 100;
+
+const randomChipLocation = {
+  row: -0.5,
+  column1: 1.5,
+  column2: 3
+};
 
 /**
  * Player's colours in the game.
@@ -58,4 +64,12 @@ function getMousePos(canvas, evt) {
   };
 }
 
-export { squareSize, squareBorderSize, gameProgressBoxHeight, playerColours, searchArrayInArray, getMousePos };
+export {
+  squareSize,
+  squareBorderSize,
+  gameProgressBoxHeight,
+  randomChipLocation,
+  playerColours,
+  searchArrayInArray,
+  getMousePos
+};
