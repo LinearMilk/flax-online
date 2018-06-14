@@ -5,9 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "jest",
-    "start": "webpack-serve --config ./webpack.config.js --port 8080 --open",
-    "dev": "webpack --mode development",
-    "build": "webpack --mode production",
+    "start": "parcel index.html --open --port 8080",
+    "build": "parcel build index.html --public-url ./",
     "precommit": "pretty-quick --staged"
   },
   "repository": {
