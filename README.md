@@ -24,7 +24,7 @@ To run the game locally:
 ### Installation
 
 * Run `npm install` to download dependencies.
-* Run `npm install parcel -g` to install [parcel.js](https://parceljs.org/) bundler.
+* Run `npm install parcel-bundler -g` to install [parcel.js](https://parceljs.org/) bundler.
 * Run `npm run start` to start the development server, the script will open the game in your default browser at [http://localhost:8080/](http://localhost:8080/).
 
 ### NPM Scripts
