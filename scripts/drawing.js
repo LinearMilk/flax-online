@@ -18,6 +18,7 @@ export default class Drawing {
     this.chipValueColour = "#ffffff";
     this.chipValueOffset = 7;
     this.backgroundColour = "#e6e6e6";
+    this.progressBarHeight = 20;
   }
 
   /**
@@ -31,11 +32,11 @@ export default class Drawing {
   /**
    * Draw game progress box, with random chip to play and other game info
    */
-  gameProgressBox() {
+  gameProgressBox(player) {
     this.ctx.restore();
     this.ctx.save();
     this.gameProgressBoxBackground();
-    this.progressBar();
+    this.progressBar(player);
     this.ctx.translate(0, globals.gameProgressBoxHeight);
   }
 
@@ -44,11 +45,31 @@ export default class Drawing {
     this.ctx.fillRect(0, 0, 552, globals.gameProgressBoxHeight);
   }
 
-  progressBar() {
+  progressBar(player) {
     this.ctx.save();
-    this.ctx.fillStyle = this.backgroundColour;
-    this.ctx.fillRect(0, 0, 552, globals.gameProgressBoxHeight);
-    this.ctx.translate(0, globals.gameProgressBoxHeight);
+    this.ctx.fillStyle = "#cccccc";
+    this.ctx.fillRect(0, globals.gameProgressBoxHeight - this.progressBarHeight, 552, this.progressBarHeight);
+    this.progressBarElements(player);
+    this.ctx.restore();
+  }
+
+  progressBarElements(player) {
+    const chipsLeft = player.getChipCount();
+
+    this.ctx.save();
+
+    let count = 0;
+    for (let i = 0; i <= 504; i += 21) {
+      if (count <= chipsLeft) {
+        this.ctx.fillStyle = player.getColour().colour;
+      } else {
+        this.ctx.fillStyle = "#999999";
+      }
+
+      this.ctx.fillRect(15 + i, globals.gameProgressBoxHeight - this.progressBarHeight + 5, 17, 10);
+
+      count += 1;
+    }
     this.ctx.restore();
   }
 

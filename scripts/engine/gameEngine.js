@@ -307,7 +307,7 @@ export default class GameEngine {
    * Will clear out the valid moves highlights when it's a player's turn.
    */
   drawGameBoard() {
-    this.draw.gameProgressBox();
+    this.draw.gameProgressBox(this.activePlayer);
 
     // Draw all the squares and the lightened squares for the rooms
     this.squares.forEach(square => {
