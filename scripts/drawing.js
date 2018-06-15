@@ -1,4 +1,5 @@
 import * as globals from "./globals";
+
 /**
  * Class for drawing in the canvas.
  */
@@ -16,7 +17,7 @@ export default class Drawing {
     this.chipBorderWidth = 2;
     this.chipValueColour = "#ffffff";
     this.chipValueOffset = 7;
-    this.gameProgressBoxHeight = globals.gameProgressBoxHeight;
+    this.backgroundColour = "#e6e6e6";
   }
 
   /**
@@ -33,9 +34,22 @@ export default class Drawing {
   gameProgressBox() {
     this.ctx.restore();
     this.ctx.save();
-    this.ctx.fillStyle = "#e6e6e6";
-    this.ctx.fillRect(0, 0, 552, this.gameProgressBoxHeight);
-    this.ctx.translate(0, this.gameProgressBoxHeight);
+    this.gameProgressBoxBackground();
+    this.progressBar();
+    this.ctx.translate(0, globals.gameProgressBoxHeight);
+  }
+
+  gameProgressBoxBackground() {
+    this.ctx.fillStyle = this.backgroundColour;
+    this.ctx.fillRect(0, 0, 552, globals.gameProgressBoxHeight);
+  }
+
+  progressBar() {
+    this.ctx.save();
+    this.ctx.fillStyle = this.backgroundColour;
+    this.ctx.fillRect(0, 0, 552, globals.gameProgressBoxHeight);
+    this.ctx.translate(0, globals.gameProgressBoxHeight);
+    this.ctx.restore();
   }
 
   /**
@@ -134,7 +148,7 @@ export default class Drawing {
    * @param  {number} yPosition - relative y position
    */
   clearRandomChips(xPosition, yPosition) {
-    this.ctx.fillStyle = "#e6e6e6";
+    this.ctx.fillStyle = this.backgroundColour;
     this.ctx.fillRect((xPosition - 1) * this.squareSize, (yPosition - 1) * this.squareSize, 100, 100);
   }
 
@@ -230,7 +244,7 @@ export default class Drawing {
     this.ctx.beginPath();
     this.ctx.arc(0, 0, this.chipRadius + 3, 0, 2 * Math.PI);
     this.ctx.lineWidth = 6;
-    this.ctx.strokeStyle = "#e6e6e6";
+    this.ctx.strokeStyle = this.backgroundColour;
     this.ctx.stroke();
     this.ctx.restore();
   }
@@ -314,7 +328,7 @@ export default class Drawing {
    * @param  {array} scores - array containing current scores
    */
   currentScore(players, score) {
-    this.ctx.fillStyle = "#e6e6e6";
+    this.ctx.fillStyle = this.backgroundColour;
     this.ctx.fillRect(350, 480, 200, 100);
     this.ctx.fillStyle = players[0].colour.colour;
     this.ctx.font = "25px Georgia";
