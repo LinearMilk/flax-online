@@ -18,7 +18,7 @@ import * as globals from "../globals";
 export default class GameEngine {
   constructor() {
     this.draw = new Drawing();
-    this.drawingGameBoard = new DrawingGameBoard();
+    this.drawGameBoard = new DrawingGameBoard();
     this.endGame = false;
     this.scores = null;
 
@@ -315,13 +315,13 @@ export default class GameEngine {
 
     // Draw all the squares and the lightened squares for the rooms
     this.squares.forEach(square => {
-      this.drawingGameBoard.gameSquare(square.xCoordinate, square.yCoordinate);
-      if (square.roomNumber > 0) this.drawingGameBoard.rooms(square.xCoordinate, square.yCoordinate);
+      this.drawGameBoard.gameSquare(square.xCoordinate, square.yCoordinate);
+      if (square.roomNumber > 0) this.drawGameBoard.rooms(square.xCoordinate, square.yCoordinate);
     });
 
     // Draw Starting tiles
     this.players.forEach(player => {
-      this.drawingGameBoard.startingTile(player);
+      this.drawGameBoard.startingTile(player);
     });
 
     this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
