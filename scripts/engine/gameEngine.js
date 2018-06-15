@@ -2,7 +2,7 @@ import Player from "../model/player";
 import Chip from "../model/chip";
 import Board from "../model/board";
 import Square from "../model/square";
-import Drawing from "../drawing";
+import Drawing from "../drawing/drawing";
 import GameEngineChipMoves from "./gameEngineChipMoves";
 import GameEngineScores from "./gameEngineScores";
 import gameBoards from "../boards";

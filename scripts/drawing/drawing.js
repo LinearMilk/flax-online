@@ -1,4 +1,4 @@
-import * as globals from "./globals";
+import * as globals from "../globals";
 
 /**
  * Class for drawing in the canvas.
