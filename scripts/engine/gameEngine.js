@@ -2,10 +2,7 @@ import Player from "../model/player";
 import Chip from "../model/chip";
 import Board from "../model/board";
 import Square from "../model/square";
-
 import Drawing from "../drawing/drawing";
-import DrawingGameBoard from "../drawing/drawingGameBoard";
-
 import GameEngineChipMoves from "./gameEngineChipMoves";
 import GameEngineScores from "./gameEngineScores";
 import gameBoards from "../boards";
@@ -18,7 +15,6 @@ import * as globals from "../globals";
 export default class GameEngine {
   constructor() {
     this.draw = new Drawing();
-    this.drawGameBoard = new DrawingGameBoard();
     this.endGame = false;
     this.scores = null;
 
@@ -315,13 +311,13 @@ export default class GameEngine {
 
     // Draw all the squares and the lightened squares for the rooms
     this.squares.forEach(square => {
-      this.drawGameBoard.gameSquare(square.xCoordinate, square.yCoordinate);
-      if (square.roomNumber > 0) this.drawGameBoard.rooms(square.xCoordinate, square.yCoordinate);
+      this.draw.gameSquare(square.xCoordinate, square.yCoordinate);
+      if (square.roomNumber > 0) this.draw.rooms(square.xCoordinate, square.yCoordinate);
     });
 
     // Draw Starting tiles
     this.players.forEach(player => {
-      this.drawGameBoard.startingTile(player);
+      this.draw.startingTile(player);
     });
 
     this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
