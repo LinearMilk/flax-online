@@ -11,6 +11,7 @@
 ## Status
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/LinearMilk/flax-online/master/LICENSE)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d7c7dc83a36a4c69a9cbac3e2396f5da)](https://www.codacy.com/app/LinearMilk/flax-online?utm_source=github.com&utm_medium=referral&utm_content=LinearMilk/flax-online&utm_campaign=Badge_Grade)
 [![dependencies Status](https://david-dm.org/LinearMilk/flax-online/status.svg)](https://david-dm.org/LinearMilk/flax-online)
 [![devDependencies Status](https://david-dm.org/LinearMilk/flax-online/dev-status.svg)](https://david-dm.org/LinearMilk/flax-online?type=dev)
 
