@@ -37,6 +37,7 @@ export default class Drawing {
     this.ctx.save();
     this.gameProgressBoxBackground();
     this.progressBar(player);
+    this.progressBarText();
     this.ctx.translate(0, globals.gameProgressBoxHeight);
   }
 
@@ -53,11 +54,19 @@ export default class Drawing {
     this.ctx.restore();
   }
 
+  progressBarText() {
+    this.ctx.save();
+    this.ctx.fillStyle = "#000000";
+    this.ctx.font = "16pt Sans-Serif";
+    this.ctx.fillText("Chip to play", 21, 25);
+    this.ctx.font = "14pt Sans-Serif";
+    this.ctx.fillText("or", 71, 60);
+    this.ctx.restore();
+  }
+
   progressBarElements(player) {
     const chipsLeft = player.getChipCount();
-
     this.ctx.save();
-
     let count = 0;
     for (let i = 0; i <= 504; i += 21) {
       if (count <= chipsLeft) {
@@ -65,9 +74,7 @@ export default class Drawing {
       } else {
         this.ctx.fillStyle = "#999999";
       }
-
       this.ctx.fillRect(15 + i, globals.gameProgressBoxHeight - this.progressBarHeight + 5, 17, 10);
-
       count += 1;
     }
     this.ctx.restore();
