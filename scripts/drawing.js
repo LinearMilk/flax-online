@@ -37,13 +37,22 @@ export default class Drawing {
     this.ctx.save();
     this.gameProgressBoxBackground();
     this.progressBar(player);
-    this.progressBarText();
+    this.chipSideSelectionText();
     this.ctx.translate(0, globals.gameProgressBoxHeight);
   }
 
+  // TODO change pixel values to variables
   gameProgressBoxBackground() {
+    this.ctx.save();
     this.ctx.fillStyle = this.backgroundColour;
     this.ctx.fillRect(0, 0, 552, globals.gameProgressBoxHeight);
+    this.ctx.beginPath();
+    this.ctx.rect(1, 1, 150, globals.gameProgressBoxHeight);
+    this.ctx.rect(1, 1, 550, globals.gameProgressBoxHeight);
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeStyle = "#cccccc";
+    this.ctx.stroke();
+    this.ctx.restore();
   }
 
   progressBar(player) {
@@ -54,7 +63,7 @@ export default class Drawing {
     this.ctx.restore();
   }
 
-  progressBarText() {
+  chipSideSelectionText() {
     this.ctx.save();
     this.ctx.fillStyle = "#000000";
     this.ctx.font = "16pt Sans-Serif";
