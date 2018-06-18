@@ -38,6 +38,7 @@ export default class Drawing {
     this.gameProgressBoxBackground();
     this.progressBar(player);
     this.chipSideSelectionText();
+    this.turnDescriptionText();
     this.ctx.translate(0, globals.gameProgressBoxHeight);
   }
 
@@ -70,6 +71,17 @@ export default class Drawing {
     this.ctx.fillText("Chip to play", 21, 25);
     this.ctx.font = "14pt Sans-Serif";
     this.ctx.fillText("or", 71, 60);
+    this.ctx.restore();
+  }
+
+  turnDescriptionText() {
+    this.ctx.save();
+    this.ctx.fillStyle = "#000000";
+    this.ctx.font = "10pt Sans-Serif";
+    this.ctx.fillText("Select which side of the chip you want to play", 200, 25);
+    this.ctx.fillText("Select placement on the board", 200, 65);
+    // this.ctx.font = "14pt Sans-Serif";
+    // this.ctx.fillText("or", 71, 60);
     this.ctx.restore();
   }
 
@@ -144,7 +156,8 @@ export default class Drawing {
     this.clearRandomChips(xPosition, yPosition);
     this.ctx.fillStyle = "red";
     this.ctx.font = "20px Georgia";
-    this.ctx.fillText("Game Over :(", 10, 500);
+    this.ctx.fillText("Game Over", 10, 500);
+    this.ctx.fillText("For winner check console", 10, 530);
   }
 
   /**
