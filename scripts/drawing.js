@@ -150,15 +150,25 @@ export default class Drawing {
 
   /**
    * Draw Game Over Text
-   * @param  {number} xPosition - relative x position
-   * @param  {number} yPosition - relative y position
+   * @param  {array} players - array containing players in the game
+   * @param  {array} scores - array containing current scores
+   * @param  {string} winnerText - text to print to announce winner(s)
    */
-  gameOver(xPosition, yPosition) {
-    this.clearRandomChips(xPosition, yPosition);
-    this.ctx.fillStyle = "red";
+  gameOver(players, score, winnerText) {
+    this.ctx.save();
+    this.ctx.translate(0, -globals.gameProgressBoxHeight);
+    this.ctx.fillStyle = this.backgroundColour;
+    this.ctx.fillRect(2, 2, 548, globals.gameProgressBoxHeight - 4);
+    this.ctx.fillStyle = "black";
     this.ctx.font = "20px Georgia";
-    this.ctx.fillText("Game Over", 10, 500);
-    this.ctx.fillText("For winner check console", 10, 530);
+    this.ctx.fillText("Game Over", 10, 30);
+    this.ctx.fillText(winnerText, 10, 60);
+    this.ctx.fillStyle = players[0].colour.colour;
+    this.ctx.font = "20px Georgia";
+    this.ctx.fillText(`${players[0].name}: ${score[0]}`, 10, 90);
+    this.ctx.fillStyle = players[1].colour.colour;
+    this.ctx.fillText(`${players[1].name}: ${score[1]}`, 100, 90);
+    this.ctx.restore();
   }
 
   /**
@@ -191,16 +201,6 @@ export default class Drawing {
     this.ctx.closePath();
     this.ctx.fill();
     this.ctx.stroke();
-  }
-
-  /**
-   * Draw over random chips, clearing the canvas for the next chips
-   * @param  {number} xPosition - relative x position
-   * @param  {number} yPosition - relative y position
-   */
-  clearRandomChips(xPosition, yPosition) {
-    this.ctx.fillStyle = this.backgroundColour;
-    this.ctx.fillRect((xPosition - 1) * this.squareSize, (yPosition - 1) * this.squareSize, 100, 100);
   }
 
   /**
@@ -371,21 +371,5 @@ export default class Drawing {
     this.ctx.arc(0, 0, 3, 0, 2 * Math.PI);
     this.ctx.fill();
     this.ctx.restore();
-  }
-
-  /**
-   * Draw players' names and current score
-   * @param  {array} players - array containing players in the game
-   * @param  {array} scores - array containing current scores
-   */
-  currentScore(players, score) {
-    this.ctx.fillStyle = this.backgroundColour;
-    this.ctx.fillRect(350, 480, 200, 100);
-    this.ctx.fillStyle = players[0].colour.colour;
-    this.ctx.font = "25px Georgia";
-    this.ctx.fillText(`${players[0].name}: ${score[0]}`, 350, 500);
-    this.ctx.fillStyle = players[1].colour.colour;
-    this.ctx.font = "25px Georgia";
-    this.ctx.fillText(`${players[1].name}: ${score[1]}`, 350, 530);
   }
 }

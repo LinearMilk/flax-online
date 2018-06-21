@@ -127,14 +127,13 @@ export default class GameEngineScore {
   logWinner(indices) {
     let winnerText = "";
     if (indices.length === 1) {
-      winnerText = `the winning player is: ${this.players[indices[0]].name}`;
+      winnerText = `The winning player is: ${this.players[indices[0]].name}`;
     } else {
-      winnerText = `the players ${this.players[indices[0]].name} & ${
+      winnerText = `Players ${this.players[indices[0]].name} & ${
         this.players[indices[1]].name
       } are tied for the victory.`;
     }
-    console.log(winnerText);
-    return undefined;
+    return winnerText;
   }
 
   /**

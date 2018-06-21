@@ -320,11 +320,9 @@ export default class GameEngine {
       this.draw.startingTile(player);
     });
 
-    this.draw.clearRandomChips(1, this.selectedBoard.randomChipRow);
-
     if (this.endGame) {
-      this.draw.gameOver(1, this.selectedBoard.randomChipRow);
-      this.scoreObject.logWinner(this.scoreObject.findWinner(this.scores));
+      const winnerText = this.scoreObject.logWinner(this.scoreObject.findWinner(this.scores));
+      this.draw.gameOver(this.players, this.scores, winnerText);
     } else {
       // Draw all available moves
       if (this.activePlayer.availableMoves.length > 0) {
@@ -341,9 +339,6 @@ export default class GameEngine {
       if (square.bottomChip) this.draw.bottomChip(square.bottomChip, 3);
       if (square.activeChip) this.draw.chip(square.activeChip);
     });
-
-    // drawing the score
-    this.draw.currentScore(this.players, this.scores);
   }
 
   /**
