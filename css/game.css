@@ -6,6 +6,16 @@ canvas {
   background: #e6e6e6;
 }
 
+.navbar {
+  width: 550px;
+  margin: 0 auto;
+}
+
+.game-nav {
+  background-color: white;
+  border-bottom: #d8d8d8 1px solid;
+}
+
 .content {
   text-align: center;
 }
@@ -40,6 +50,10 @@ canvas {
   margin-bottom: 50px;
 }
 
+.splash-logo-img-nav {
+  width: 150px;
+}
+
 .btn {
   margin-bottom: 15px;
   color: white;
@@ -69,6 +83,11 @@ canvas {
 
 .btn-about {
   background-color: #808080;
+}
+
+.btn-game {
+  background-color: #808080;
+  margin-left: 20px;
 }
 
 .modal-content {
