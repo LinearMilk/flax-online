@@ -80,8 +80,6 @@ export default class Drawing {
     this.ctx.font = "10pt Sans-Serif";
     this.ctx.fillText("Select which side of the chip you want to play", 200, 25);
     this.ctx.fillText("Select placement on the board", 200, 65);
-    // this.ctx.font = "14pt Sans-Serif";
-    // this.ctx.fillText("or", 71, 60);
     this.ctx.restore();
   }
 
@@ -89,13 +87,16 @@ export default class Drawing {
     const chipsLeft = player.getChipCount();
     this.ctx.save();
     let count = 0;
-    for (let i = 0; i <= 504; i += 21) {
-      if (count <= chipsLeft) {
+    for (let i = 0; i <= 23; i += 1) {
+      // there are 24 chips in total
+      if (count === chipsLeft) {
+        this.ctx.fillStyle = player.getColour().border;
+      } else if (count < chipsLeft) {
         this.ctx.fillStyle = player.getColour().colour;
       } else {
         this.ctx.fillStyle = "#999999";
       }
-      this.ctx.fillRect(15 + i, globals.gameProgressBoxHeight - this.progressBarHeight + 5, 17, 10);
+      this.ctx.fillRect(15 + i * 22, globals.gameProgressBoxHeight - this.progressBarHeight + 5, 17, 10);
       count += 1;
     }
     this.ctx.restore();
